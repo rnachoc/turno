@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.simple.JdbcClient;
 
 /**
  * Attacks the database directly, skipping all the application code. A bug in the services must not
@@ -130,11 +131,13 @@ class DatabaseConstraintsIT extends ApiIntegrationTest {
     void theAuditTrailCannotBeRewritten() {
         assertThat(count("SELECT count(*) FROM audit_event")).as("registering patients left entries").isPositive();
 
-        assertThatThrownBy(() -> jdbc.sql("UPDATE audit_event SET actor = 'nobody'").update())
+        // As the owner, because the service's own role is refused before reaching the trigger.
+        JdbcClient asOwner = owner.jdbc();
+        assertThatThrownBy(() -> asOwner.sql("UPDATE audit_event SET actor = 'nobody'").update())
                 .hasMessageContaining("append-only");
-        assertThatThrownBy(() -> jdbc.sql("DELETE FROM audit_event").update())
+        assertThatThrownBy(() -> asOwner.sql("DELETE FROM audit_event").update())
                 .hasMessageContaining("append-only");
-        assertThatThrownBy(() -> jdbc.sql("TRUNCATE audit_event").update())
+        assertThatThrownBy(() -> asOwner.sql("TRUNCATE audit_event").update())
                 .hasMessageContaining("append-only");
     }
 

@@ -45,8 +45,13 @@ public abstract class ApiIntegrationTest {
     @Value("${local.server.port}")
     private int port;
 
+    /** A connection as the restricted role, the same one the service uses. */
     @Autowired
     protected JdbcClient jdbc;
+
+    /** A connection as the owner, for cleaning up and for what the service cannot do. */
+    @Autowired
+    protected TestcontainersConfiguration.OwnerDatabase owner;
 
     @Autowired
     protected MutableClock clock;
@@ -70,9 +75,9 @@ public abstract class ApiIntegrationTest {
     @BeforeEach
     void resetState() {
         clock.set(madrid(2027, 3, 1, 8, 0));
-        jdbc.sql("ALTER TABLE audit_event DISABLE TRIGGER USER").update();
-        jdbc.sql("TRUNCATE audit_event, appointment, patient, idempotency_key").update();
-        jdbc.sql("ALTER TABLE audit_event ENABLE TRIGGER USER").update();
+        owner.jdbc().sql("ALTER TABLE audit_event DISABLE TRIGGER USER").update();
+        owner.jdbc().sql("TRUNCATE audit_event, appointment, patient, idempotency_key").update();
+        owner.jdbc().sql("ALTER TABLE audit_event ENABLE TRIGGER USER").update();
     }
 
     /** Converts a local time in the clinic into an instant. */

@@ -1,4 +1,9 @@
 # Spring reads this file on top of the main application.yaml in every test.
+spring:
+  flyway:
+    # Decided before the container's properties exist, so it cannot live with them.
+    enabled: true
+
 turno:
   tenant-file: src/test/resources/tenants/test-clinic.yaml
   security:

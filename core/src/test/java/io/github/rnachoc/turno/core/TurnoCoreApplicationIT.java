@@ -38,6 +38,9 @@ class TurnoCoreApplicationIT {
     @Autowired
     private JdbcClient jdbc;
 
+    @Autowired
+    private TestcontainersConfiguration.OwnerDatabase owner;
+
     @Test
     void healthIsUpAndHidesComponentDetails() throws Exception {
         HttpResponse<String> response = get("/actuator/health");
@@ -78,7 +81,8 @@ class TurnoCoreApplicationIT {
     @Test
     void migrationsRunAndEnableBtreeGist() {
         Integer applied =
-                jdbc.sql("SELECT count(*) FROM flyway_schema_history WHERE version = '1' AND success")
+                owner.jdbc()
+                        .sql("SELECT count(*) FROM flyway_schema_history WHERE version = '1' AND success")
                         .query(Integer.class)
                         .single();
         Integer extension =

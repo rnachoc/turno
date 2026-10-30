@@ -3,11 +3,13 @@ spring:
     name: turno-core
   datasource:
     url: ${TURNO_DB_URL:jdbc:postgresql://localhost:5432/turno}
-    username: ${TURNO_DB_USER:turno}
+    # A restricted role, not the owner: see docs/adr/0011. Migrations run in a separate step.
+    username: turno_app
     # No default on purpose: without this variable the database rejects the connection and the
     # service does not start.
-    password: ${TURNO_DB_PASSWORD}
+    password: ${TURNO_DB_APP_PASSWORD}
   flyway:
+    enabled: false
     locations: classpath:db/migration
   threads:
     virtual:

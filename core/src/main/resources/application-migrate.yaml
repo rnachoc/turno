@@ -1,0 +1,20 @@
+# Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
+#
+# A one-shot run that applies the migrations and exits. Only this step knows the owner's password, so
+# the running service never has it. Lazy initialization leaves everything else unbuilt, which is why
+# this step needs neither the API tokens nor the tenant file.
+spring:
+  main:
+    web-application-type: none
+    lazy-initialization: true
+  flyway:
+    enabled: true
+    url: ${TURNO_DB_URL:jdbc:postgresql://localhost:5432/turno}
+    user: ${TURNO_DB_USER:turno}
+    password: ${TURNO_DB_PASSWORD}
+    placeholders:
+      appPassword: ${TURNO_DB_APP_PASSWORD}
+
+turno:
+  jobs:
+    enabled: false
