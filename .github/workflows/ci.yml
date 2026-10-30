@@ -69,15 +69,25 @@ jobs:
     name: Secret scan
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    env:
+      GITLEAKS_VERSION: "8.30.1"
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_ENABLE_COMMENTS: "false"
+      - name: Install gitleaks and verify its checksum
+        run: |
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl --fail --silent --show-error --location --output "$archive" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/$archive"
+          echo "$GITLEAKS_SHA256  $archive" | sha256sum --check --quiet
+          tar --extract --gzip --file "$archive" gitleaks
+      # The binary rather than gitleaks-action: on a push the action only scans the new commits,
+      # and it crashes when those include the root commit. A leak stays in the history forever.
+      - name: Scan the whole history
+        run: ./gitleaks git . --redact --no-banner
 
   stack:
     name: Full stack smoke test
