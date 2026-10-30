@@ -35,13 +35,13 @@ This is the target design. Today, `core`, PostgreSQL and a text agent over web c
 | A manipulated agent sets its own price | Requests have no price field, and unknown fields are rejected | [ADR 7](docs/adr/0007-api-authentication-and-boundaries.md) |
 | A manipulated agent reaches another patient's appointment | Routes go through the patient, and a mismatch answers `404` | [ADR 7](docs/adr/0007-api-authentication-and-boundaries.md) |
 | A manipulated agent charges a no-show | Staff-only operation, checked after routing | [ADR 7](docs/adr/0007-api-authentication-and-boundaries.md) |
-| Someone rewrites history | A trigger makes the audit trail append-only | [ADR 6](docs/adr/0006-booking-integrity-in-the-database.md) |
+| Someone rewrites history | The service's database role cannot change the audit trail, and a trigger stops even the owner | [ADR 11](docs/adr/0011-least-privilege-in-the-database.md) |
 | The model books or cancels on its own | The code asks in its own words, and only a clear yes from the patient runs the stored action | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 | A message moves the conversation to another patient | The model never sees or chooses the patient | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 | A message orders the model to run commands | The model has no tools and runs with nothing to load, which real attacks verify | [ADR 8](docs/adr/0008-no-api-budget.md) |
 | Someone describes an emergency | Fixed rules answer first with the emergency number, without the model | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 
-Known limits are listed in those records, such as the service still connecting as the database owner.
+Known limits are listed in those records, such as the lack of rate limiting.
 
 ## Quick start
 
