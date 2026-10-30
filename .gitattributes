@@ -1,0 +1,14 @@
+# Normalise line endings so scripts and containers behave the same on Windows, macOS and Linux.
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.wav binary
+*.mp3 binary
+*.jar binary

@@ -1,0 +1,38 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Java / Maven
+target/
+*.class
+hs_err_pid*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Node / Angular
+node_modules/
+.angular/
+
+# IDEs and OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
