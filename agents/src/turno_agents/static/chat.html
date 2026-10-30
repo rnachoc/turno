@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Turno</title>
+    <link rel="stylesheet" href="/static/chat.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Turno</h1>
+        <p>Synthetic data only. Do not enter real personal or health data.</p>
+      </header>
+
+      <form id="start">
+        <label>Phone <input id="phone" type="tel" required placeholder="+34600000000" pattern="\+[1-9][0-9]{6,14}" /></label>
+        <label>Name, if you are new <input id="name" maxlength="200" autocomplete="off" /></label>
+        <label>Language
+          <select id="language">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <button type="submit">Start</button>
+      </form>
+
+      <div id="log" aria-live="polite" hidden></div>
+
+      <form id="composer" hidden>
+        <input id="text" required maxlength="1000" autocomplete="off" aria-label="Message" />
+        <button type="submit">Send</button>
+      </form>
+
+      <p id="status" role="status"></p>
+    </main>
+    <script src="/static/chat.js"></script>
+  </body>
+</html>
