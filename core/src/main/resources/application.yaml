@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: turno-core
+  datasource:
+    url: ${TURNO_DB_URL:jdbc:postgresql://localhost:5432/turno}
+    username: ${TURNO_DB_USER:turno}
+    # No default on purpose: without this variable the database rejects the connection and the
+    # service does not start.
+    password: ${TURNO_DB_PASSWORD}
+  flyway:
+    locations: classpath:db/migration
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${TURNO_CORE_PORT:8080}
+  shutdown: graceful
+  error:
+    include-message: never
+    include-stacktrace: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+      group:
+        # A core without its database cannot serve anything, so it must not report itself ready.
+        # Liveness stays independent: restarting the process would not bring the database back.
+        readiness:
+          include: readinessState,db
+  info:
+    env:
+      enabled: false
