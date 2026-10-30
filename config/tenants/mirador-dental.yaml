@@ -1,0 +1,79 @@
+# Fictional clinic. Every name, address and price in this file is synthetic.
+id: mirador-dental
+name: Mirador Dental
+fictional: true
+locale: es-ES
+languages: [es, en]
+timezone: Europe/Madrid
+currency: EUR
+contact_email: hello@mirador-dental.example
+emergency_number: "112"
+
+opening_hours:
+  monday: &full_day
+    - { open: "09:00", close: "14:00" }
+    - { open: "16:00", close: "20:00" }
+  tuesday: *full_day
+  wednesday: *full_day
+  thursday: *full_day
+  friday:
+    - { open: "09:00", close: "15:00" }
+  saturday: []
+  sunday: []
+
+treatments:
+  - id: check-up
+    name: { es: Revisión, en: Check-up }
+    duration_minutes: 30
+    price_cents: 3500
+    deposit_cents: 0
+  - id: hygiene
+    name: { es: Limpieza dental, en: Dental cleaning }
+    duration_minutes: 45
+    price_cents: 6500
+    deposit_cents: 1000
+  - id: filling
+    name: { es: Empaste, en: Filling }
+    duration_minutes: 45
+    price_cents: 8000
+    deposit_cents: 1500
+  - id: root-canal
+    name: { es: Endodoncia, en: Root canal }
+    duration_minutes: 90
+    price_cents: 28000
+    deposit_cents: 5000
+  - id: whitening
+    name: { es: Blanqueamiento, en: Whitening }
+    duration_minutes: 60
+    price_cents: 25000
+    deposit_cents: 5000
+
+practitioners:
+  - id: dr-vega
+    name: Dra. Lucía Vega
+    treatments: [check-up, filling, root-canal]
+    working_days: [monday, tuesday, wednesday, thursday]
+  - id: dr-soler
+    name: Dr. Marcos Soler
+    treatments: [check-up, filling, whitening]
+    working_days: [tuesday, wednesday, thursday, friday]
+  - id: hyg-ortega
+    name: Paula Ortega
+    treatments: [hygiene, whitening]
+    working_days: [monday, wednesday, friday]
+
+booking:
+  slot_granularity_minutes: 15
+  min_notice_minutes: 120
+  max_advance_days: 60
+  hold_ttl_minutes: 5
+
+cancellation:
+  free_until_hours_before: 24
+  late_cancellation_keeps_deposit: true
+  no_show_keeps_deposit: true
+
+outreach:
+  allowed_from: "09:00"
+  allowed_until: "20:00"
+  max_attempts_per_patient_per_day: 2

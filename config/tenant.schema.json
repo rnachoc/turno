@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/rnachoc/turno/blob/main/config/tenant.schema.json",
+  "title": "Turno tenant",
+  "description": "Configuration of one clinic. Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "fictional",
+    "locale",
+    "languages",
+    "timezone",
+    "currency",
+    "contact_email",
+    "emergency_number",
+    "opening_hours",
+    "treatments",
+    "practitioners",
+    "booking",
+    "cancellation",
+    "outreach"
+  ],
+  "properties": {
+    "id": { "$ref": "#/$defs/slug" },
+    "name": { "type": "string", "minLength": 1 },
+    "fictional": {
+      "const": true,
+      "description": "Turno only ever runs on synthetic data, so a tenant must declare itself fictional."
+    },
+    "locale": { "type": "string", "pattern": "^[a-z]{2}-[A-Z]{2}$" },
+    "languages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/language" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "timezone": { "type": "string", "pattern": "^[A-Za-z_]+/[A-Za-z_]+$" },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "contact_email": {
+      "type": "string",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.example$",
+      "description": "Must use the reserved .example domain (RFC 2606), so no real mailbox can ever be contacted."
+    },
+    "emergency_number": { "type": "string", "pattern": "^[0-9]{3}$" },
+    "opening_hours": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+      "properties": {
+        "monday": { "$ref": "#/$defs/day" },
+        "tuesday": { "$ref": "#/$defs/day" },
+        "wednesday": { "$ref": "#/$defs/day" },
+        "thursday": { "$ref": "#/$defs/day" },
+        "friday": { "$ref": "#/$defs/day" },
+        "saturday": { "$ref": "#/$defs/day" },
+        "sunday": { "$ref": "#/$defs/day" }
+      }
+    },
+    "treatments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "duration_minutes", "price_cents", "deposit_cents"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "name": {
+            "type": "object",
+            "minProperties": 1,
+            "propertyNames": { "$ref": "#/$defs/language" },
+            "additionalProperties": { "type": "string", "minLength": 1 }
+          },
+          "duration_minutes": { "type": "integer", "minimum": 5 },
+          "price_cents": { "type": "integer", "minimum": 0 },
+          "deposit_cents": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "practitioners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "treatments", "working_days"],
+        "properties": {
+          "id": { "$ref": "#/$defs/slug" },
+          "name": { "type": "string", "minLength": 1 },
+          "treatments": {
+            "type": "array",
+            "items": { "$ref": "#/$defs/slug" },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "working_days": {
+            "type": "array",
+            "items": {
+              "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "booking": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_granularity_minutes",
+        "min_notice_minutes",
+        "max_advance_days",
+        "hold_ttl_minutes"
+      ],
+      "properties": {
+        "slot_granularity_minutes": { "type": "integer", "minimum": 5 },
+        "min_notice_minutes": { "type": "integer", "minimum": 0 },
+        "max_advance_days": { "type": "integer", "minimum": 1 },
+        "hold_ttl_minutes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "cancellation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "free_until_hours_before",
+        "late_cancellation_keeps_deposit",
+        "no_show_keeps_deposit"
+      ],
+      "properties": {
+        "free_until_hours_before": { "type": "integer", "minimum": 0 },
+        "late_cancellation_keeps_deposit": { "type": "boolean" },
+        "no_show_keeps_deposit": { "type": "boolean" }
+      }
+    },
+    "outreach": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_from", "allowed_until", "max_attempts_per_patient_per_day"],
+      "properties": {
+        "allowed_from": { "$ref": "#/$defs/time" },
+        "allowed_until": { "$ref": "#/$defs/time" },
+        "max_attempts_per_patient_per_day": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "language": { "type": "string", "pattern": "^[a-z]{2}$" },
+    "time": { "type": "string", "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$" },
+    "day": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["open", "close"],
+        "properties": {
+          "open": { "$ref": "#/$defs/time" },
+          "close": { "$ref": "#/$defs/time" }
+        }
+      }
+    }
+  }
+}
