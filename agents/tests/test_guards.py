@@ -16,6 +16,9 @@ from turno_agents.guards import Triage, check_outbound, is_affirmative, triage
         "I can't breathe",
         "tengo DOLOR EN EL PECHO",
         "Se me ha hinchado mucho la cara",
+        "Tengo la cara muy hinchada desde esta mañana",
+        "tengo el cuello inflamado",
+        "la garganta se me está hinchando",
         "tengo la cara hinchada y el cuello inflamado, se me hincha el cuello",
         "my face is swollen",
         "swelling in my throat",
@@ -188,6 +191,8 @@ def test_empty_and_overlong_replies_can_be_retried(reply: str, reason: str) -> N
         "No puedo darte consejo médico; te paso con una persona.",
         "Tomamos nota de tu preferencia.",
         "Take a seat when you arrive.",
+        "Estos son los huecos:\n\n- 09:00\n- 10:00",
+        "Horario:\\n de lunes a viernes",
     ],
 )
 def test_harmless_replies_are_not_flagged(reply: str) -> None:

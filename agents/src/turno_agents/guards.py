@@ -27,7 +27,8 @@ _EMERGENCY = re.compile(
     r"no puedo respirar|me cuesta respirar|dificultad(es)? para respirar|me ahogo|"
     r"can'?t breathe|cannot breathe|trouble breathing|hard to breathe|short(ness)? of breath|"
     r"dolor (en el|de) pecho|chest pain|"
-    r"(se me |tengo )?(hincha\w*|inflama\w*) .{0,25}(cara|cuello|garganta|ojo)|"
+    r"(hincha\w*|inflama\w*) .{0,25}(cara|cuello|garganta|ojo)|"
+    r"(cara|cuello|garganta|ojo) .{0,25}(hincha\w*|inflama\w*)|"
     r"(swollen|swelling|swells?) .{0,25}(face|neck|throat|eye)|"
     r"(face|neck|throat) .{0,15}(swollen|swelling)|"
     r"sangr\w+ .{0,25}(no para|no se para|sin parar|mucho|abundante)|"
@@ -57,7 +58,7 @@ _AFFIRMATIVE = re.compile(
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
 _SYSTEM_PATH = re.compile(
-    r"[a-zA-Z]:\\[^\s]+|(?<![\w/.])/(home|users|etc|var|root|tmp|usr)/[^\s]*",
+    r"(?<![a-zA-Z])[a-zA-Z]:\\[a-zA-Z][^\s]*|(?<![\w/.])/(home|users|etc|var|root|tmp|usr)/[^\s]*",
     re.IGNORECASE,
 )
 _SECRET = re.compile(r"sk-ant-[\w-]+|bearer\s+[\w.-]{16,}|local-only-[\w-]+", re.IGNORECASE)
