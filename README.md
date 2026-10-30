@@ -7,7 +7,7 @@ A team of AI agents that answers the phone, WhatsApp and email of a small clinic
 
 **The model proposes, the code decides.** No agent can write to the database or move money. Agents propose actions to a transactional core, which enforces rules, permissions and consent. So a malicious email can ask for a refund, but it has no way of getting one.
 
-> **Status: early development.** The core works: patients, availability, bookings with holds, cancellation rules and an append-only audit trail, tested under real concurrency against a real PostgreSQL. **The agents, the channels, consent tracking and payments do not exist yet**, so today Turno is an API with no AI in it, and it only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Metrics will be published here as they are measured, good or bad.
+> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. **Voice, WhatsApp, email, evaluations, consent tracking and payments do not exist yet**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Metrics will be published here as they are measured, good or bad.
 
 > **Synthetic data only.** The clinic in this repository is fictional. Never use Turno with real patient data.
 
@@ -23,7 +23,7 @@ flowchart TD
     evals["Evaluation bank<br/>simulated patients · attack tests · CI gate"] -.-> agents
 ```
 
-This is the target design. Today, `core` and PostgreSQL are functional and `agents` is a tested skeleton. The decisions behind the design are recorded in [`docs/adr`](docs/adr).
+This is the target design. Today, `core`, PostgreSQL and a text agent over web chat work. The decisions behind the design are recorded in [`docs/adr`](docs/adr).
 
 ## How the core stays correct
 
@@ -36,6 +36,10 @@ This is the target design. Today, `core` and PostgreSQL are functional and `agen
 | A manipulated agent reaches another patient's appointment | Routes go through the patient, and a mismatch answers `404` | [ADR 7](docs/adr/0007-api-authentication-and-boundaries.md) |
 | A manipulated agent charges a no-show | Staff-only operation, checked after routing | [ADR 7](docs/adr/0007-api-authentication-and-boundaries.md) |
 | Someone rewrites history | A trigger makes the audit trail append-only | [ADR 6](docs/adr/0006-booking-integrity-in-the-database.md) |
+| The model books or cancels on its own | The code asks in its own words, and only a clear yes from the patient runs the stored action | [ADR 9](docs/adr/0009-the-agent-loop.md) |
+| A message moves the conversation to another patient | The model never sees or chooses the patient | [ADR 9](docs/adr/0009-the-agent-loop.md) |
+| A message orders the model to run commands | The model has no tools and runs with nothing to load, which real attacks verify | [ADR 8](docs/adr/0008-no-api-budget.md) |
+| Someone describes an emergency | Fixed rules answer first with the emergency number, without the model | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 
 Known limits are listed in those records, such as the service still connecting as the database owner.
 
@@ -53,9 +57,19 @@ curl http://127.0.0.1:8080/actuator/health   # core
 curl http://127.0.0.1:8000/health            # agents
 ```
 
-### Book an appointment
+### Talk to the agent
 
-This walks through the API with [jq](https://jqlang.org/). On macOS, replace `date -d '+7 days'` with `date -v+7d`.
+The agent uses the official [Claude Code](https://code.claude.com/docs/en/setup.md) CLI, signed in with your own Claude plan, so it runs on your machine rather than in a container ([ADR 8](docs/adr/0008-no-api-budget.md)). With the stack up and `claude auth login` done:
+
+```bash
+make agents
+```
+
+Then open http://127.0.0.1:8001 and ask for an appointment. Everything is synthetic: do not enter real personal or health data.
+
+### Book an appointment through the API
+
+This walks through the core API, with no model involved. It needs [jq](https://jqlang.org/). On macOS, replace `date -d '+7 days'` with `date -v+7d`.
 
 ```bash
 set -a; . ./.env; set +a
@@ -80,6 +94,8 @@ post "/patients/$PATIENT/appointments/$HOLD/confirm" | jq '{status, startsAt, pr
 | --- | --- | --- |
 | `core/` | JDK 25 and Docker (tests run on a real PostgreSQL) | `./mvnw verify` |
 | `agents/` | [uv](https://docs.astral.sh/uv/) | `uv run pytest` |
+| `agents/`, against the real core | The stack running | `make test-contract` |
+| `agents/`, against the real model | The stack running and a Claude login; spends your plan and never runs in CI | `make test-live` |
 
 The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on systems with `make`.
 
@@ -96,7 +112,7 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 
 - [x] **Phase 0: Foundations.** CI, secret scanning, Docker Compose, ADRs, synthetic clinic.
 - [x] **Phase 1: Core.** Availability engine, bookings with holds, cancellation rules, audit. Double-booking and idempotency tests.
-- [ ] **Phase 2: Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
+- [x] **Phase 2: Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
 - [ ] **Phase 3: Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 8](docs/adr/0008-no-api-budget.md)).
 - [ ] **Phase 4: Durable workflow and console.** Slot refill with Temporal, daily owner report, approval queue, traces.
 - [ ] **Phase 5: Security.** Attack tests, calibrated LLM judge, model matrix.
