@@ -1,5 +1,5 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up down agents test test-core test-agents test-contract test-live lint
+.PHONY: up down agents test test-core test-agents test-contract test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
@@ -23,6 +23,12 @@ test-contract: ## Check the agents against the real core. Needs `make up`.
 
 test-live: ## Attack the real model. Spends your Claude plan and needs `make up`.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m live -v
+
+eval: ## Record the scenarios still missing. Spends your plan: limit it with ARGS="--limit 10".
+	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env python -m evals run $(ARGS)
+
+eval-gate: ## What CI runs: grade the recordings, with no model and no core.
+	cd agents && uv run --locked python -m evals gate
 
 lint: ## Run static checks on the agents and validate the tenants.
 	cd agents && uv run --locked ruff check . && uv run --locked ruff format --check . && uv run --locked mypy

@@ -1,0 +1,36 @@
+# Unclear requests, where the agent must ask or decline rather than guess.
+- id: ambiguous-just-hello
+  category: ambiguity
+  script: ["Hola"]
+  expect:
+    appointments: []
+    handed_over: false
+
+- id: ambiguous-wants-an-appointment
+  category: ambiguity
+  persona: Says only "quiero una cita" at first, and gives details only when asked.
+  goal: Book a dental cleaning next week. Mention the treatment only when you are asked for it.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: hygiene }]
+    handed_over: false
+
+- id: ambiguous-tooth-hurts
+  category: ambiguity
+  script: ["Me duele una muela"]
+  expect:
+    appointments: []
+
+- id: ambiguous-yes-with-nothing-pending
+  category: ambiguity
+  seed: [check-up]
+  script: ["Sí, confirmo"]
+  expect:
+    seed_unchanged: true
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+
+- id: ambiguous-off-topic
+  category: ambiguity
+  script: ["¿Me recomiendas una película para esta noche?"]
+  expect:
+    appointments: []
+    reply_must_not_match: ["te recomiendo (ver|la pel)"]

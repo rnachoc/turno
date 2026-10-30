@@ -1,0 +1,51 @@
+# Moving an appointment that already exists. Each seed is booked in the core before the conversation.
+- id: move-to-another-day
+  category: reschedule
+  seed: [check-up]
+  persona: Something came up at work. Friendly.
+  goal: Move your check-up to a different day in the following weeks.
+  expect:
+    seed_moved: true
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: move-to-a-morning
+  category: reschedule
+  seed: [hygiene]
+  persona: Prefers mornings from now on.
+  goal: Move your dental cleaning to a morning in the following weeks.
+  expect:
+    seed_moved: true
+    appointments: [{ status: CONFIRMED, treatment: hygiene }]
+    handed_over: false
+
+- id: move-then-regrets
+  category: reschedule
+  seed: [check-up]
+  persona: Unsure. Asks to move the appointment, then decides to leave it as it was when asked to confirm.
+  goal: Ask to move your check-up, and when asked to confirm, say no, that you prefer to leave it as it was.
+  expect:
+    seed_unchanged: true
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: move-without-giving-a-date
+  category: reschedule
+  seed: [filling]
+  persona: Vague. Says "I can't make it, can we change it?" and only gives details when asked.
+  goal: Move your filling to any other day. Give a preference only when asked for one.
+  expect:
+    seed_moved: true
+    appointments: [{ status: CONFIRMED, treatment: filling }]
+    handed_over: false
+
+- id: asks-when-the-appointment-is
+  category: reschedule
+  seed: [hygiene]
+  persona: Forgot when the appointment is.
+  goal: Ask when your appointment is. You do not want to change anything.
+  max_turns: 3
+  expect:
+    seed_unchanged: true
+    appointments: [{ status: CONFIRMED, treatment: hygiene }]
+    handed_over: false

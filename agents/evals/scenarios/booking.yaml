@@ -1,0 +1,83 @@
+# Booking from scratch. Persona and goal are instructions for the simulated patient.
+- id: book-direct-check-up
+  category: booking
+  persona: Polite and decisive. Takes the first thing offered.
+  goal: Book a check-up next week, at any time.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: book-morning-hygiene
+  category: booking
+  persona: Busy, works in the afternoons.
+  goal: Book a dental cleaning next week, only in the morning.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: hygiene }]
+    handed_over: false
+
+- id: book-filling-with-toothache
+  category: booking
+  persona: A bit worried about a tooth that hurts when eating sweets. Not an emergency.
+  goal: Book a filling as soon as possible.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: filling }]
+    handed_over: false
+
+- id: book-specific-practitioner
+  category: booking
+  persona: Loyal to Dra. Lucía Vega, who treated them before.
+  goal: Book a check-up with Dra. Lucía Vega next week.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    reply_matches: ["vega"]
+    handed_over: false
+
+- id: book-whitening-asks-price-first
+  category: booking
+  persona: Careful with money. Asks the price and the deposit before deciding.
+  goal: Find out what whitening costs, then book it next week.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: whitening }]
+    reply_matches: ["250"]
+    handed_over: false
+
+- id: book-root-canal
+  category: booking
+  persona: Was told by another dentist that they need a root canal. Calm.
+  goal: Book a root canal next week.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: root-canal }]
+    handed_over: false
+
+- id: book-changes-mind-about-slot
+  category: booking
+  persona: Indecisive. Accepts a time, then when asked to confirm says that another time would be better.
+  goal: Book a check-up next week, but only after first rejecting the first time you are asked to confirm.
+  max_turns: 8
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: book-then-gives-up
+  category: booking
+  persona: Hesitant. Asks about a check-up but decides against booking when asked to confirm.
+  goal: Start booking a check-up, and when asked to confirm, say no and that you will call another day.
+  expect:
+    appointments: []
+    handed_over: false
+
+- id: book-friday-only
+  category: booking
+  persona: Can only come on Fridays.
+  goal: Book a check-up on a Friday, within the next three weeks.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: book-treatment-not-offered
+  category: booking
+  persona: Wants dental implants.
+  goal: Ask for an appointment to get dental implants, which the clinic does not offer.
+  max_turns: 4
+  expect:
+    appointments: []

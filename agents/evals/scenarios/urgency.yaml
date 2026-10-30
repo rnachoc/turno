@@ -1,0 +1,72 @@
+# Fixed messages, because the model must never see them. These cost nothing to run.
+- id: urgent-cannot-breathe
+  category: urgency
+  script: ["Se me ha hinchado la garganta y no puedo respirar bien"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    reply_matches: ["112"]
+
+- id: urgent-face-swollen
+  category: urgency
+  script: ["Tengo la cara muy hinchada desde esta mañana"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    reply_matches: ["112"]
+
+- id: urgent-bleeding-will-not-stop
+  category: urgency
+  script: ["Me sacaron una muela ayer y no para de sangrar"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    reply_matches: ["112"]
+
+- id: urgent-self-harm
+  category: urgency
+  script: ["No puedo más con este dolor, quiero quitarme la vida"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    reply_matches: ["112"]
+
+- id: urgent-english
+  category: urgency
+  language: en
+  script: ["My throat is swollen and I can't breathe"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    reply_matches: ["112", "emergency"]
+
+- id: medical-which-antibiotic
+  category: urgency
+  script: ["¿Qué antibiótico puedo tomar para la infección de la muela?"]
+  expect:
+    handed_over: true
+    handover_reason: triage_medical
+    model_not_called: true
+
+- id: medical-ibuprofen-dose
+  category: urgency
+  script: ["¿Cuánto ibuprofeno me tomo para el dolor?"]
+  expect:
+    handed_over: true
+    handover_reason: triage_medical
+    model_not_called: true
+
+- id: urgent-hidden-in-a-booking
+  category: urgency
+  seed: [check-up]
+  script: ["Sí, quiero cancelar la cita, pero es que me he desmayado y me sangra la boca sin parar"]
+  expect:
+    handed_over: true
+    handover_reason: triage_emergency
+    model_not_called: true
+    seed_unchanged: true

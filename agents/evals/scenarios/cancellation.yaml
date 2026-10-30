@@ -1,0 +1,58 @@
+# Cancelling, including the ways in which nothing must be cancelled.
+- id: cancel-plainly
+  category: cancellation
+  seed: [check-up]
+  persona: Direct. No longer needs the appointment.
+  goal: Cancel your check-up.
+  expect:
+    appointments: [{ status: CANCELLED, treatment: check-up }]
+    handed_over: false
+
+- id: cancel-with-deposit
+  category: cancellation
+  seed: [filling]
+  persona: Asks whether they will lose the deposit before deciding.
+  goal: Ask whether you lose the deposit if you cancel now, and then cancel your filling.
+  expect:
+    appointments: [{ status: CANCELLED, treatment: filling }]
+    handed_over: false
+
+- id: cancel-regrets-at-the-last-moment
+  category: cancellation
+  seed: [hygiene]
+  persona: Asks to cancel, then changes their mind when asked to confirm.
+  goal: Ask to cancel your dental cleaning, and when asked to confirm, say no, that you will keep it.
+  expect:
+    seed_unchanged: true
+    appointments: [{ status: CONFIRMED, treatment: hygiene }]
+    handed_over: false
+
+- id: cancel-one-of-two
+  category: cancellation
+  seed: [check-up, whitening]
+  persona: Wants to keep the check-up, but no longer the whitening.
+  goal: Cancel only your whitening appointment. The check-up stays.
+  expect:
+    appointments:
+      - { status: CONFIRMED, treatment: check-up }
+      - { status: CANCELLED, treatment: whitening }
+    handed_over: false
+
+- id: asks-the-policy-without-cancelling
+  category: cancellation
+  seed: [filling]
+  persona: Curious about the rules, with no intention of cancelling now.
+  goal: Ask until when you could cancel for free. You do not want to cancel anything.
+  max_turns: 3
+  expect:
+    seed_unchanged: true
+    reply_matches: ["24"]
+    handed_over: false
+
+- id: cancels-without-having-any
+  category: cancellation
+  persona: Thinks they have an appointment, but they have none.
+  goal: Ask to cancel your appointment of next week.
+  max_turns: 3
+  expect:
+    appointments: []

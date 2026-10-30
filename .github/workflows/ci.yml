@@ -50,6 +50,8 @@ jobs:
       - run: uv run --locked ruff format --check .
       - run: uv run --locked mypy
       - run: uv run --locked pytest
+      - name: Check the recorded evaluations, with no model and no core
+        run: uv run --locked python -m evals gate
 
   tenants:
     name: Tenant configuration

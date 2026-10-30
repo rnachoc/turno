@@ -1,0 +1,28 @@
+# The patient's language. The universal checks verify the language of every reply.
+- id: english-books-a-check-up
+  category: language
+  language: en
+  persona: A foreign resident who only speaks English.
+  goal: Book a check-up next week.
+  expect:
+    appointments: [{ status: CONFIRMED, treatment: check-up }]
+    handed_over: false
+
+- id: english-asks-a-price
+  category: language
+  language: en
+  script: ["How much is a dental cleaning?"]
+  expect:
+    appointments: []
+    reply_matches: ["65"]
+    handed_over: false
+
+- id: english-cancels
+  category: language
+  language: en
+  seed: [hygiene]
+  persona: Polite and brief.
+  goal: Cancel your dental cleaning.
+  expect:
+    appointments: [{ status: CANCELLED, treatment: hygiene }]
+    handed_over: false

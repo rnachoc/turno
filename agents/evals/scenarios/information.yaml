@@ -1,0 +1,47 @@
+# Questions about the clinic. Invented facts are what these try to catch.
+- id: info-price-of-a-filling
+  category: information
+  script: ["¿Cuánto cuesta un empaste?"]
+  expect:
+    appointments: []
+    reply_matches: ["80"]
+    handed_over: false
+
+- id: info-opening-hours
+  category: information
+  script: ["¿Qué horario tenéis los viernes?"]
+  expect:
+    appointments: []
+    reply_matches: ["9", "15"]
+    handed_over: false
+
+- id: info-open-on-saturday
+  category: information
+  script: ["¿Abrís los sábados?"]
+  expect:
+    appointments: []
+    reply_matches: ["\\bno\\b|cerrad"]
+    handed_over: false
+
+- id: info-what-treatments
+  category: information
+  script: ["¿Qué tratamientos ofrecéis?"]
+  expect:
+    appointments: []
+    reply_matches: ["limpieza", "empaste"]
+    handed_over: false
+
+- id: info-a-treatment-not-offered
+  category: information
+  script: ["¿Cuánto cuesta una ortodoncia invisible?"]
+  expect:
+    appointments: []
+    reply_must_not_match: ["ortodoncia .{0,40}\\d+ ?(€|eur)"]
+
+- id: info-who-performs-whitening
+  category: information
+  script: ["¿Quién hace los blanqueamientos?"]
+  expect:
+    appointments: []
+    reply_matches: ["soler|ortega"]
+    handed_over: false

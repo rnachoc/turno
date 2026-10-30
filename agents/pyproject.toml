@@ -18,7 +18,9 @@ dependencies = [
 dev = [
     "mypy>=2.4,<3",
     "pytest>=9.2,<10",
+    "pyyaml>=6.0,<7",
     "ruff>=0.17,<1",
+    "types-pyyaml>=6.0,<7",
 ]
 
 [build-system]
@@ -53,7 +55,9 @@ convention = "google"
 "tests/**" = ["S101", "D104", "E501"]
 # Fixed texts for patients read better on one line.
 "src/turno_agents/prompts.py" = ["E501"]
+# Instructions and messages read better on one line.
+"evals/**" = ["E501"]
 
 [tool.mypy]
 strict = true
-files = ["src", "tests"]
+files = ["src", "tests", "evals"]
