@@ -16,6 +16,13 @@ updates:
     directories: [/core, /agents]
     schedule:
       interval: weekly
+    # Runtime versions are a decision of ADR 3, not a routine update: Java stays on its LTS release
+    # and Python on 3.13, matching CI and the project's requires-python.
+    ignore:
+      - dependency-name: eclipse-temurin
+        update-types: [version-update:semver-major]
+      - dependency-name: python
+        update-types: [version-update:semver-major, version-update:semver-minor]
   - package-ecosystem: docker-compose
     directory: /
     schedule:
