@@ -7,7 +7,7 @@ A team of AI agents that answers the phone, WhatsApp and email of a small clinic
 
 **The model proposes, the code decides.** No agent can write to the database or move money. Agents propose actions to a transactional core, which enforces rules, permissions and consent. So a malicious email can ask for a refund, but it has no way of getting one.
 
-> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. **Voice, WhatsApp, email, evaluations, consent tracking and payments do not exist yet**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Metrics will be published here as they are measured, good or bad.
+> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. The evaluation harness exists and its [report](agents/evals/REPORT.md) says how much has been recorded so far. **Voice, WhatsApp, email, consent tracking and payments do not exist yet**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Metrics will be published here as they are measured, good or bad.
 
 > **Synthetic data only.** The clinic in this repository is fictional. Never use Turno with real patient data.
 
@@ -96,6 +96,8 @@ post "/patients/$PATIENT/appointments/$HOLD/confirm" | jq '{status, startsAt, pr
 | `agents/` | [uv](https://docs.astral.sh/uv/) | `uv run pytest` |
 | `agents/`, against the real core | The stack running | `make test-contract` |
 | `agents/`, against the real model | The stack running and a Claude login; spends your plan and never runs in CI | `make test-live` |
+| Evaluations: record | The stack running and a Claude login; spends your plan | `make eval ARGS="--limit 10"` |
+| Evaluations: gate | Nothing else: no model and no core | `make eval-gate` |
 
 The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on systems with `make`.
 
