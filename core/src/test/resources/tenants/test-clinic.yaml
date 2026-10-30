@@ -1,0 +1,62 @@
+# Fixture for the tests. Independent from the demo clinic, so that editing the demo cannot break them.
+id: test-clinic
+name: Test Clinic
+fictional: true
+locale: es-ES
+languages: [es, en]
+timezone: Europe/Madrid
+currency: EUR
+contact_email: hello@test-clinic.example
+emergency_number: "112"
+
+opening_hours:
+  monday: &full_day
+    - { open: "09:00", close: "14:00" }
+    - { open: "16:00", close: "20:00" }
+  tuesday: *full_day
+  wednesday: *full_day
+  thursday: *full_day
+  friday: *full_day
+  saturday: []
+  sunday: []
+
+closures: ["2027-03-03"]
+
+treatments:
+  - id: check-up
+    name: { es: Revisión, en: Check-up }
+    duration_minutes: 30
+    price_cents: 3500
+    deposit_cents: 0
+  - id: filling
+    name: { es: Empaste, en: Filling }
+    duration_minutes: 45
+    price_cents: 8000
+    deposit_cents: 1500
+
+practitioners:
+  - id: ana
+    name: Ana
+    treatments: [check-up, filling]
+    working_days: [monday, tuesday, wednesday, thursday, friday]
+  - id: ben
+    name: Ben
+    treatments: [check-up]
+    working_days: [monday, wednesday]
+
+booking:
+  slot_granularity_minutes: 15
+  min_notice_minutes: 120
+  max_advance_days: 60
+  hold_ttl_minutes: 5
+  max_active_holds_per_patient: 1
+
+cancellation:
+  free_until_hours_before: 24
+  late_cancellation_keeps_deposit: true
+  no_show_keeps_deposit: true
+
+outreach:
+  allowed_from: "09:00"
+  allowed_until: "20:00"
+  max_attempts_per_patient_per_day: 2
