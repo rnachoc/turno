@@ -12,6 +12,18 @@ spring:
   threads:
     virtual:
       enabled: true
+  jackson:
+    deserialization:
+      # An agent that invents a field, such as a price, gets an error and not a silent success.
+      fail-on-unknown-properties: true
+
+turno:
+  tenant-file: ${TURNO_TENANT_FILE}
+  security:
+    agents-token: ${TURNO_API_TOKEN_AGENTS}
+    staff-token: ${TURNO_API_TOKEN_STAFF}
+  jobs:
+    enabled: true
 
 server:
   port: ${TURNO_CORE_PORT:8080}

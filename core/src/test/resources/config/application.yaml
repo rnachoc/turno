@@ -1,0 +1,9 @@
+# Spring reads this file on top of the main application.yaml in every test.
+turno:
+  tenant-file: src/test/resources/tenants/test-clinic.yaml
+  security:
+    agents-token: test-agents-token-0123456789-abcdef
+    staff-token: test-staff-token-0123456789-abcdefg
+  jobs:
+    # Tests run each job on demand, and a timer running in the background would make them flaky.
+    enabled: false
