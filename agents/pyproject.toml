@@ -7,12 +7,15 @@ license = "MIT"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.162,<1",
+    "httpx2>=2.16,<3",
+    "pydantic-settings>=2.16,<3",
+    # Windows and slim images ship no time zone database.
+    "tzdata>=2026.1",
     "uvicorn>=0.54,<1",
 ]
 
 [dependency-groups]
 dev = [
-    "httpx2>=2.16,<3",
     "mypy>=2.4,<3",
     "pytest>=9.2,<10",
     "ruff>=0.17,<1",
@@ -27,8 +30,12 @@ packages = ["src/turno_agents"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers --strict-config"
+addopts = "-ra --strict-markers --strict-config -m 'not integration and not live'"
 filterwarnings = ["error"]
+markers = [
+    "integration: needs the real core running; set TURNO_CORE_URL and TURNO_API_TOKEN_AGENTS",
+    "live: spends the author's Claude plan; never runs in CI",
+]
 
 [tool.ruff]
 line-length = 100
@@ -36,12 +43,16 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "S", "C4", "SIM", "RUF", "ANN", "D"]
+# JSON from the core is typed as Any on purpose: its contract is checked by the integration tests.
+ignore = ["ANN401"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101"]
+"tests/**" = ["S101", "D104", "E501"]
+# Fixed texts for patients read better on one line.
+"src/turno_agents/prompts.py" = ["E501"]
 
 [tool.mypy]
 strict = true
