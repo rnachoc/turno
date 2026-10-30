@@ -3,13 +3,15 @@
 Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
+from collections.abc import Iterator
+
 import pytest
 from fastapi.testclient import TestClient
 
 from tests.fakes import FakeCore
 from turno_agents.conversation import ConversationStore
 from turno_agents.llm import ScriptedLlm
-from turno_agents.main import create_app
+from turno_agents.main import MAX_BODY_BYTES, create_app
 from turno_agents.settings import Settings
 
 PHONE = "+34600000001"
@@ -99,6 +101,35 @@ def test_an_unknown_phone_with_a_name_is_registered() -> None:
 def test_invalid_starts_are_refused(client: TestClient, body: dict[str, str]) -> None:
     """In particular, nobody can choose the patient by identifier."""
     assert client.post("/api/conversations", json=body).status_code == 422
+
+
+def test_a_body_at_the_limit_is_read_and_one_byte_more_is_not(client: TestClient) -> None:
+    """The limit is checked before anything reads the body."""
+    at_limit = client.post("/api/conversations", content=b"x" * MAX_BODY_BYTES)
+    over = client.post("/api/conversations", content=b"x" * (MAX_BODY_BYTES + 1))
+
+    assert at_limit.status_code == 422
+    assert over.status_code == 413
+    assert over.json()["detail"]["code"] == "REQUEST_TOO_LARGE"
+
+
+def test_a_body_of_unknown_length_is_refused(client: TestClient) -> None:
+    """Otherwise the limit could be dodged by sending the body in chunks."""
+
+    def chunks() -> Iterator[bytes]:
+        yield b"{}"
+
+    response = client.post("/api/conversations", content=chunks())
+
+    assert response.status_code == 411
+    assert response.json()["detail"]["code"] == "LENGTH_REQUIRED"
+
+
+def test_refusals_for_size_carry_the_security_headers(client: TestClient) -> None:
+    """Every response is hardened, including these."""
+    response = client.post("/api/conversations", content=b"x" * (MAX_BODY_BYTES + 1))
+
+    assert response.headers["x-content-type-options"] == "nosniff"
 
 
 def test_a_conversation_must_exist(client: TestClient) -> None:

@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -24,6 +24,8 @@ from turno_agents.core_client import (
 from turno_agents.llm import ClaudeCliClient, DailyLimitedLlm, LlmClient
 from turno_agents.settings import Settings
 
+# Comfortably more than the longest valid message, once in JSON and with every character escaped.
+MAX_BODY_BYTES = 16 * 1024
 _STATIC = Path(__file__).parent / "static"
 _SECURITY_HEADERS = {
     "Content-Security-Policy": "default-src 'self'; frame-ancestors 'none'; base-uri 'none'",
@@ -48,6 +50,18 @@ class MessageRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     text: str = Field(min_length=1, max_length=1000)
+
+
+def _size_refusal(request: Request) -> Response | None:
+    """Refuse a request that is too large, or whose length is unknown and so could be any size."""
+    if request.method not in {"POST", "PUT", "PATCH"}:
+        return None
+    declared = request.headers.get("content-length")
+    if declared is None or not declared.isdigit():
+        return JSONResponse({"detail": {"code": "LENGTH_REQUIRED"}}, status_code=411)
+    if int(declared) > MAX_BODY_BYTES:
+        return JSONResponse({"detail": {"code": "REQUEST_TOO_LARGE"}}, status_code=413)
+    return None
 
 
 def _problem(status: int, code: str) -> HTTPException:
@@ -88,11 +102,12 @@ def create_app(
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=config.allowed_hosts)
 
     @app.middleware("http")
-    async def add_security_headers(
+    async def harden(
         request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
-        """Harden every response of the service."""
-        response = await call_next(request)
+        """Refuse oversized requests and add the security headers to every response."""
+        refusal = _size_refusal(request)
+        response = refusal if refusal is not None else await call_next(request)
         response.headers.update(_SECURITY_HEADERS)
         return response
 
