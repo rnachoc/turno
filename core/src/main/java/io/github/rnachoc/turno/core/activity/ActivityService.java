@@ -4,6 +4,7 @@ import io.github.rnachoc.turno.core.api.ApiPrincipal;
 import io.github.rnachoc.turno.core.api.DomainException;
 import io.github.rnachoc.turno.core.api.ErrorCode;
 import io.github.rnachoc.turno.core.audit.AuditService;
+import io.github.rnachoc.turno.core.metrics.DomainMetrics;
 import io.github.rnachoc.turno.core.patient.PatientRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -24,12 +25,19 @@ public class ActivityService {
     private final ActivityRepository activity;
     private final PatientRepository patients;
     private final AuditService audit;
+    private final DomainMetrics metrics;
     private final Clock clock;
 
-    ActivityService(ActivityRepository activity, PatientRepository patients, AuditService audit, Clock clock) {
+    ActivityService(
+            ActivityRepository activity,
+            PatientRepository patients,
+            AuditService audit,
+            DomainMetrics metrics,
+            Clock clock) {
         this.activity = activity;
         this.patients = patients;
         this.audit = audit;
+        this.metrics = metrics;
         this.clock = clock;
     }
 
@@ -69,6 +77,8 @@ public class ActivityService {
                 continue;
             }
             added++;
+            metrics.agentStep(
+                    step.kind(), step.inputTokens(), step.outputTokens(), step.estimatedCostUsd(), step.seconds());
             if (AgentStep.HANDOVER.equals(step.kind())) {
                 openHandover(principal, conversationId, patientId, step.detail(), now);
             }
@@ -82,6 +92,7 @@ public class ActivityService {
         UUID id = UUID.randomUUID();
         if (activity.openHandoverIfNotOpen(id, conversationId, patientId, reason, now)) {
             audit.accepted(principal.actor(), "handover.open", id.toString(), patientId, Map.of("reason", reason));
+            metrics.handoverOpened(reason);
         }
     }
 

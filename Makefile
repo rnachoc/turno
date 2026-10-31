@@ -1,8 +1,11 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up down agents demo-data test test-core test-agents test-console test-contract test-e2e test-live eval eval-gate lint
+.PHONY: up up-observability down agents demo-data test test-core test-agents test-console test-contract test-e2e test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
+
+up-observability: ## Start the stack with metrics, and Grafana at http://127.0.0.1:3000.
+	TURNO_METRICS_EXPORT=true docker compose --profile observability up --build --detach --wait
 
 down: ## Stop the stack and keep the data.
 	docker compose down

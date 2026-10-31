@@ -1,0 +1,9 @@
+# Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
+apiVersion: 1
+
+providers:
+  - name: Turno
+    type: file
+    options:
+      path: /otel-lgtm/grafana-dashboard-turno.json
+      foldersFromFilesStructure: false

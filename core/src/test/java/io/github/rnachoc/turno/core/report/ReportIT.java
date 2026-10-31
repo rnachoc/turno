@@ -155,6 +155,17 @@ class ReportIT extends ApiIntegrationTest {
     }
 
     @Test
+    void anAppointmentOnlyCountsOnItsOwnDay() {
+        bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+
+        assertThat(report("2027-03-01").path("agenda").path("confirmed").asInt()).as("the day before").isZero();
+        assertThat(report(TUESDAY).path("agenda").path("confirmed").asInt()).isEqualTo(1);
+        assertThat(report("2027-03-03").path("agenda").path("confirmed").asInt()).as("the day after").isZero();
+        assertThat(agenda("2027-03-01")).as("the day before").isEmpty();
+        assertThat(agenda("2027-03-03")).as("the day after").isEmpty();
+    }
+
+    @Test
     void aHoldThatRanOutCountsForNothing() {
         holdOk(newPatient(), "ana", "check-up", tuesday(10, 0));
 
@@ -360,6 +371,20 @@ class ReportIT extends ApiIntegrationTest {
             // Only the first one has started.
             assertThat(attention.path("awaitingOutcome").asInt()).as(date).isEqualTo(1);
         }
+    }
+
+    @Test
+    void aResolvedHandoverNoLongerWaits() {
+        reportSteps(newPatient(), UUID.randomUUID(), List.of(step("handover", "core_down")));
+        String id = send("GET", "/api/v1/staff/handovers", STAFF, null, null).json().get(0).path("id").asString();
+        assertThat(report(TUESDAY).path("attention").path("openHandovers").asInt()).isEqualTo(1);
+
+        assertThat(staffPost("/api/v1/staff/handovers/" + id + "/resolve").status()).isEqualTo(200);
+
+        assertThat(report(TUESDAY).path("attention").path("openHandovers").asInt()).isZero();
+        assertThat(report("2027-03-01").path("agents").path("handovers").asInt())
+                .as("it did happen that day")
+                .isEqualTo(1);
     }
 
     @Test

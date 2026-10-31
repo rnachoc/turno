@@ -55,6 +55,8 @@ services:
       TURNO_API_TOKEN_STAFF: ${TURNO_API_TOKEN_STAFF:?Copy .env.example to .env and set TURNO_API_TOKEN_STAFF}
       TURNO_API_TOKEN_WORKFLOWS: ${TURNO_API_TOKEN_WORKFLOWS:?Copy .env.example to .env and set TURNO_API_TOKEN_WORKFLOWS}
       TURNO_TENANT_FILE: /etc/turno/tenant.yaml
+      TURNO_METRICS_EXPORT: ${TURNO_METRICS_EXPORT:-false}
+      TURNO_OTLP_METRICS_URL: http://grafana:4318/v1/metrics
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -160,6 +162,17 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  # Everything for metrics in one image, which is large and so only starts when asked for.
+  grafana:
+    image: grafana/otel-lgtm:0.11.0
+    profiles: [observability]
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./observability/dashboards.yaml:/otel-lgtm/grafana/conf/provisioning/dashboards/turno.yaml:ro
+      - ./observability/turno.json:/otel-lgtm/grafana-dashboard-turno.json:ro
+    restart: unless-stopped
 
 volumes:
   postgres-data:

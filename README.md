@@ -71,6 +71,10 @@ The console is at http://127.0.0.1:4200 and asks for `TURNO_API_TOKEN_STAFF` fro
 make demo-data
 ```
 
+### Look at the metrics
+
+With the stack started by `make up-observability`, Grafana is at http://127.0.0.1:3000, with a dashboard of bookings, handovers, latency and estimated cost. It needs an image of over 2 GB, so the normal stack leaves it out.
+
 ### Talk to the agent
 
 The agent uses the official [Claude Code](https://code.claude.com/docs/en/setup.md) CLI, signed in with your own Claude plan, so it runs on your machine rather than in a container ([ADR 8](docs/adr/0008-no-api-budget.md)). With the stack up and `claude auth login` done:
@@ -125,6 +129,7 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 | `agents/` | AI agents and their tools |
 | `console/` | What the clinic's staff use: report, agenda, decisions and traces |
 | `config/tenants/` | One YAML file per clinic, validated against `config/tenant.schema.json` |
+| `observability/` | The Grafana dashboard |
 | `docs/adr/` | Architecture decision records |
 
 ## Roadmap
@@ -133,7 +138,7 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 - [x] **Phase 1: Core.** Availability engine, bookings with holds, cancellation rules, audit. Double-booking and idempotency tests.
 - [x] **Phase 2: Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
 - [ ] **Phase 3: Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 8](docs/adr/0008-no-api-budget.md)).
-- [ ] **Phase 4: Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)) the daily owner report, the console with its queue of decisions and the traces are done ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)). Still to come: metrics.
+- [x] **Phase 4: Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)) the daily owner report, the console with its queue of decisions and the traces are done ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)). Metrics go to an optional Grafana ([ADR 14](docs/adr/0014-metrics-from-the-core.md)).
 - [ ] **Phase 5: Security.** Attack tests, calibrated LLM judge, model matrix.
 - [ ] **Phase 6: Voice.** Streaming pipeline with barge-in and measured latency.
 - [ ] **Phase 7: Channels and MCP.** WhatsApp, email, MCP server for the owner.

@@ -118,19 +118,31 @@ def _book_on(api: Api, day: date, treatments: list[str], names: list[str]) -> li
     return booked
 
 
-def _move_to_the_past(appointments: list[str], days: int, timezone: str) -> None:
-    """Move appointments back by whole days, which the API refuses. The clock stays the same."""
+def _move_to_the_past(appointments: list[str], days: int, timezone: str) -> bool:
+    """Move appointments back by whole days, which the API refuses. The clock stays the same.
+
+    Returns:
+        Whether they fitted, since an earlier run may have left appointments on that day.
+    """
     ids = ",".join(f"'{uuid.UUID(appointment)}'" for appointment in appointments)
     sql = (
         f"SET timezone = '{ZoneInfo(timezone).key}'; "
         f"UPDATE appointment SET starts_at = starts_at - interval '{days} days', "
         f"ends_at = ends_at - interval '{days} days' WHERE id IN ({ids});"
     )
-    subprocess.run(
-        ["docker", "compose", "exec", "-T", "postgres", "sh", "-c",
-         'psql -v ON_ERROR_STOP=1 -q -U "$POSTGRES_USER" -d "$POSTGRES_DB"'],
-        input=sql, text=True, check=True,
-    )  # fmt: skip
+    command = 'psql -v ON_ERROR_STOP=1 -q -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+    result = subprocess.run(
+        ["docker", "compose", "exec", "-T", "postgres", "sh", "-c", command],
+        input=sql,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if "appointment_no_practitioner_overlap" in result.stderr:
+        return False
+    if result.returncode != 0:
+        raise RuntimeError(result.stderr)
+    return True
 
 
 def _step(kind: str, detail: str) -> dict[str, Any]:
@@ -178,8 +190,13 @@ def seed(api: Api, today: date) -> None:
     if ahead not in _open_days(clinic, ahead, 1):
         ahead += timedelta(days=7)
     past = _book_on(api, ahead, treatments, _NAMES[:7])
-    _move_to_the_past(
-        [appointment for _, appointment in past], (ahead - last_open).days, clinic["timezone"]
+    moved = [appointment for _, appointment in past]
+    closed_day = next(
+        day
+        for day in (
+            ahead - timedelta(days=(ahead - last_open).days + 7 * week) for week in range(52)
+        )
+        if _move_to_the_past(moved, (ahead - day).days, clinic["timezone"])
     )
     for _, appointment in past[:3]:
         _post(api.staff, f"/staff/appointments/{appointment}/complete")
@@ -224,7 +241,7 @@ def seed(api: Api, today: date) -> None:
         ],
     )
     print(
-        f"Done. See the report of {last_open} and the agenda of {next_open} at http://127.0.0.1:4200"
+        f"Done. See the report of {closed_day} and the agenda of {next_open} at http://127.0.0.1:4200"
     )
 
 

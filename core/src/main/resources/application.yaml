@@ -36,6 +36,17 @@ server:
     include-stacktrace: never
 
 management:
+  # Metrics only leave for an endpoint that someone has asked for. See docs/adr/0014.
+  otlp:
+    metrics:
+      export:
+        enabled: ${TURNO_METRICS_EXPORT:false}
+        url: ${TURNO_OTLP_METRICS_URL:http://127.0.0.1:4318/v1/metrics}
+        step: 30s
+  metrics:
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
   endpoints:
     web:
       exposure:

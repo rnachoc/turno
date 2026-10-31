@@ -1,5 +1,6 @@
 package io.github.rnachoc.turno.core.audit;
 
+import io.github.rnachoc.turno.core.metrics.DomainMetrics;
 import java.time.Clock;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,13 @@ public class AuditService {
     private final AuditRepository repository;
     private final Clock clock;
     private final JsonMapper json;
+    private final DomainMetrics metrics;
 
-    AuditService(AuditRepository repository, Clock clock, JsonMapper json) {
+    AuditService(AuditRepository repository, Clock clock, JsonMapper json, DomainMetrics metrics) {
         this.repository = repository;
         this.clock = clock;
         this.json = json;
+        this.metrics = metrics;
     }
 
     /**
@@ -49,6 +52,7 @@ public class AuditService {
             Map<String, ?> details) {
         repository.insert(
                 clock.instant(), actor, action, "ACCEPTED", entityId, patientId, json.writeValueAsString(details));
+        metrics.audited(actor, action, "ACCEPTED");
     }
 
     /**
@@ -75,6 +79,7 @@ public class AuditService {
                 entityId,
                 patientId,
                 json.writeValueAsString(Map.of("reason", reason)));
+        metrics.audited(actor, action, "REJECTED");
     }
 
     /**
