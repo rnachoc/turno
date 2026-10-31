@@ -36,3 +36,8 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Angular
+node_modules/
+dist/
+.angular/

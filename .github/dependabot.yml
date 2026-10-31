@@ -12,8 +12,12 @@ updates:
     directory: /agents
     schedule:
       interval: weekly
+  - package-ecosystem: npm
+    directory: /console
+    schedule:
+      interval: weekly
   - package-ecosystem: docker
-    directories: [/core, /agents]
+    directories: [/core, /agents, /console]
     schedule:
       interval: weekly
     # Runtime versions are a decision of ADR 3, not a routine update: Java stays on its LTS release

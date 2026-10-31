@@ -1,5 +1,5 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up down agents test test-core test-agents test-contract test-e2e test-live eval eval-gate lint
+.PHONY: up down agents demo-data test test-core test-agents test-console test-contract test-e2e test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
@@ -10,13 +10,19 @@ down: ## Stop the stack and keep the data.
 agents: ## Run the agents service on this machine, with your own Claude login.
 	cd agents && TURNO_LLM_BACKEND=claude-cli TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env uvicorn turno_agents.main:app --host 127.0.0.1 --port 8001
 
-test: test-core test-agents ## Run every test suite.
+demo-data: ## Fill the running stack with synthetic activity, for a look at the console.
+	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env python demo/seed.py
+
+test: test-core test-agents test-console ## Run every test suite.
 
 test-core:
 	cd core && ./mvnw -B -ntp verify
 
 test-agents:
 	cd agents && uv run --locked pytest
+
+test-console:
+	cd console && npm ci --no-audit --no-fund && npm test
 
 test-contract: ## Check the agents against the real core. Needs `make up`.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m integration
