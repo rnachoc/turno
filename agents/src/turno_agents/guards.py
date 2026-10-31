@@ -73,10 +73,21 @@ _DOSAGE_ADVICE = re.compile(
     r"\b(toma|tome|tomar|take|tomate)\b.{0,40}\b(\d+\s?(mg|g|ml)|ibuprofeno|ibuprofen|paracetamol|"
     r"antibiotico|antibiotic|amoxicilina|amoxicillin|nolotil|aspirina|aspirin)\b"
 )
-_STATE_CLAIM = re.compile(
-    r"\b(confirmada|confirmado|cancelada|cancelado|reservada|reservado|reprogramada|reprogramado|"
+_CLAIM_WORDS = (
+    r"(confirmada|confirmado|cancelada|cancelado|reservada|reservado|reprogramada|reprogramado|"
     r"anulada|anulado|retenid[oa]|"
-    r"confirmed|cancell?ed|booked|rescheduled|on hold)\b"
+    r"confirmed|cancell?ed|booked|rescheduled|on hold)"
+)
+_STATE_CLAIM = re.compile(rf"\b{_CLAIM_WORDS}\b")
+# Saying that nothing was done claims nothing. Only a negation right before the word counts, so
+# "no te preocupes, queda confirmada" is still a claim.
+_NEGATED_CLAIM = re.compile(
+    r"\b(no|nada|ninguna cita|ningun hueco|not|nothing|never|"
+    r"hasn'?t|haven'?t|isn'?t|aren'?t|wasn'?t)\s+"
+    r"((he|has|ha|hemos|han|esta|estan|queda|quedan|quedado|te|se|lo|la|le|tu cita|ya|aun|"
+    r"todavia|"
+    r"have|is|are|was|been|yet|your appointment)\s+){0,3}"
+    rf"{_CLAIM_WORDS}\b"
 )
 
 
@@ -167,6 +178,6 @@ def check_outbound(reply: str, state_backed: bool) -> OutboundViolation | None:
     normalized = normalize(reply)
     if _DOSAGE_ADVICE.search(normalized):
         return OutboundViolation("medical_advice", correctable=False)
-    if not state_backed and _STATE_CLAIM.search(normalized):
+    if not state_backed and _STATE_CLAIM.search(_NEGATED_CLAIM.sub(" ", normalized)):
         return OutboundViolation("unbacked_state_claim", correctable=True)
     return None

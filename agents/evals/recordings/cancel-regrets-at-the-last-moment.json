@@ -1,0 +1,138 @@
+{
+  "scenario_id": "cancel-regrets-at-the-last-moment",
+  "fingerprint": "3c606839292b97191ba8b0b4c78a597e68c65a418514b52150f6d534319566d5",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería cancelar mi limpieza dental que tengo agendada. Disculpen las molestias, gracias."
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Limpieza dental del 2026-11-09 10:30 (precio 65.00 EUR, señal 10.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "No, gracias. Mejor la mantengo, no quiero cancelarla. Perdonen las molestias."
+    },
+    {
+      "role": "agent",
+      "text": "De acuerdo, no cancelamos nada. Tu limpieza dental sigue agendada para el 9 de noviembre a las 10:30. ¡Hasta entonces!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"30d26719-8bc1-4f95-98e7-920d816ecb4b\", \"status\": \"CONFIRMED\", \"treatment\": \"Limpieza dental\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 10:30\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NOT_DONE_PATIENT_DID_NOT_AGREE\"}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4331,
+      "output_tokens": 222,
+      "estimated_cost_usd": 0.00028521000000000004,
+      "seconds": 3.76
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4486,
+      "output_tokens": 453,
+      "estimated_cost_usd": 0.00043170999999999997,
+      "seconds": 3.98
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "not_given",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4727,
+      "output_tokens": 244,
+      "estimated_cost_usd": 0.00037540999999999996,
+      "seconds": 3.47
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "30d26719-8bc1-4f95-98e7-920d816ecb4b",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T09:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "30d26719-8bc1-4f95-98e7-920d816ecb4b",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T09:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 3,
+    "input_tokens": 18079,
+    "output_tokens": 1906,
+    "estimated_cost_usd": 0.002206,
+    "agent_call_seconds": [
+      3.76,
+      3.98,
+      3.47
+    ]
+  }
+}

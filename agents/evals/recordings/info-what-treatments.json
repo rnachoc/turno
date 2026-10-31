@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-what-treatments",
+  "fingerprint": "19d425fbaabf85153b495c875927b285ab25617e8230af9297f9eb67670fd840",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Qué tratamientos ofrecéis?"
+    },
+    {
+      "role": "agent",
+      "text": "En Mirador Dental ofrecemos estos tratamientos:\n\n- Revisión: 30 minutos, 35 €\n- Limpieza dental: 45 minutos, 65 € (señal de 10 €)\n- Empaste: 45 minutos, 80 € (señal de 15 €)\n- Endodoncia: 90 minutos, 280 € (señal de 50 €)\n- Blanqueamiento: 60 minutos, 250 € (señal de 50 €)\n\n¿Quieres que busquemos hueco para alguno de ellos?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4303,
+      "output_tokens": 461,
+      "estimated_cost_usd": 0.00039911,
+      "seconds": 3.88
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4303,
+    "output_tokens": 461,
+    "estimated_cost_usd": 0.000399,
+    "agent_call_seconds": [
+      3.88
+    ]
+  }
+}

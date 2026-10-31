@@ -1,0 +1,68 @@
+{
+  "scenario_id": "english-asks-a-price",
+  "fingerprint": "2836d3c81737a4b6d286582f3979571f37a3b6012bb32e7d082cf9b967b1be7d",
+  "model": "haiku",
+  "language": "en",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "How much is a dental cleaning?"
+    },
+    {
+      "role": "agent",
+      "text": "A dental cleaning costs 65 €. It takes 45 minutes, and a 10 € deposit is needed to book it. Would you like me to look for a free slot?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4288,
+      "output_tokens": 372,
+      "estimated_cost_usd": 0.0006358500000000001,
+      "seconds": 4.71
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4288,
+    "output_tokens": 372,
+    "estimated_cost_usd": 0.000636,
+    "agent_call_seconds": [
+      4.71
+    ]
+  }
+}

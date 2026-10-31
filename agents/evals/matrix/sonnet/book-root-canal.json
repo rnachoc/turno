@@ -1,0 +1,173 @@
+{
+  "scenario_id": "book-root-canal",
+  "fingerprint": "3cc1b31b39d5510856802e2b617f24394b6792bb1b72250354796428288d350b",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Un dentista me dijo que necesito un tratamiento de conducto (endodoncia). ¿Podrían darme cita para la semana que viene? Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Para la endodoncia (90 minutos) tengo hueco con la Dra. Lucía Vega el martes 3 de noviembre. Estas son tres opciones:\n\n- 09:00\n- 10:00\n- 11:00\n\nLa endodoncia cuesta 280 € y se pide un depósito de 50 €. ¿Cuál te va mejor? Si prefieres otro día de la semana, dímelo y lo miro."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, me va bien el martes 3 de noviembre a las 10:00. ¿Qué necesito hacer para dejar el depósito?"
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Endodoncia del 2026-11-03 10:00 (precio 280.00 EUR, señal 50.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu cita de endodoncia con la Dra. Lucía Vega está confirmada para el martes 3 de noviembre a las 10:00. El precio es de 280 € y la señal, de 50 €.\n\nSobre cómo dejar el depósito: no tengo información sobre el método de pago, así que no quiero darte datos que no sean ciertos. Si quieres, te paso con una persona de la clínica para que te lo explique. Recuerda que la cancelación es gratuita hasta 24 horas antes de la cita."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T08:00:00Z\", \"local\": \"Tuesday 2026-11-03 09:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T08:15:00Z\", \"local\": \"Tuesday 2026-11-03 09:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T08:30:00Z\", \"local\": \"Tuesday 2026-11-03 09:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T08:45:00Z\", \"local\": \"Tuesday 2026-11-03 09:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T09:00:00Z\", \"local\": \"Tuesday 2026-11-03 10:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T09:15:00Z\", \"local\": \"Tuesday 2026-11-03 10:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T09:30:00Z\", \"local\": \"Tuesday 2026-11-03 10:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T09:45:00Z\", \"local\": \"Tuesday 2026-11-03 10:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T10:00:00Z\", \"local\": \"Tuesday 2026-11-03 11:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T10:15:00Z\", \"local\": \"Tuesday 2026-11-03 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-03T10:45:00Z\", \"local\": \"Tuesday 2026-11-03 11:45\"}], \"total_found\": 74}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"bef87816-c0f2-4a95-87e0-10fb51242799\", \"status\": \"HOLD\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-03 10:00\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"bef87816-c0f2-4a95-87e0-10fb51242799\", \"status\": \"CONFIRMED\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-03 10:00\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4326,
+      "output_tokens": 219,
+      "estimated_cost_usd": 0.005290100000000001,
+      "seconds": 4.08
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5245,
+      "output_tokens": 471,
+      "estimated_cost_usd": 0.011486099999999999,
+      "seconds": 15.3
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5470,
+      "output_tokens": 177,
+      "estimated_cost_usd": 0.015280499999999999,
+      "seconds": 4.15
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5608,
+      "output_tokens": 291,
+      "estimated_cost_usd": 0.011138100000000001,
+      "seconds": 5.05
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5907,
+      "output_tokens": 259,
+      "estimated_cost_usd": 0.0120141,
+      "seconds": 4.53
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "bef87816-c0f2-4a95-87e0-10fb51242799",
+      "status": "CONFIRMED",
+      "treatment": "root-canal",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-03T09:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 4,
+    "input_tokens": 33115,
+    "output_tokens": 2425,
+    "estimated_cost_usd": 0.056422,
+    "agent_call_seconds": [
+      4.08,
+      15.3,
+      4.15,
+      5.05,
+      4.53
+    ]
+  }
+}

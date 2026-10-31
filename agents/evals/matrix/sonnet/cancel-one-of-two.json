@@ -1,0 +1,160 @@
+{
+  "scenario_id": "cancel-one-of-two",
+  "fingerprint": "ebb5766d7c6c35f9aafc4a40cb6f39c5af69d8e5f5b5ad3ef05e4abb79549fc5",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita para mañana: revisión y blanqueamiento. Quisiera cancelar solo el blanqueamiento, la revisión la mantengo. ¿Me pueden ayudar con eso?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Blanqueamiento del 2026-11-09 17:30 (precio 250.00 EUR, señal 50.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "Listo, he cancelado tu cita de Blanqueamiento del 9 de noviembre a las 17:30. Como la cancelación es con más de 24 horas de antelación, no pierdes la señal de 50,00 EUR.\n\nTu Revisión sigue confirmada, pero la tengo el 10 de noviembre a las 09:45 con el Dr. Soler, no para mañana. ¿Quieres que hagamos algo más con ella?"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"aee36cca-2dde-4f9e-b04a-28ec06dedb4f\", \"status\": \"CONFIRMED\", \"treatment\": \"Blanqueamiento\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 17:30\", \"price_cents\": 25000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}, {\"appointment_id\": \"923b2056-22b6-46c7-898d-83511fcd5c24\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-10 09:45\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"aee36cca-2dde-4f9e-b04a-28ec06dedb4f\", \"status\": \"CANCELLED\", \"treatment\": \"Blanqueamiento\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 17:30\", \"price_cents\": 25000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4343,
+      "output_tokens": 117,
+      "estimated_cost_usd": 0.0043381,
+      "seconds": 6.18
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4622,
+      "output_tokens": 638,
+      "estimated_cost_usd": 0.0106641,
+      "seconds": 8.68
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4929,
+      "output_tokens": 501,
+      "estimated_cost_usd": 0.016356500000000003,
+      "seconds": 8.73
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "923b2056-22b6-46c7-898d-83511fcd5c24",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-10T08:45:00Z"
+    },
+    {
+      "id": "aee36cca-2dde-4f9e-b04a-28ec06dedb4f",
+      "status": "CONFIRMED",
+      "treatment": "whitening",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T16:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "aee36cca-2dde-4f9e-b04a-28ec06dedb4f",
+      "status": "CANCELLED",
+      "treatment": "whitening",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T16:30:00Z"
+    },
+    {
+      "id": "923b2056-22b6-46c7-898d-83511fcd5c24",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-10T08:45:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 3,
+    "input_tokens": 18506,
+    "output_tokens": 1967,
+    "estimated_cost_usd": 0.032166,
+    "agent_call_seconds": [
+      6.18,
+      8.68,
+      8.73
+    ]
+  }
+}

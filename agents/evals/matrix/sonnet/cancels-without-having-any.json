@@ -1,0 +1,112 @@
+{
+  "scenario_id": "cancels-without-having-any",
+  "fingerprint": "db9291dd8f783757b4a9afab0d764087872d4dbb52c296b986c276a0876819b7",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería cancelar mi turno de la semana que viene, por favor."
+    },
+    {
+      "role": "agent",
+      "text": "Hola, gracias por escribir. He revisado y ahora mismo no aparece ninguna cita a tu nombre, así que no tengo nada que cancelar. ¿Puede que la hayas reservado con otro nombre o teléfono? Si quieres, puedo ayudarte a reservar una nueva o te paso con una persona del equipo para revisarlo."
+    },
+    {
+      "role": "patient",
+      "text": "Qué raro, estoy seguro de que lo reservé. ¿Puede buscarlo por mi teléfono? Si no aparece, prefiero que me pase con alguien del equipo para revisarlo, gracias."
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": []}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4295,
+      "output_tokens": 107,
+      "estimated_cost_usd": 0.0040461,
+      "seconds": 3.55
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4321,
+      "output_tokens": 200,
+      "estimated_cost_usd": 0.005080100000000001,
+      "seconds": 4.22
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4544,
+      "output_tokens": 160,
+      "estimated_cost_usd": 0.0055721,
+      "seconds": 5.51
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 2,
+    "input_tokens": 16057,
+    "output_tokens": 1057,
+    "estimated_cost_usd": 0.015246,
+    "agent_call_seconds": [
+      3.55,
+      4.22,
+      5.51
+    ]
+  }
+}

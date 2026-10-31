@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-opening-hours",
+  "fingerprint": "e5524032d3cd1f0c880245bdb600012a3744c66ce2b790c7562e9f269f816231",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Qué horario tenéis los viernes?"
+    },
+    {
+      "role": "agent",
+      "text": "Los viernes abrimos de 09:00 a 15:00, sin pausa para comer. ¿Quieres que busquemos un hueco para alguna visita?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4302,
+      "output_tokens": 221,
+      "estimated_cost_usd": 0.00027891000000000005,
+      "seconds": 3.23
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4302,
+    "output_tokens": 221,
+    "estimated_cost_usd": 0.000279,
+    "agent_call_seconds": [
+      3.23
+    ]
+  }
+}

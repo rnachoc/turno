@@ -1,0 +1,332 @@
+{
+  "scenario_id": "move-then-regrets",
+  "fingerprint": "38a352d9e246bd7e9bbc87b1a248cfa0e9311d9f0d2acd3b7ca86f7345845c24",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenos días. Tengo una revisión programada con ustedes y me gustaría cambiarla de horario si es posible. ¿Me podrían decir qué disponibilidad tienen?"
+    },
+    {
+      "role": "agent",
+      "text": "Hola, buenos días. Tienes una revisión con la Dra. Lucía Vega el lunes 9 de noviembre a las 16:00.\n\nPara el lunes 2 de noviembre tengo estos horarios disponibles:\n\n- 16:00\n- 17:30\n- 19:00\n\n¿Cuál te viene mejor? Si prefieres otro día, dime qué días te convienen y busco disponibilidad."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. Mmm, el lunes 2 a las 17:30 podría venirme bien, pero no estoy muy seguro. ¿Tendrían algo el martes por la tarde?"
+    },
+    {
+      "role": "agent",
+      "text": "Ahora mismo tienes una revisión con la Dra. Lucía Vega confirmada el lunes 9 de noviembre a las 16:00.\n\nEl martes 3 de noviembre solo veo huecos por la mañana: 09:00, 10:00 y 11:00. ¿Cuál te viene mejor, o prefieres el lunes 2 a las 17:30? Cuando lo decidas, reservo ese horario y te pido confirmación antes de cambiar tu cita."
+    },
+    {
+      "role": "patient",
+      "text": "Creo que el lunes 2 a las 17:30 me vendría mejor, pero no estoy del todo seguro. ¿Podrías mirarme ese horario y decirme si queda libre?"
+    },
+    {
+      "role": "agent",
+      "text": "Sí, el lunes 2 de noviembre a las 17:30 sigue libre con la Dra. Lucía Vega. Si quieres, puedo reservarlo unos minutos mientras lo decides. Después te pediré confirmación para cambiar tu revisión del lunes 9 de noviembre a las 16:00. ¿Te lo reservo?"
+    },
+    {
+      "role": "patient",
+      "text": "Mmm, mejor no lo reserves todavía, por favor. Déjame pensarlo un poco. ¿Me confirmas si mi cita del 9 de noviembre sigue igual mientras tanto?"
+    },
+    {
+      "role": "agent",
+      "text": "Sí, tu revisión con la Dra. Lucía Vega sigue confirmada para el lunes 9 de noviembre a las 16:00. No he reservado el lunes 2 a las 17:30, así que ese hueco podría ocuparse mientras lo piensas. Cuando lo decidas, dime y lo miro de nuevo."
+    },
+    {
+      "role": "patient",
+      "text": "Vale, gracias. Creo que voy a pensarlo un poco más. Si al final no cambio nada, ¿la cita del 9 de noviembre se queda tal cual a las 16:00?"
+    },
+    {
+      "role": "agent",
+      "text": "Sí, tu revisión con la Dra. Lucía Vega sigue confirmada para el lunes 9 de noviembre a las 16:00. Si al final no cambias nada, se queda tal cual. Cuando lo decidas, dime y lo miramos. Ten en cuenta que el hueco del lunes 2 a las 17:30 no está reservado, así que podría ocuparse mientras lo piensas."
+    },
+    {
+      "role": "patient",
+      "text": "Pues mejor lo dejo como está. Prefiero mantener la cita del lunes 9 a las 16:00. Gracias por la ayuda."
+    },
+    {
+      "role": "agent",
+      "text": "Perfecto, no cambiamos nada. Tu revisión con la Dra. Lucía Vega sigue confirmada para el lunes 9 de noviembre a las 16:00. El hueco del lunes 2 a las 17:30 no está reservado, así que si cambias de idea, tendrás que volver a consultarlo. ¡Gracias a ti, y que tengas buen día!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fec9ad4d-3c83-4167-9e79-09ee467dac3a\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 16:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:00:00Z\", \"local\": \"Monday 2026-11-02 18:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:15:00Z\", \"local\": \"Monday 2026-11-02 18:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:30:00Z\", \"local\": \"Monday 2026-11-02 18:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:45:00Z\", \"local\": \"Monday 2026-11-02 18:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:00:00Z\", \"local\": \"Monday 2026-11-02 19:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:15:00Z\", \"local\": \"Monday 2026-11-02 19:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:30:00Z\", \"local\": \"Monday 2026-11-02 19:30\"}], \"total_found\": 183}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:00:00Z\", \"local\": \"Tuesday 2026-11-03 09:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:15:00Z\", \"local\": \"Tuesday 2026-11-03 09:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:30:00Z\", \"local\": \"Tuesday 2026-11-03 09:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:45:00Z\", \"local\": \"Tuesday 2026-11-03 09:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:00:00Z\", \"local\": \"Tuesday 2026-11-03 10:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:15:00Z\", \"local\": \"Tuesday 2026-11-03 10:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:30:00Z\", \"local\": \"Tuesday 2026-11-03 10:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:45:00Z\", \"local\": \"Tuesday 2026-11-03 10:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:00:00Z\", \"local\": \"Tuesday 2026-11-03 11:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:15:00Z\", \"local\": \"Tuesday 2026-11-03 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:45:00Z\", \"local\": \"Tuesday 2026-11-03 11:45\"}], \"total_found\": 34}</core_result>",
+    "<core_result action=\"reply\">{\"status\": \"REPLY_REJECTED\", \"reason\": \"unbacked_state_claim\", \"how_to_fix\": \"You stated the state of an appointment without reading it in this turn. Use the action list_appointments first, or write the reply without saying its state.\"}</core_result>",
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fec9ad4d-3c83-4167-9e79-09ee467dac3a\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 16:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:00:00Z\", \"local\": \"Monday 2026-11-02 18:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:15:00Z\", \"local\": \"Monday 2026-11-02 18:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:30:00Z\", \"local\": \"Monday 2026-11-02 18:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:45:00Z\", \"local\": \"Monday 2026-11-02 18:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:00:00Z\", \"local\": \"Monday 2026-11-02 19:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:15:00Z\", \"local\": \"Monday 2026-11-02 19:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:30:00Z\", \"local\": \"Monday 2026-11-02 19:30\"}], \"total_found\": 12}</core_result>",
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fec9ad4d-3c83-4167-9e79-09ee467dac3a\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 16:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fec9ad4d-3c83-4167-9e79-09ee467dac3a\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 16:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fec9ad4d-3c83-4167-9e79-09ee467dac3a\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 16:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4351,
+      "output_tokens": 179,
+      "estimated_cost_usd": 0.00026771,
+      "seconds": 3.89
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4501,
+      "output_tokens": 405,
+      "estimated_cost_usd": 0.00041071,
+      "seconds": 4.36
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5384,
+      "output_tokens": 909,
+      "estimated_cost_usd": 0.00083931,
+      "seconds": 6.9
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5615,
+      "output_tokens": 487,
+      "estimated_cost_usd": 0.0009587500000000001,
+      "seconds": 3.91
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 14458,
+      "output_tokens": 1795,
+      "estimated_cost_usd": 0.00185791,
+      "seconds": 11.11
+    },
+    {
+      "kind": "blocked",
+      "detail": "unbacked_state_claim",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 6619,
+      "output_tokens": 1315,
+      "estimated_cost_usd": 0.0012893100000000001,
+      "seconds": 8.85
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 6769,
+      "output_tokens": 1756,
+      "estimated_cost_usd": 0.00153981,
+      "seconds": 14.51
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 7024,
+      "output_tokens": 576,
+      "estimated_cost_usd": 0.00100081,
+      "seconds": 4.42
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 7907,
+      "output_tokens": 1125,
+      "estimated_cost_usd": 0.00145191,
+      "seconds": 6.81
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 8126,
+      "output_tokens": 250,
+      "estimated_cost_usd": 0.0013424500000000002,
+      "seconds": 3.23
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 8276,
+      "output_tokens": 522,
+      "estimated_cost_usd": 0.00122421,
+      "seconds": 4.88
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 8485,
+      "output_tokens": 547,
+      "estimated_cost_usd": 0.00127851,
+      "seconds": 4.73
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 8635,
+      "output_tokens": 554,
+      "estimated_cost_usd": 0.00131201,
+      "seconds": 4.71
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 8852,
+      "output_tokens": 440,
+      "estimated_cost_usd": 0.00129841,
+      "seconds": 4.52
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 9002,
+      "output_tokens": 437,
+      "estimated_cost_usd": 0.0013269100000000002,
+      "seconds": 4.97
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "fec9ad4d-3c83-4167-9e79-09ee467dac3a",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T15:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "fec9ad4d-3c83-4167-9e79-09ee467dac3a",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T15:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 15,
+    "simulator_calls": 6,
+    "input_tokens": 127748,
+    "output_tokens": 13604,
+    "estimated_cost_usd": 0.020222,
+    "agent_call_seconds": [
+      3.89,
+      4.36,
+      6.9,
+      3.91,
+      11.11,
+      8.85,
+      14.51,
+      4.42,
+      6.81,
+      3.23,
+      4.88,
+      4.73,
+      4.71,
+      4.52,
+      4.97
+    ]
+  }
+}

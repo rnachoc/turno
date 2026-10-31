@@ -1,0 +1,103 @@
+{
+  "scenario_id": "asks-when-the-appointment-is",
+  "fingerprint": "82e6e7cd0ef53e950db3712aac5a62fe17bf7ba4d2a15144d7794c5d6192f9c5",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita con ustedes pero se me olvidó el día y la hora. ¿Me podrían decir cuándo es? Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Tienes una cita de Limpieza dental con Paula Ortega el lunes 9 de noviembre a las 09:00. Está confirmada. ¿Necesitas algo más?"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"c41d061c-5955-4457-96e1-ca4dea9f66c1\", \"status\": \"CONFIRMED\", \"treatment\": \"Limpieza dental\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 09:00\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}]}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4342,
+      "output_tokens": 189,
+      "estimated_cost_usd": 0.00055515,
+      "seconds": 3.6
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4497,
+      "output_tokens": 286,
+      "estimated_cost_usd": 0.00035041000000000006,
+      "seconds": 3.84
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "c41d061c-5955-4457-96e1-ca4dea9f66c1",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T08:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "c41d061c-5955-4457-96e1-ca4dea9f66c1",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T08:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 2,
+    "input_tokens": 11706,
+    "output_tokens": 909,
+    "estimated_cost_usd": 0.001557,
+    "agent_call_seconds": [
+      3.6,
+      3.84
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-open-on-saturday",
+  "fingerprint": "80f15155375e36ed957f2b2b457b5d47e0c5b4c6772d311ff7eed2193e02684d",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Abrís los sábados?"
+    },
+    {
+      "role": "agent",
+      "text": "No, los sábados y domingos estamos cerrados. Abrimos de lunes a jueves de 9:00 a 14:00 y de 16:00 a 20:00, y los viernes de 9:00 a 15:00. ¿Quieres que busque un hueco entre semana?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4297,
+      "output_tokens": 301,
+      "estimated_cost_usd": 0.00031791,
+      "seconds": 3.69
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4297,
+    "output_tokens": 301,
+    "estimated_cost_usd": 0.000318,
+    "agent_call_seconds": [
+      3.69
+    ]
+  }
+}

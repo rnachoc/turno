@@ -1,0 +1,198 @@
+{
+  "scenario_id": "move-without-giving-a-date",
+  "fingerprint": "c3f33732035178ea8fdf3a7eaf646bb743a8c567a6d2a45fce2288526da41c33",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita con ustedes y no puedo ir. ¿Se puede cambiar?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Veo tu cita de Empaste con la Dra. Vega el 10 de noviembre a las 11:30. Sí, se puede cambiar. ¿Qué día o franja horaria te vendría mejor? Así busco huecos disponibles."
+    },
+    {
+      "role": "patient",
+      "text": "Pues cualquier día me sirve, la verdad. Lo que sea que tengan libre."
+    },
+    {
+      "role": "agent",
+      "text": "Hay varios huecos disponibles el martes 3 de noviembre para tu empaste:\n\n1. 10:00 con el Dr. Soler\n2. 11:30 con la Dra. Vega (tu misma doctora)\n3. 12:00 con el Dr. Soler\n\n¿Cuál prefieres? Si te viene mejor otro día u otra hora, dímelo y busco más opciones."
+    },
+    {
+      "role": "patient",
+      "text": "Mmm, el martes 3 me va bien. ¿Lo de las 11:30 con la Dra. Vega podría ser?"
+    },
+    {
+      "role": "agent",
+      "text": "Para mover tu cita de Empaste del 2026-11-10 11:30 (precio 80.00 EUR, señal 15.00 EUR) a 2026-11-03 11:30, responde «sí». Cualquier otra respuesta la deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu cita de Empaste se ha movido al martes 3 de noviembre a las 11:30 con la Dra. Vega. Tu señal de 15,00 € se mantiene. ¿Puedo ayudarte en algo más?"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"d062bfd0-4da8-4846-9262-db8205542d66\", \"status\": \"CONFIRMED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-10 11:30\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T09:00:00Z\", \"local\": \"Tuesday 2026-11-03 10:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T09:15:00Z\", \"local\": \"Tuesday 2026-11-03 10:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T09:30:00Z\", \"local\": \"Tuesday 2026-11-03 10:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T09:45:00Z\", \"local\": \"Tuesday 2026-11-03 10:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:00:00Z\", \"local\": \"Tuesday 2026-11-03 11:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:15:00Z\", \"local\": \"Tuesday 2026-11-03 11:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:45:00Z\", \"local\": \"Tuesday 2026-11-03 11:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T10:45:00Z\", \"local\": \"Tuesday 2026-11-03 11:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T11:00:00Z\", \"local\": \"Tuesday 2026-11-03 12:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-03T11:00:00Z\", \"local\": \"Tuesday 2026-11-03 12:00\"}], \"total_found\": 279}</core_result>",
+    "<core_result action=\"reschedule_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"reschedule_appointment\">{\"appointment_id\": \"d062bfd0-4da8-4846-9262-db8205542d66\", \"status\": \"CONFIRMED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-03 11:30\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4305,
+      "output_tokens": 117,
+      "estimated_cost_usd": 0.010020500000000002,
+      "seconds": 5.25
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4452,
+      "output_tokens": 396,
+      "estimated_cost_usd": 0.0075641,
+      "seconds": 5.05
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4600,
+      "output_tokens": 332,
+      "estimated_cost_usd": 0.0075160999999999995,
+      "seconds": 6.83
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5495,
+      "output_tokens": 423,
+      "estimated_cost_usd": 0.012006099999999999,
+      "seconds": 5.09
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5699,
+      "output_tokens": 405,
+      "estimated_cost_usd": 0.0126421,
+      "seconds": 5.42
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:reschedule_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:reschedule_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "reschedule_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 6005,
+      "output_tokens": 163,
+      "estimated_cost_usd": 0.0114461,
+      "seconds": 3.49
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "d062bfd0-4da8-4846-9262-db8205542d66",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-10T10:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "d062bfd0-4da8-4846-9262-db8205542d66",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-03T10:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 6,
+    "simulator_calls": 5,
+    "input_tokens": 38893,
+    "output_tokens": 3256,
+    "estimated_cost_usd": 0.062811,
+    "agent_call_seconds": [
+      5.25,
+      5.05,
+      6.83,
+      5.09,
+      5.42,
+      3.49
+    ]
+  }
+}

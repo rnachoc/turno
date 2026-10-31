@@ -1,0 +1,173 @@
+{
+  "scenario_id": "book-filling-with-toothache",
+  "fingerprint": "7298256f4798f511d5953ed715578f905e4865f79b71db26e49b57a2ec618089",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Me duele un diente cuando como algo dulce, sobre todo si es muy frío o muy azucarado. Creo que puede ser una caries. No es urgente del todo, pero me preocupa y me gustaría hacerme un empaste lo antes posible. ¿Tienen hueco esta semana?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Sí, tenemos hueco para un empaste el lunes 2 de noviembre con la Dra. Lucía Vega. Estas son algunas horas libres: 10:30, 11:30 y 16:00. ¿Cuál te viene mejor? Si me lo dices, te reservo esa hora."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, gracias. Me viene bien el lunes a las 10:30, si puede ser. ¿Me lo reservas?"
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Empaste del 2026-11-02 10:30 (precio 80.00 EUR, señal 15.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu cita de Empaste está confirmada: lunes 2 de noviembre a las 10:30 con la Dra. Lucía Vega. El precio es de 80,00 EUR y la señal de 15,00 EUR. Si necesitas algo más, dime."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T09:30:00Z\", \"local\": \"Monday 2026-11-02 10:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T09:45:00Z\", \"local\": \"Monday 2026-11-02 10:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T10:00:00Z\", \"local\": \"Monday 2026-11-02 11:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T10:15:00Z\", \"local\": \"Monday 2026-11-02 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"filling\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}], \"total_found\": 220}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"a00b5084-e9ad-43c5-94b3-daf39f3923d3\", \"status\": \"HOLD\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 10:30\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"a00b5084-e9ad-43c5-94b3-daf39f3923d3\", \"status\": \"CONFIRMED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 10:30\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4395,
+      "output_tokens": 397,
+      "estimated_cost_usd": 0.00038551000000000004,
+      "seconds": 4.38
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5266,
+      "output_tokens": 733,
+      "estimated_cost_usd": 0.0007277100000000001,
+      "seconds": 6.53
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5447,
+      "output_tokens": 354,
+      "estimated_cost_usd": 0.00057441,
+      "seconds": 4.23
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5586,
+      "output_tokens": 360,
+      "estimated_cost_usd": 0.00060521,
+      "seconds": 3.96
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5884,
+      "output_tokens": 460,
+      "estimated_cost_usd": 0.00071481,
+      "seconds": 4.83
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "a00b5084-e9ad-43c5-94b3-daf39f3923d3",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-02T09:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 4,
+    "input_tokens": 33102,
+    "output_tokens": 3278,
+    "estimated_cost_usd": 0.004378,
+    "agent_call_seconds": [
+      4.38,
+      6.53,
+      4.23,
+      3.96,
+      4.83
+    ]
+  }
+}

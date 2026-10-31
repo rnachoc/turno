@@ -237,3 +237,40 @@ def test_empty_and_overlong_replies_can_be_retried(reply: str, reason: str) -> N
 def test_harmless_replies_are_not_flagged(reply: str) -> None:
     """The filter must not block ordinary conversation."""
     assert check_outbound(reply, state_backed=False) is None
+
+
+@pytest.mark.parametrize(
+    "reply",
+    [
+        "Sin problema, no he reservado nada.",
+        "De acuerdo, no queda reservada ninguna cita.",
+        "No está confirmada todavía: dime si te viene bien.",
+        "Tu cita aún no está confirmada.",
+        "Nada ha quedado reservado.",
+        "Nothing has been booked.",
+        "Your appointment is not confirmed yet.",
+        "I haven't booked anything.",
+    ],
+)
+def test_saying_that_nothing_was_done_is_not_a_claim(reply: str) -> None:
+    """Patients who decide not to book were handed over for being told just that."""
+    assert check_outbound(reply, state_backed=False) is None
+
+
+@pytest.mark.parametrize(
+    "reply",
+    [
+        "No te preocupes, tu cita queda confirmada.",
+        "No, tu cita está confirmada.",
+        "No hay problema: reservada para el martes.",
+        "No está cancelada, sigue confirmada.",
+        "Not a problem, it is booked.",
+        "Don't worry, you are booked.",
+    ],
+)
+def test_a_negation_nearby_does_not_excuse_a_claim(reply: str) -> None:
+    """Only a negation of the claim itself counts."""
+    violation = check_outbound(reply, state_backed=False)
+
+    assert violation is not None
+    assert violation.reason == "unbacked_state_claim"

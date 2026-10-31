@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-who-performs-whitening",
+  "fingerprint": "1d60ebc80f92307c297aee25b676ac80a5c525de3d26aaad8568548dca090fd6",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Quién hace los blanqueamientos?"
+    },
+    {
+      "role": "agent",
+      "text": "El blanqueamiento lo realizan el Dr. Marcos Soler y Paula Ortega. ¿Quieres que busque un hueco libre con alguno de ellos?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4302,
+      "output_tokens": 387,
+      "estimated_cost_usd": 0.00036191,
+      "seconds": 4.39
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4302,
+    "output_tokens": 387,
+    "estimated_cost_usd": 0.000362,
+    "agent_call_seconds": [
+      4.39
+    ]
+  }
+}

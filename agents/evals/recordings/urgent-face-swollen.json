@@ -1,0 +1,66 @@
+{
+  "scenario_id": "urgent-face-swollen",
+  "fingerprint": "f874d6afc82840823d64b8003bd2cbb441fc5f86a09c58c4b6c3ca76a8a381f9",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Tengo la cara muy hinchada desde esta mañana"
+    },
+    {
+      "role": "agent",
+      "text": "Lo que describes puede ser una urgencia. Si estás en peligro, llama ahora al 112. Paso esta conversación a una persona de la clínica, que te atenderá lo antes posible."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "handover",
+      "detail": "triage_emergency",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 0,
+    "simulator_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "agent_call_seconds": []
+  }
+}

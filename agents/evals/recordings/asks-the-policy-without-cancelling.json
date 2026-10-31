@@ -1,0 +1,101 @@
+{
+  "scenario_id": "asks-the-policy-without-cancelling",
+  "fingerprint": "9545391318a154504dcd76cdedaa54f1fe68cdb4a9ecd29b45c67e09b5a95428",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita con ustedes en unos días y quería preguntar una cosa, por si acaso. ¿Hasta qué fecha puedo cancelar sin que me cobren nada? No pienso cancelar ahora, es solo por curiosidad y para tenerlo claro."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Puedes cancelar sin coste hasta 24 horas antes de tu cita. Si cancelas después de ese plazo, podrían aplicarte cargos. Si quieres, puedo mirar tu cita y decirte la hora exacta límite."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, gracias. ¿Y el plazo de 24 horas se cuenta exactamente desde la hora de la cita? Es decir, si mi cita es un martes a las 10:00, ¿tendría que cancelar antes del lunes a las 10:00? ¿Hay alguna excepción, por ejemplo en fin de semana o festivos?"
+    },
+    {
+      "role": "agent",
+      "text": "Según lo que tengo, el plazo es de 24 horas antes del inicio de la cita. En tu ejemplo, para una cita el martes a las 10:00, lo normal sería cancelar antes del lunes a las 10:00. No tengo información sobre excepciones de fin de semana o festivos, así que no quiero darte una respuesta inventada. Si quieres estar seguro, puedo mirar tu cita para darte la hora límite exacta, o puedes preguntarlo directamente en la clínica."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4388,
+      "output_tokens": 349,
+      "estimated_cost_usd": 0.0003601100000000001,
+      "seconds": 4.38
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4626,
+      "output_tokens": 971,
+      "estimated_cost_usd": 0.00071871,
+      "seconds": 12.84
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "aef2869b-d272-429f-ae12-5e4720f69936",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "aef2869b-d272-429f-ae12-5e4720f69936",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 3,
+    "input_tokens": 13843,
+    "output_tokens": 2479,
+    "estimated_cost_usd": 0.002342,
+    "agent_call_seconds": [
+      4.38,
+      12.84
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-who-performs-whitening",
+  "fingerprint": "b5d04ca5fabe6431d8c13310bf838d72137bf53703963c89e0caf0df3dab17ed",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Quién hace los blanqueamientos?"
+    },
+    {
+      "role": "agent",
+      "text": "Los blanqueamientos los hacen el Dr. Marcos Soler y Paula Ortega. Dura 60 minutos y cuesta 250 €, con un depósito de 50 €. ¿Quieres que busque hueco con alguno de los dos?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4281,
+      "output_tokens": 165,
+      "estimated_cost_usd": 0.0045701000000000006,
+      "seconds": 4.06
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4281,
+    "output_tokens": 165,
+    "estimated_cost_usd": 0.00457,
+    "agent_call_seconds": [
+      4.06
+    ]
+  }
+}

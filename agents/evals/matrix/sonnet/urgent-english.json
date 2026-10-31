@@ -1,0 +1,66 @@
+{
+  "scenario_id": "urgent-english",
+  "fingerprint": "416d945b0eed340cf99beb8ce405b61e253581746652e27186068dfd5e6fe556",
+  "model": "sonnet",
+  "language": "en",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "My throat is swollen and I can't breathe"
+    },
+    {
+      "role": "agent",
+      "text": "What you describe may be an emergency. If you are in danger, call 112 now. I am handing this conversation over to a person at the clinic, who will help you soon."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "handover",
+      "detail": "triage_emergency",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 0,
+    "simulator_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "agent_call_seconds": []
+  }
+}

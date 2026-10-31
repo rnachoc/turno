@@ -1,0 +1,84 @@
+{
+  "scenario_id": "ambiguous-yes-with-nothing-pending",
+  "fingerprint": "6b28bec23d393d0a7130f13af420f1222b0389c665cc8d37f83af9ba64589afd",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Sí, confirmo"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Aún no tengo ninguna cita pendiente de confirmar en esta conversación. ¿Qué te gustaría hacer: reservar una cita, moverla o cancelarla? Si quieres reservar, dime qué tratamiento necesitas y qué días te vienen bien."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4273,
+      "output_tokens": 339,
+      "estimated_cost_usd": 0.0062781,
+      "seconds": 5.45
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "076567e8-bccb-4486-8b5a-bdc7557918b9",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T17:15:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "076567e8-bccb-4486-8b5a-bdc7557918b9",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T17:15:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4273,
+    "output_tokens": 339,
+    "estimated_cost_usd": 0.006278,
+    "agent_call_seconds": [
+      5.45
+    ]
+  }
+}

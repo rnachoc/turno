@@ -1,0 +1,173 @@
+{
+  "scenario_id": "book-root-canal",
+  "fingerprint": "d7b8343e2a3de5ab531906ad00a068e2505676729e9d2af1c33c1a19d47e923b",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Un dentista me comentó que necesito un tratamiento de conducto. ¿Tendrían hueco para una cita la semana que viene? Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Sí, tenemos huecos para una endodoncia la próxima semana. Con la Dra. Lucía Vega, el lunes 2 de noviembre tienes estas opciones:\n\n- 11:15\n- 16:00\n- 17:00\n\n¿Cuál te viene mejor? Dime cuál prefieres y te la reservo. La endodoncia dura 90 minutos, cuesta 280 € y se confirma con un depósito de 50 €."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, me va bien el lunes 2 de noviembre a las 11:15. ¿Me lo puedes reservar? Y para el depósito de 50 €, ¿qué método de pago aceptáis?"
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Endodoncia del 2026-11-02 11:15 (precio 280.00 EUR, señal 50.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu endodoncia está confirmada: lunes 2 de noviembre a las 11:15, con la Dra. Lucía Vega. El tratamiento dura 90 minutos, cuesta 280 € y la señal es de 50 €. Puedes cancelar sin coste hasta 24 horas antes.\n\nEn cuanto a los métodos de pago, no tengo esa información. Si quieres, te paso con una persona del equipo para que te lo confirme."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T10:15:00Z\", \"local\": \"Monday 2026-11-02 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:00:00Z\", \"local\": \"Monday 2026-11-02 17:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:15:00Z\", \"local\": \"Monday 2026-11-02 17:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T17:00:00Z\", \"local\": \"Monday 2026-11-02 18:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T17:15:00Z\", \"local\": \"Monday 2026-11-02 18:15\"}], \"total_found\": 82}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"93c52c8c-314f-459a-b945-fc620113a4c7\", \"status\": \"HOLD\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 11:15\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"93c52c8c-314f-459a-b945-fc620113a4c7\", \"status\": \"CONFIRMED\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 11:15\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4345,
+      "output_tokens": 356,
+      "estimated_cost_usd": 0.00035501,
+      "seconds": 5.42
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5240,
+      "output_tokens": 858,
+      "estimated_cost_usd": 0.00078501,
+      "seconds": 11.63
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5496,
+      "output_tokens": 443,
+      "estimated_cost_usd": 0.00062871,
+      "seconds": 5.03
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5634,
+      "output_tokens": 499,
+      "estimated_cost_usd": 0.00068431,
+      "seconds": 5.21
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5933,
+      "output_tokens": 734,
+      "estimated_cost_usd": 0.0008616100000000001,
+      "seconds": 9.47
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "93c52c8c-314f-459a-b945-fc620113a4c7",
+      "status": "CONFIRMED",
+      "treatment": "root-canal",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-02T10:15:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 4,
+    "input_tokens": 33247,
+    "output_tokens": 4031,
+    "estimated_cost_usd": 0.00479,
+    "agent_call_seconds": [
+      5.42,
+      11.63,
+      5.03,
+      5.21,
+      9.47
+    ]
+  }
+}

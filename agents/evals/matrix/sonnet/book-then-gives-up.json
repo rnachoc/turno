@@ -1,0 +1,200 @@
+{
+  "scenario_id": "book-then-gives-up",
+  "fingerprint": "393bd51cd4e9d8cf9030d84958c3cd25160178326b0a7a68d3751cb5a939e751",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería ver si podría pedir cita para un chequeo general con el dentista. Hace bastante que no me reviso, así que no sé si hace falta algo más o si con una revisión basta. ¿Me podéis orientar?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Con gusto te ayudo. Lo más habitual es empezar por una revisión (30 minutos, 35 €). En ella el dentista te explora y te dice si hace falta algo más. Yo no puedo valorarlo desde aquí.\n\nEstos son los primeros huecos libres:\n- Lunes 2 de noviembre a las 19:30 con la Dra. Lucía Vega\n- Martes 3 de noviembre a las 09:30 con el Dr. Marcos Soler\n- Martes 3 de noviembre a las 10:00 con el Dr. Marcos Soler\n\n¿Te viene bien alguno? Si prefieres otro día u otra hora, dímelo y lo miro."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. Mmm, no sé... el lunes a las 19:30 me viene un poco justo. ¿El martes a las 09:30 es con el Dr. Soler y la revisión incluye limpieza, o eso va aparte? Lo miro y te digo algo."
+    },
+    {
+      "role": "agent",
+      "text": "Sí, el martes 3 a las 09:30 tienes hueco con el Dr. Soler. A esa misma hora también está libre la Dra. Vega, por si prefieres con ella.\n\nLa limpieza dental va aparte. Es un tratamiento distinto: dura 45 minutos, cuesta 65 € y la hace nuestra higienista, Paula Ortega. La revisión es solo la exploración, y son 35 €. Si después del chequeo quieres añadir la limpieza, también te puedo buscar hueco.\n\nTómate tu tiempo. Cuando me digas, te reservo el hueco que elijas."
+    },
+    {
+      "role": "patient",
+      "text": "Vale, el martes 3 a las 09:30 con el Dr. Soler me viene bien. Lo de la limpieza ya lo veo después de la revisión, así que de momento solo la revisión. Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Revisión del 2026-11-03 09:30 (precio 35.00 EUR, señal 0.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "No, gracias. Creo que lo voy a dejar para otro día y ya llamaré yo para cogerlo. Muchas gracias por la información."
+    },
+    {
+      "role": "agent",
+      "text": "Sin problema, no se ha reservado nada y el hueco del martes queda libre. Cuando quieras, escríbenos o llámanos y te buscamos una cita. ¡Que tengas un buen fin de semana!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T18:30:00Z\", \"local\": \"Monday 2026-11-02 19:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:30:00Z\", \"local\": \"Tuesday 2026-11-03 09:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:30:00Z\", \"local\": \"Tuesday 2026-11-03 09:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T08:45:00Z\", \"local\": \"Tuesday 2026-11-03 09:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:00:00Z\", \"local\": \"Tuesday 2026-11-03 10:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:15:00Z\", \"local\": \"Tuesday 2026-11-03 10:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:30:00Z\", \"local\": \"Tuesday 2026-11-03 10:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T09:45:00Z\", \"local\": \"Tuesday 2026-11-03 10:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:00:00Z\", \"local\": \"Tuesday 2026-11-03 11:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:15:00Z\", \"local\": \"Tuesday 2026-11-03 11:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-03T10:30:00Z\", \"local\": \"Tuesday 2026-11-03 11:30\"}], \"total_found\": 204}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"60a48597-d6b4-43fb-b686-906d35c688a7\", \"status\": \"HOLD\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-03 09:30\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NOT_DONE_PATIENT_DID_NOT_AGREE\"}</core_result>",
+    "<core_result action=\"release_hold\">{\"appointment_id\": \"60a48597-d6b4-43fb-b686-906d35c688a7\", \"status\": \"RELEASED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-03 09:30\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4347,
+      "output_tokens": 357,
+      "estimated_cost_usd": 0.0125885,
+      "seconds": 6.01
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5252,
+      "output_tokens": 738,
+      "estimated_cost_usd": 0.0141841,
+      "seconds": 7.19
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5610,
+      "output_tokens": 682,
+      "estimated_cost_usd": 0.0150561,
+      "seconds": 7.22
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5919,
+      "output_tokens": 169,
+      "estimated_cost_usd": 0.0111621,
+      "seconds": 3.64
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 6054,
+      "output_tokens": 145,
+      "estimated_cost_usd": 0.0114621,
+      "seconds": 4.48
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "not_given",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 6306,
+      "output_tokens": 205,
+      "estimated_cost_usd": 0.0130701,
+      "seconds": 6.48
+    },
+    {
+      "kind": "action",
+      "detail": "release_hold:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 6441,
+      "output_tokens": 152,
+      "estimated_cost_usd": 0.0130801,
+      "seconds": 9.14
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "60a48597-d6b4-43fb-b686-906d35c688a7",
+      "status": "RELEASED",
+      "treatment": "check-up",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-03T08:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 7,
+    "simulator_calls": 5,
+    "input_tokens": 49550,
+    "output_tokens": 4115,
+    "estimated_cost_usd": 0.092594,
+    "agent_call_seconds": [
+      6.01,
+      7.19,
+      7.22,
+      3.64,
+      4.48,
+      6.48,
+      9.14
+    ]
+  }
+}

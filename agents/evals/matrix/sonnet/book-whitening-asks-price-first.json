@@ -1,0 +1,93 @@
+{
+  "scenario_id": "book-whitening-asks-price-first",
+  "fingerprint": "a0e24e5d26f6ae5e43097d06e65318220434ced6d0279918bc5b5a80607963bd",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería preguntar cuánto cuesta el blanqueamiento dental. ¿Y cuánto piden de seña o depósito para reservar? Estoy pensando en hacerlo la semana que viene. Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Un gusto saludarte. El blanqueamiento dental cuesta 250 € y dura aproximadamente 1 hora. Para reservar se pide un depósito de 50 €. Lo realizan el Dr. Marcos Soler o Paula Ortega. Si quieres, busco huecos para la semana que viene. ¿Tienes preferencia de día o de horario (mañana o tarde)?"
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, gracias. Antes de decidir, ¿la seña de 50 € se descuenta del precio final de los 250 €? Y si luego cancelo, ¿me la devuelven? Si me dicen que sí a las dos, busco hueco para la semana que viene."
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4346,
+      "output_tokens": 219,
+      "estimated_cost_usd": 0.0053701,
+      "seconds": 4.09
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4607,
+      "output_tokens": 543,
+      "estimated_cost_usd": 0.009654099999999999,
+      "seconds": 6.08
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 2,
+    "input_tokens": 11933,
+    "output_tokens": 1392,
+    "estimated_cost_usd": 0.015606,
+    "agent_call_seconds": [
+      4.09,
+      6.08
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-what-treatments",
+  "fingerprint": "f269c924aabe6bcc9732e4c95346def1e01c343dde48ff2081292bd9ce23c6ff",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Qué tratamientos ofrecéis?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Estos son nuestros tratamientos:\n\n• Revisión (30 min): 35 €\n• Limpieza dental (45 min): 65 € (depósito de 10 €)\n• Empaste (45 min): 80 € (depósito de 15 €)\n• Endodoncia (90 min): 280 € (depósito de 50 €)\n• Blanqueamiento (60 min): 250 € (depósito de 50 €)\n\nSi quieres reservar alguno, dime cuál y qué días te vienen bien. 😊"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4282,
+      "output_tokens": 255,
+      "estimated_cost_usd": 0.005474100000000001,
+      "seconds": 10.71
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4282,
+    "output_tokens": 255,
+    "estimated_cost_usd": 0.005474,
+    "agent_call_seconds": [
+      10.71
+    ]
+  }
+}

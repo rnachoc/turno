@@ -1,0 +1,198 @@
+{
+  "scenario_id": "cancel-with-deposit",
+  "fingerprint": "c61fc2399259e54d757d646ada3a965ba597ca4987ca164dc68f35f5ba60668a",
+  "model": "sonnet",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita para un empaste la semana que viene y quiero cancelarla. Antes de hacerlo, ¿pierdo el depósito si cancelo ahora?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Empaste del 2026-11-10 10:45 (precio 80.00 EUR, señal 15.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias por la info. Pero no me queda claro: si cancelo ahora, ¿pierdo los 15 € de la señal? Antes de confirmar quiero saberlo."
+    },
+    {
+      "role": "agent",
+      "text": "No pierdes la señal. La cancelación es gratuita hasta 24 horas antes de la cita, y la tuya es el 10 de noviembre a las 10:45, así que cancelando ahora estás dentro del plazo. Tu cita sigue como estaba y no se ha cancelado nada. ¿Quieres que la cancele o prefieres moverla a otro día?"
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, gracias. Sí, por favor, cancela la cita del empaste. ¿Me confirmáis que queda cancelada y que no se me cobra nada?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Empaste del 2026-11-10 10:45 (precio 80.00 EUR, señal 15.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "Listo, tu cita de Empaste del 10 de noviembre a las 10:45 con el Dr. Marcos Soler ha quedado cancelada. La señal de 15 € no se ha perdido (no consta como retenida), así que no se te cobra nada por la cancelación. Si quieres reservar otra fecha, dime y te busco hueco."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"00725a04-c4f7-4ffa-a08c-e312d5089b23\", \"status\": \"CONFIRMED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-10 10:45\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NOT_DONE_PATIENT_DID_NOT_AGREE\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"00725a04-c4f7-4ffa-a08c-e312d5089b23\", \"status\": \"CANCELLED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-10 10:45\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4331,
+      "output_tokens": 126,
+      "estimated_cost_usd": 0.0043801000000000005,
+      "seconds": 3.58
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4481,
+      "output_tokens": 472,
+      "estimated_cost_usd": 0.008440099999999999,
+      "seconds": 7.54
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "not_given",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4743,
+      "output_tokens": 484,
+      "estimated_cost_usd": 0.0096081,
+      "seconds": 5.65
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 4954,
+      "output_tokens": 143,
+      "estimated_cost_usd": 0.007042100000000001,
+      "seconds": 3.46
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-sonnet-5-5",
+      "input_tokens": 5249,
+      "output_tokens": 196,
+      "estimated_cost_usd": 0.0145865,
+      "seconds": 4.37
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "00725a04-c4f7-4ffa-a08c-e312d5089b23",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-10T09:45:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "00725a04-c4f7-4ffa-a08c-e312d5089b23",
+      "status": "CANCELLED",
+      "treatment": "filling",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-10T09:45:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 5,
+    "input_tokens": 34166,
+    "output_tokens": 2803,
+    "estimated_cost_usd": 0.04572,
+    "agent_call_seconds": [
+      3.58,
+      7.54,
+      5.65,
+      3.46,
+      4.37
+    ]
+  }
+}

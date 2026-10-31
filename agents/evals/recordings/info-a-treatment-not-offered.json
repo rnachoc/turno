@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-a-treatment-not-offered",
+  "fingerprint": "62fc0ecafa021a3912053a1373ca20a016f4222bc235867354a6a74447d44375",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Cuánto cuesta una ortodoncia invisible?"
+    },
+    {
+      "role": "agent",
+      "text": "No tengo información sobre el precio de la ortodoncia invisible, así que no quiero darte una cifra equivocada. Si quieres, puedo pasar tu consulta a una persona del equipo de Mirador Dental para que te informe. También puedo ayudarte a reservar una revisión o cualquier otro tratamiento que tengamos."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4308,
+      "output_tokens": 411,
+      "estimated_cost_usd": 0.0006593500000000001,
+      "seconds": 4.9
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4308,
+    "output_tokens": 411,
+    "estimated_cost_usd": 0.000659,
+    "agent_call_seconds": [
+      4.9
+    ]
+  }
+}

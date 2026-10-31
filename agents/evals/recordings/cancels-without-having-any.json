@@ -1,0 +1,147 @@
+{
+  "scenario_id": "cancels-without-having-any",
+  "fingerprint": "676f02712f86b7a06f1fe3ae9cf953908ab5b7b901c7fffcfc822f43701d7f82",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita la semana que viene y necesito cancelarla, por favor. ¿Me podrían ayudar?"
+    },
+    {
+      "role": "agent",
+      "text": "Hola, buenas. Ahora mismo no encuentro ninguna cita reservada a tu nombre en el sistema. ¿Podrías decirme el nombre con el que hiciste la reserva o el día y la hora que tenías previstos? Así puedo revisarlo de nuevo."
+    },
+    {
+      "role": "patient",
+      "text": "Perdón, el nombre es Ignacio Ruiz. Creo que la cita era para el martes de la semana que viene, pero no estoy seguro de la hora. ¿Puedes buscarla con ese nombre, por favor?"
+    },
+    {
+      "role": "agent",
+      "text": "Lo siento, Ignacio. En el sistema no aparece ninguna cita para esta conversación, así que no puedo cancelar nada todavía. Puede que la reserva esté a nombre de otra persona o con otro teléfono o correo.\n\nSi quieres, puedo pasarte con una persona del equipo para que lo revise. También puedes buscar el correo o el SMS de confirmación de la cita y decirme el día y la hora que aparecen allí."
+    },
+    {
+      "role": "patient",
+      "text": "Vale, gracias. Creo que la reserva la hice con este mismo número, pero no estoy seguro. Voy a buscar el correo de confirmación. Mientras tanto, ¿puede revisarlo alguien del equipo, por favor?"
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": []}</core_result>",
+    "<core_result action=\"list_appointments\">{\"appointments\": []}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4335,
+      "output_tokens": 176,
+      "estimated_cost_usd": 0.00026301000000000004,
+      "seconds": 3.41
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4361,
+      "output_tokens": 391,
+      "estimated_cost_usd": 0.00037571,
+      "seconds": 4.11
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4565,
+      "output_tokens": 412,
+      "estimated_cost_usd": 0.00042701,
+      "seconds": 4.99
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4591,
+      "output_tokens": 807,
+      "estimated_cost_usd": 0.00062971,
+      "seconds": 6.11
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4855,
+      "output_tokens": 340,
+      "estimated_cost_usd": 0.0007332500000000001,
+      "seconds": 3.8
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 3,
+    "input_tokens": 27347,
+    "output_tokens": 3081,
+    "estimated_cost_usd": 0.003557,
+    "agent_call_seconds": [
+      3.41,
+      4.11,
+      4.99,
+      6.11,
+      3.8
+    ]
+  }
+}

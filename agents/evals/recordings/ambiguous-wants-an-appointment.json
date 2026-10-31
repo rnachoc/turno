@@ -1,0 +1,190 @@
+{
+  "scenario_id": "ambiguous-wants-an-appointment",
+  "fingerprint": "61709fe6a1639e998500abd6be2a99a14bfa7a7633ea9164d68d337907b8d4cd",
+  "model": "haiku",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, quiero una cita."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Con gusto te ayudo a pedir cita. ¿Para qué tratamiento la quieres? Tenemos revisión, limpieza dental, empaste, endodoncia y blanqueamiento. ¿Y qué día te viene mejor?"
+    },
+    {
+      "role": "patient",
+      "text": "Quiero una limpieza dental, por favor. ¿Tendrían algo la próxima semana?"
+    },
+    {
+      "role": "agent",
+      "text": "Sí, tenemos huecos para una limpieza dental el lunes 2 de noviembre con Paula Ortega. Por ejemplo, a las 9:00, a las 10:00 o a las 11:30. ¿Cuál te viene mejor?"
+    },
+    {
+      "role": "patient",
+      "text": "Lunes 2 a las 10:00 me viene bien."
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Limpieza dental del 2026-11-02 10:00 (precio 65.00 EUR, señal 10.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu cita de limpieza dental está confirmada para el lunes 2 de noviembre a las 10:00 con Paula Ortega. El precio es de 65,00 EUR y la señal de 10,00 EUR. Puedes cancelarla sin coste hasta 24 horas antes. ¿Necesitas algo más?"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:00:00Z\", \"local\": \"Monday 2026-11-02 09:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:15:00Z\", \"local\": \"Monday 2026-11-02 09:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:30:00Z\", \"local\": \"Monday 2026-11-02 09:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:45:00Z\", \"local\": \"Monday 2026-11-02 09:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T09:00:00Z\", \"local\": \"Monday 2026-11-02 10:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:45:00Z\", \"local\": \"Monday 2026-11-02 12:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T12:00:00Z\", \"local\": \"Monday 2026-11-02 13:00\"}], \"total_found\": 81}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"33ada032-869e-404f-83a2-5593f41df693\", \"status\": \"HOLD\", \"treatment\": \"Limpieza dental\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-02 10:00\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"33ada032-869e-404f-83a2-5593f41df693\", \"status\": \"CONFIRMED\", \"treatment\": \"Limpieza dental\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-02 10:00\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4297,
+      "output_tokens": 321,
+      "estimated_cost_usd": 0.00032791000000000005,
+      "seconds": 3.72
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 4449,
+      "output_tokens": 331,
+      "estimated_cost_usd": 0.00036331000000000004,
+      "seconds": 4.94
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5368,
+      "output_tokens": 541,
+      "estimated_cost_usd": 0.00065211,
+      "seconds": 5.9
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5501,
+      "output_tokens": 340,
+      "estimated_cost_usd": 0.00057821,
+      "seconds": 3.65
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5639,
+      "output_tokens": 388,
+      "estimated_cost_usd": 0.00062981,
+      "seconds": 4.42
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-haiku-5-5",
+      "input_tokens": 5939,
+      "output_tokens": 408,
+      "estimated_cost_usd": 0.00069981,
+      "seconds": 4.31
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "33ada032-869e-404f-83a2-5593f41df693",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-02T09:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 6,
+    "simulator_calls": 5,
+    "input_tokens": 40999,
+    "output_tokens": 3591,
+    "estimated_cost_usd": 0.00499,
+    "agent_call_seconds": [
+      3.72,
+      4.94,
+      5.9,
+      3.65,
+      4.42,
+      4.31
+    ]
+  }
+}
