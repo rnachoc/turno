@@ -1,5 +1,5 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up down agents test test-core test-agents test-contract test-live eval eval-gate lint
+.PHONY: up down agents test test-core test-agents test-contract test-e2e test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
@@ -20,6 +20,10 @@ test-agents:
 
 test-contract: ## Check the agents against the real core. Needs `make up`.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m integration
+
+test-e2e: ## Run the slot refill through the whole stack, with a clinic that may contact at any hour.
+	TURNO_TENANT=e2e-clinic docker compose up --detach --wait core
+	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m e2e
 
 test-live: ## Attack the real model. Spends your Claude plan and needs `make up`.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m live -v

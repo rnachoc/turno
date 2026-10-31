@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.162,<1",
     "httpx2>=2.16,<3",
     "pydantic-settings>=2.16,<3",
+    "temporalio>=1.35,<2",
     # Windows and slim images ship no time zone database.
     "tzdata>=2026.1",
     "uvicorn>=0.54,<1",
@@ -18,6 +19,7 @@ dependencies = [
 dev = [
     "mypy>=2.4,<3",
     "pytest>=9.2,<10",
+    "pytest-asyncio>=1.4,<2",
     "pyyaml>=6.0,<7",
     "ruff>=0.17,<1",
     "types-pyyaml>=6.0,<7",
@@ -32,11 +34,13 @@ packages = ["src/turno_agents"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers --strict-config -m 'not integration and not live'"
+addopts = "-ra --strict-markers --strict-config -m 'not integration and not live and not e2e'"
 filterwarnings = ["error"]
+asyncio_default_fixture_loop_scope = "function"
 markers = [
     "integration: needs the real core running; set TURNO_CORE_URL and TURNO_API_TOKEN_AGENTS",
     "live: spends the author's Claude plan; never runs in CI",
+    "e2e: needs the whole stack running with the e2e-clinic tenant",
 ]
 
 [tool.ruff]

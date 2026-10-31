@@ -118,6 +118,12 @@ jobs:
         run: uv run --locked --env-file ../.env pytest -m integration
         env:
           TURNO_CORE_URL: http://127.0.0.1:8080
+      - name: Run the slot refill through the whole stack, with no model
+        run: |
+          TURNO_TENANT=e2e-clinic docker compose up --detach --wait --wait-timeout 180 core
+          cd agents && uv run --locked --env-file ../.env pytest -m e2e
+        env:
+          TURNO_CORE_URL: http://127.0.0.1:8080
       - name: Show logs on failure
         if: failure()
         run: docker compose logs --no-color
