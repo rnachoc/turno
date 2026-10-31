@@ -10,6 +10,7 @@ import io.github.rnachoc.turno.core.booking.Appointment;
 import io.github.rnachoc.turno.core.booking.AppointmentRepository;
 import io.github.rnachoc.turno.core.booking.AppointmentStatus;
 import io.github.rnachoc.turno.core.booking.BookingService;
+import io.github.rnachoc.turno.core.notification.NotificationService;
 import io.github.rnachoc.turno.core.patient.PatientRepository;
 import io.github.rnachoc.turno.core.tenant.Tenant;
 import io.github.rnachoc.turno.core.tenant.Tenant.Practitioner;
@@ -45,6 +46,7 @@ public class WaitlistService {
     private final AppointmentRepository appointments;
     private final BookingService bookings;
     private final PatientRepository patients;
+    private final NotificationService notifications;
     private final AuditService audit;
     private final Tenant tenant;
     private final Clock clock;
@@ -54,6 +56,7 @@ public class WaitlistService {
             AppointmentRepository appointments,
             BookingService bookings,
             PatientRepository patients,
+            NotificationService notifications,
             AuditService audit,
             Tenant tenant,
             Clock clock) {
@@ -61,6 +64,7 @@ public class WaitlistService {
         this.appointments = appointments;
         this.bookings = bookings;
         this.patients = patients;
+        this.notifications = notifications;
         this.audit = audit;
         this.tenant = tenant;
         this.clock = clock;
@@ -256,6 +260,7 @@ public class WaitlistService {
             }
             UUID offerId = UUID.randomUUID();
             waitlist.insertOffer(offerId, slot.id(), entry.id(), entry.patientId(), hold.id(), now);
+            notifications.offerMade(entry.patientId(), hold.id(), now);
             audit.accepted(
                     principal.actor(),
                     "waitlist.offer",

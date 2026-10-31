@@ -85,6 +85,20 @@ public class PatientService {
         return patient;
     }
 
+    /**
+     * Finds a patient by the address of an email.
+     *
+     * @param principal the caller
+     * @param email the address, which whoever calls must have verified
+     * @return the patient
+     */
+    @Transactional
+    public Patient lookupByEmail(ApiPrincipal principal, String email) {
+        Patient patient = repository.findByEmail(email).orElseThrow(PatientService::notFound);
+        audit.accepted(principal.actor(), "patient.lookup", patient.id().toString(), patient.id(), Map.of("by", "email"));
+        return patient;
+    }
+
     private static DomainException notFound() {
         return new DomainException(ErrorCode.PATIENT_NOT_FOUND);
     }

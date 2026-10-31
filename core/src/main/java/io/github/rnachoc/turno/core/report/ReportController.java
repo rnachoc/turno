@@ -34,6 +34,14 @@ class ReportController {
         return reports.daily(principal, date);
     }
 
+    @GetMapping("/reports/attendance")
+    AttendanceReport attendance(
+            @RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal,
+            @RequestParam LocalDate from,
+            @RequestParam LocalDate to) {
+        return reports.attendance(principal, from, to);
+    }
+
     @GetMapping("/agenda")
     List<AgendaEntry> agenda(
             @RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal,

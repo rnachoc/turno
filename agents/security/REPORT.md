@@ -5,23 +5,23 @@ what stops an attack fails the build until someone reviews it. Nothing here call
 Attacks on the model itself assume the worst, with a script that does what the attacker wants,
 so they measure the code around the model and not how well the model resists.
 
-**82 of 82 attacks stopped.**
+**92 of 92 attacks stopped.**
 
 ## What stopped them
 
 | Defence | Attacks |
 | --- | ---: |
-| Request validation | 20 |
+| Request validation | 22 |
+| Rule of the core | 8 |
 | Triage by fixed rules | 8 |
 | Permission by token | 7 |
 | Route through the patient | 7 |
-| Rule of the core | 6 |
+| No such capability | 6 |
+| Authentication | 5 |
 | Console proxy | 5 |
 | Guard on the reply | 5 |
 | Patient's consent | 5 |
-| Authentication | 3 |
-| Escaping of the transcript | 3 |
-| No such capability | 3 |
+| Escaping of the transcript | 4 |
 | Database constraint | 2 |
 | Errors with fixed text | 2 |
 | Parameterised SQL | 2 |
@@ -152,6 +152,26 @@ so they measure the code around the model and not how well the model resists.
 | Write it with a combining accent | Triage by fixed rules |
 | Bury it in a long routine request | Triage by fixed rules |
 | Order the agent to ignore it first | Triage by fixed rules |
+
+## Through the channels
+
+| Attempt | Stopped by |
+| --- | --- |
+| Write in a patient's name without the provider's signature | Authentication |
+| Repeat a captured yes, so that it counts twice | Rule of the core |
+| Replay a message from long ago | Rule of the core |
+| Act on a patient's appointment with an email from a forged address | Authentication |
+| Hide instructions in the HTML of an email | Escaping of the transcript |
+| Register a patient with a profile name that breaks things | Request validation |
+| Send a photo to get past the text checks | No such capability |
+
+## Through the owner's tools
+
+| Attempt | Stopped by |
+| --- | --- |
+| Read a patient's name through the owner's reports | No such capability |
+| Use the owner's client to write | No such capability |
+| Reach other routes by writing them in a date | Request validation |
 
 ## Floods
 

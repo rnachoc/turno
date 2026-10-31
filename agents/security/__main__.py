@@ -11,6 +11,7 @@ from pathlib import Path
 
 from security.agent_attacks import agent_attacks
 from security.bank import Attack, Stack
+from security.channel_attacks import channel_attacks
 from security.core_attacks import core_attacks, flood_of_guesses, flood_of_requests
 from security.report import Result, render, run_attack
 
@@ -42,7 +43,10 @@ def run_all(stack: Stack) -> list[Result]:
         What happened with each.
     """
     _wait_for_a_new_window()
-    results = [run_attack(attack, stack) for attack in [*core_attacks(), *agent_attacks()]]
+    results = [
+        run_attack(attack, stack)
+        for attack in [*core_attacks(), *agent_attacks(), *channel_attacks()]
+    ]
     _wait_for_a_new_window()
     results.extend(run_attack(attack, stack) for attack in _limit_attacks())
     return results

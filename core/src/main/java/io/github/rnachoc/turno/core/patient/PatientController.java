@@ -44,6 +44,10 @@ class PatientController {
     /** Request to find a patient. The phone number travels in the body to keep it out of URLs and logs. */
     record LookupRequest(@NotBlank @Pattern(regexp = PHONE) String phone) {}
 
+    /** Finds a patient by the address of an email. It travels in the body to stay out of logs. */
+    record LookupEmailRequest(
+            @NotBlank @Size(max = 254) @Pattern(regexp = "^[^@\\s\\p{Cntrl}\\p{Cf}\\p{Cs}]+@[^@\\s\\p{Cntrl}\\p{Cf}\\p{Cs}]+$") String email) {}
+
     private final PatientService patients;
     private final IdempotencyService idempotency;
 
@@ -72,6 +76,13 @@ class PatientController {
             @RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal,
             @Valid @RequestBody LookupRequest body) {
         return patients.lookup(principal, body.phone());
+    }
+
+    @PostMapping("/lookup-email")
+    Patient lookupEmail(
+            @RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal,
+            @Valid @RequestBody LookupEmailRequest body) {
+        return patients.lookupByEmail(principal, body.email());
     }
 
     @GetMapping("/{patientId}")

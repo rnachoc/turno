@@ -10,6 +10,7 @@ import pytest
 
 from security.agent_attacks import agent_attacks
 from security.bank import Attack, Breach, Stack, Stopper, code_of, must_be, refused_with
+from security.channel_attacks import channel_attacks
 from security.core_attacks import core_attacks
 from security.report import Result, render, run_attack
 
@@ -123,7 +124,7 @@ def test_the_report_changes_only_if_what_stops_an_attack_changes() -> None:
 
 def test_identifiers_and_goals_are_unique() -> None:
     """Two attacks with one name could not be told apart in the report."""
-    bank = [*core_attacks(), *agent_attacks()]
+    bank = [*core_attacks(), *agent_attacks(), *channel_attacks()]
 
     assert len({attack.id for attack in bank}) == len(bank)
     assert len({attack.goal for attack in bank}) == len(bank)

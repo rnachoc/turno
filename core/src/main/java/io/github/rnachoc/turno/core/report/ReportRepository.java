@@ -183,6 +183,34 @@ class ReportRepository {
                 .single();
     }
 
+    List<AttendanceReport.Row> attendance(Instant from, Instant to) {
+        return jdbc.sql(
+                        """
+                        SELECT treatment_id, practitioner_id,
+                               count(*) FILTER (WHERE status = 'COMPLETED') AS attended,
+                               count(*) FILTER (WHERE status = 'NO_SHOW') AS no_show,
+                               count(*) FILTER (WHERE status = 'CANCELLED') AS cancelled,
+                               coalesce(sum(price_cents) FILTER (WHERE status = 'NO_SHOW'), 0) AS no_show_cents
+                        FROM appointment
+                        WHERE starts_at >= :from AND starts_at < :to
+                          AND status IN ('COMPLETED', 'NO_SHOW', 'CANCELLED')
+                        GROUP BY treatment_id, practitioner_id
+                        ORDER BY no_show DESC, no_show_cents DESC, treatment_id, practitioner_id
+                        """)
+                .param("from", timestamp(from))
+                .param("to", timestamp(to))
+                .query(
+                        (rs, row) ->
+                                new AttendanceReport.Row(
+                                        rs.getString("treatment_id"),
+                                        rs.getString("practitioner_id"),
+                                        rs.getInt("attended"),
+                                        rs.getInt("no_show"),
+                                        rs.getInt("cancelled"),
+                                        rs.getLong("no_show_cents")))
+                .list();
+    }
+
     /** Lists the appointments of a day that are or were real: holds that ran out do not count. */
     List<AgendaEntry> agenda(ClinicDay day, Instant now) {
         return jdbc.sql(

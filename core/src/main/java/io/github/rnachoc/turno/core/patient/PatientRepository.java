@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -59,6 +60,22 @@ public class PatientRepository {
                 .param("phone", phone)
                 .query(PatientRepository::map)
                 .optional();
+    }
+
+    /**
+     * Finds the one patient with an address. Nothing makes addresses unique, and if two people share
+     * one, an email cannot say which of them is writing.
+     *
+     * @param email the address
+     * @return the patient, if exactly one has it
+     */
+    Optional<Patient> findByEmail(String email) {
+        List<Patient> found =
+                jdbc.sql("SELECT * FROM patient WHERE lower(email) = lower(:email) LIMIT 2")
+                        .param("email", email)
+                        .query(PatientRepository::map)
+                        .list();
+        return found.size() == 1 ? Optional.of(found.get(0)) : Optional.empty();
     }
 
     /**

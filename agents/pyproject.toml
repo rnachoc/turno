@@ -8,6 +8,7 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.162,<1",
     "httpx2>=2.16,<3",
+    "mcp>=1,<2",
     "pydantic-settings>=2.16,<3",
     "temporalio>=1.35,<2",
     # Windows and slim images ship no time zone database.
@@ -56,9 +57,10 @@ ignore = ["ANN401"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "D104", "E501", "RUF001"]
+"tests/**" = ["S101", "S105", "S106", "D104", "E501", "RUF001"]
 # Fixed texts for patients read better on one line.
 "src/turno_agents/prompts.py" = ["E501"]
+"src/turno_agents/channels/texts.py" = ["E501"]
 # Instructions and messages read better on one line.
 "evals/**" = ["E501"]
 "demo/**" = ["E501", "T201", "S603", "S607", "S608"]

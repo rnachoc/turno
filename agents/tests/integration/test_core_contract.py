@@ -22,6 +22,7 @@ from turno_agents.agent import AgentService
 from turno_agents.conversation import Conversation, ConversationState, ConversationStore, TraceStep
 from turno_agents.core_client import CoreRefusalError, CoreUnavailableError, HttpCoreClient
 from turno_agents.llm import ScriptedLlm
+from turno_agents.mcp_server import HttpOwnerApi, OwnerApiError
 
 pytestmark = pytest.mark.integration
 
@@ -259,6 +260,36 @@ def test_a_conversation_books_for_real(core: HttpCoreClient) -> None:
     assert booked["status"] == "CONFIRMED"
     assert conversation.state is ConversationState.ACTIVE
     core.cancel(patient["id"], booked["id"], _key())
+
+
+def test_the_owner_reads_the_real_reports() -> None:
+    """The MCP server's client against the real core, with the real shapes."""
+    token = os.environ.get("TURNO_API_TOKEN_STAFF")
+    if not token:
+        pytest.fail("Set TURNO_API_TOKEN_STAFF: this test must not be skipped")
+    api = HttpOwnerApi(os.environ["TURNO_CORE_URL"], token)
+    today = date.today().isoformat()
+
+    assert api.daily_report(None)["date"] == today
+    assert "agenda" in api.daily_report(today)
+    assert api.attendance(today, today)["rows"] == []
+    with pytest.raises(OwnerApiError, match="not valid"):
+        api.attendance(today, "2000-01-01")
+
+
+def test_notices_of_offers_can_be_read_with_the_agents_token(core: HttpCoreClient) -> None:
+    """The shape the channels depend on, even with nothing to send."""
+    assert isinstance(core.pending_notifications(), list)
+    with pytest.raises(CoreRefusalError) as error:
+        core.mark_notification_sent(MISSING_APPOINTMENT, f"contract-{uuid.uuid4()}")
+    assert error.value.code == "NOTIFICATION_NOT_FOUND"
+
+
+def test_a_patient_is_found_by_their_address(core: HttpCoreClient) -> None:
+    """Through the real core, and nobody is found for an address nobody has."""
+    with pytest.raises(CoreRefusalError) as error:
+        core.find_patient_by_email(f"{uuid.uuid4()}@test.example")
+    assert error.value.code == "PATIENT_NOT_FOUND"
 
 
 def test_what_the_agents_did_reaches_the_staff(core: HttpCoreClient) -> None:

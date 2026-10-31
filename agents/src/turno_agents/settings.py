@@ -3,9 +3,10 @@
 Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
+from pathlib import Path
 from typing import Literal
 
-from pydantic import PositiveInt, SecretStr
+from pydantic import Field, PositiveInt, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -30,6 +31,8 @@ class Settings(BaseSettings):
     max_messages_per_conversation_per_minute: PositiveInt = 20
     max_conversations_per_phone_per_hour: PositiveInt = 10
     max_conversations_per_minute: PositiveInt = 30
+    channel_webhook_secret: SecretStr | None = Field(default=None, min_length=32)
+    channel_outbox: Path | None = None
 
     # Rejecting other host names stops a malicious website from reaching this local service through
     # DNS rebinding, and from spending the plan.

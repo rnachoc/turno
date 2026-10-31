@@ -21,6 +21,7 @@ public enum ErrorCode {
     FREED_SLOT_NOT_FOUND(HttpStatus.NOT_FOUND, "The freed slot does not exist."),
     OFFER_NOT_FOUND(HttpStatus.NOT_FOUND, "The offer does not exist."),
     CONVERSATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The conversation does not exist."),
+    NOTIFICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The notification does not exist or has already been sent."),
     HANDOVER_NOT_FOUND(HttpStatus.NOT_FOUND, "The handover does not exist or has already been resolved."),
     ALREADY_ON_WAITLIST(HttpStatus.CONFLICT, "The patient is already waiting for this treatment."),
     PATIENT_ALREADY_EXISTS(HttpStatus.CONFLICT, "A patient with this phone number already exists."),

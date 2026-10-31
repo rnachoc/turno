@@ -92,6 +92,18 @@ class CoreApi(Protocol):
         """Report what happened in a conversation."""
         ...
 
+    def find_patient_by_email(self, email: str) -> dict[str, Any]:
+        """Find the one patient with an address that a provider has verified."""
+        ...
+
+    def pending_notifications(self) -> list[dict[str, Any]]:
+        """List what has yet to be told to patients."""
+        ...
+
+    def mark_notification_sent(self, notification_id: str, key: str) -> dict[str, Any]:
+        """Record that a notice went out."""
+        ...
+
 
 class HttpCoreClient:
     """Talks to the real core over HTTP with the agents' token."""
@@ -332,3 +344,38 @@ class HttpCoreClient:
                 ],
             },
         )
+
+    def find_patient_by_email(self, email: str) -> dict[str, Any]:
+        """Find the one patient with an address, which travels in the body to stay out of logs.
+
+        Args:
+            email: An address that a provider has verified.
+
+        Returns:
+            The patient.
+        """
+        result: dict[str, Any] = self._request(
+            "POST", "/patients/lookup-email", json={"email": email}
+        )
+        return result
+
+    def pending_notifications(self) -> list[dict[str, Any]]:
+        """List what has yet to be told to patients.
+
+        Returns:
+            The notices, oldest first.
+        """
+        result: list[dict[str, Any]] = self._request("GET", "/notifications/pending")
+        return result
+
+    def mark_notification_sent(self, notification_id: str, key: str) -> dict[str, Any]:
+        """Record that a notice went out.
+
+        Args:
+            notification_id: The notice.
+            key: The idempotency key.
+
+        Returns:
+            The answer of the core.
+        """
+        return self._write(f"/notifications/{notification_id}/sent", key)

@@ -130,3 +130,13 @@ def test_a_cancelled_slot_goes_down_the_waitlist_until_someone_takes_it(
     time.sleep(ANSWER_SECONDS / 1.5)
     assert _hold_of(core, third) is None
     assert core.appointments(third) == []
+
+    # They would be first for the next test's slot.
+    for patient in (first, third):
+        for entry in core._request("GET", f"/patients/{patient}/waitlist"):
+            if entry["status"] == "WAITING":
+                core._request(
+                    "POST",
+                    f"/patients/{patient}/waitlist/{entry['id']}/leave",
+                    headers={"Idempotency-Key": _key()},
+                )

@@ -47,6 +47,8 @@ class FakeCore:
         self.down = False
         self.availability_fails = False
         self.reported: list[tuple[str, str, int, list[str]]] = []
+        self.notices: list[dict[str, Any]] = []
+        self.notices_sent: list[str] = []
         self.report_attempts = 0
         self.refuse_reports_for: str | None = None
         self.refuse_reports_with = CoreRefusalError("VALIDATION_FAILED", 400)
@@ -82,6 +84,44 @@ class FakeCore:
         details = [step.detail for step in steps]
         self.reported.append((patient_id, conversation_id, first_position, details))
         return {"added": len(steps)}
+
+    def find_patient_by_email(self, email: str) -> dict[str, Any]:
+        """Find a patient: only one address exists.
+
+        Args:
+            email: The address.
+
+        Returns:
+            The patient.
+        """
+        self._check()
+        if email != "laura@test.example":
+            raise CoreRefusalError("PATIENT_NOT_FOUND", 404)
+        return {"id": PATIENT, "language": "es"}
+
+    def pending_notifications(self) -> list[dict[str, Any]]:
+        """List the notices left to send.
+
+        Returns:
+            The notices.
+        """
+        self._check()
+        return [n for n in self.notices if n["id"] not in self.notices_sent]
+
+    def mark_notification_sent(self, notification_id: str, key: str) -> dict[str, Any]:
+        """Record that a notice went out.
+
+        Args:
+            notification_id: The notice.
+            key: The idempotency key.
+
+        Returns:
+            The answer.
+        """
+        self._check()
+        self.keys.append(key)
+        self.notices_sent.append(notification_id)
+        return {"status": "SENT"}
 
     def add(self, patient_id: str, status: str = "CONFIRMED", starts_at: str = SLOT) -> str:
         """Create an appointment directly.

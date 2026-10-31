@@ -64,7 +64,7 @@ class MigrationStepIT {
                 owner.sql("SELECT count(*) FROM flyway_schema_history WHERE success AND version IS NOT NULL")
                         .query(Integer.class)
                         .single();
-        assertThat(applied).isEqualTo(5);
+        assertThat(applied).isEqualTo(6);
         assertThat(owner.sql("SELECT to_regclass('public.appointment')::text").query(String.class).single())
                 .isEqualTo("appointment");
     }

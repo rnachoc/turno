@@ -1,6 +1,8 @@
 package io.github.rnachoc.turno.core.report;
 
 import io.github.rnachoc.turno.core.api.ApiPrincipal;
+import io.github.rnachoc.turno.core.api.DomainException;
+import io.github.rnachoc.turno.core.api.ErrorCode;
 import io.github.rnachoc.turno.core.audit.AuditService;
 import io.github.rnachoc.turno.core.tenant.ClinicDay;
 import io.github.rnachoc.turno.core.tenant.Tenant;
@@ -8,6 +10,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.Nullable;
@@ -22,6 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ReportService {
+
+    /** The longest period one question can cover. */
+    private static final int MAX_ATTENDANCE_DAYS = 366;
 
     private final ReportRepository reports;
     private final AuditService audit;
@@ -65,6 +71,26 @@ public class ReportService {
                 reports.waitlist(day),
                 reports.agents(day, activity.bookedByAgents()),
                 reports.attention(now));
+    }
+
+    /**
+     * Works out how appointments ended over a period.
+     *
+     * @param principal the caller
+     * @param from the first day, at the clinic
+     * @param to the last day, at the clinic
+     * @return the figures
+     */
+    @Transactional
+    public AttendanceReport attendance(ApiPrincipal principal, LocalDate from, LocalDate to) {
+        Instant now = clock.instant();
+        ClinicDay first = ClinicDay.of(tenant, from, now);
+        ClinicDay last = ClinicDay.of(tenant, to, now);
+        if (from.isAfter(to) || ChronoUnit.DAYS.between(from, to) > MAX_ATTENDANCE_DAYS) {
+            throw new DomainException(ErrorCode.DATE_RANGE_INVALID);
+        }
+        audit.accepted(principal.actor(), "report.attendance", null, null, Map.of("from", from.toString(), "to", to.toString()));
+        return new AttendanceReport(from, to, tenant.currency(), reports.attendance(first.start(), last.end()));
     }
 
     /**

@@ -157,6 +157,17 @@ class AgentService:
         self._emergency_number = clinic["emergencyNumber"]
         return clinic
 
+    def emergency_text(self, language: str) -> str:
+        """Write the emergency text, for a sender with no conversation to pass to a person.
+
+        Args:
+            language: The language.
+
+        Returns:
+            The text.
+        """
+        return self._emergency_text(language)
+
     def _emergency_text(self, language: str) -> str:
         """Write the emergency text, with the clinic's number if it can be known."""
         if self._emergency_number is None:

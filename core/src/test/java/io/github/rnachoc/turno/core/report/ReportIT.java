@@ -484,6 +484,91 @@ class ReportIT extends ApiIntegrationTest {
         }
     }
 
+    private JsonNode attendance(String from, String to) {
+        Response response =
+                send("GET", "/api/v1/staff/reports/attendance?from=" + from + "&to=" + to, STAFF, null, null);
+        assertThat(response.status()).as(response.body()).isEqualTo(200);
+        return response.json();
+    }
+
+    @Test
+    void attendanceSaysWhichTreatmentLosesTheMost() {
+        String attended = bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+        String missedCheckUp = bookOk(newPatient(), "ana", "check-up", tuesday(11, 0));
+        String missedFilling = bookOk(newPatient(), "ana", "filling", tuesday(12, 0));
+        String missedAgain = bookOk(newPatient(), "ana", "filling", tuesday(16, 0));
+        UUID cancels = newPatient();
+        cancel(cancels, bookOk(cancels, "ana", "check-up", tuesday(17, 0)));
+        // Still open, so it has not ended in any way.
+        bookOk(newPatient(), "ana", "check-up", tuesday(18, 0));
+        clock.set(tuesday(19, 0));
+        staffOutcome(attended, "complete");
+        staffOutcome(missedCheckUp, "no-show");
+        staffOutcome(missedFilling, "no-show");
+        staffOutcome(missedAgain, "no-show");
+
+        JsonNode report = attendance("2027-03-01", "2027-03-31");
+
+        assertThat(report.path("currency").asString()).isEqualTo("EUR");
+        JsonNode rows = report.path("rows");
+        assertThat(rows).hasSize(2);
+        JsonNode filling = rows.get(0);
+        assertThat(filling.path("treatmentId").asString()).isEqualTo("filling");
+        assertThat(filling.path("practitionerId").asString()).isEqualTo("ana");
+        assertThat(filling.path("noShow").asInt()).isEqualTo(2);
+        assertThat(filling.path("noShowCents").asInt()).isEqualTo(16000);
+        JsonNode checkUp = rows.get(1);
+        assertThat(checkUp.path("attended").asInt()).isEqualTo(1);
+        assertThat(checkUp.path("noShow").asInt()).isEqualTo(1);
+        assertThat(checkUp.path("cancelled").asInt()).isEqualTo(1);
+    }
+
+    @Test
+    void attendanceLeavesOutWhatHasNotEnded() {
+        bookOk(newPatient(), "ana", "filling", tuesday(10, 0));
+        holdOk(newPatient(), "ana", "check-up", tuesday(12, 0));
+
+        assertThat(attendance("2027-03-01", "2027-03-31").path("rows")).isEmpty();
+    }
+
+    @Test
+    void attendanceHoldsNothingAboutPatients() {
+        String appointment = bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+        clock.set(tuesday(11, 0));
+        staffOutcome(appointment, "no-show");
+
+        String body = send("GET", "/api/v1/staff/reports/attendance?from=2027-03-01&to=2027-03-31", STAFF, null, null).body();
+
+        assertThat(body).doesNotContain("Test Patient").doesNotContain("+34").doesNotContain("patient");
+    }
+
+    @Test
+    void attendanceCoversBothEndsOfThePeriodAtTheClinic() {
+        String appointment = bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+        clock.set(tuesday(11, 0));
+        staffOutcome(appointment, "complete");
+
+        assertThat(attendance(TUESDAY, TUESDAY).path("rows")).hasSize(1);
+        assertThat(attendance("2027-03-01", "2027-03-01").path("rows")).isEmpty();
+        assertThat(attendance("2027-03-03", "2027-03-04").path("rows")).isEmpty();
+    }
+
+    @Test
+    void attendanceRefusesAPeriodThatMakesNoSense() {
+        for (String range :
+                List.of(
+                        "from=2027-03-02&to=2027-03-01",
+                        "from=2026-01-01&to=2027-03-01",
+                        "from=%2B999999999-01-01&to=%2B999999999-01-02")) {
+            Response response = send("GET", "/api/v1/staff/reports/attendance?" + range, STAFF, null, null);
+
+            assertThat(response.status()).as(range).isEqualTo(400);
+            assertThat(response.code()).as(range).isEqualTo("DATE_RANGE_INVALID");
+        }
+        assertThat(send("GET", "/api/v1/staff/reports/attendance?from=2027-03-01", STAFF, null, null).status())
+                .isEqualTo(400);
+    }
+
     @Test
     void readingLeavesATrail() {
         report(TUESDAY);

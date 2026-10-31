@@ -17,6 +17,9 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from turno_agents.activity import ActivityReporter
 from turno_agents.agent import AgentService
+from turno_agents.channels.gateway import Gateway, SimulatedGateway
+from turno_agents.channels.service import ChannelService, NoticeSender
+from turno_agents.channels.webhooks import add_webhooks
 from turno_agents.conversation import Conversation, ConversationStore, trace_view
 from turno_agents.core_client import (
     CoreApi,
@@ -78,6 +81,7 @@ def create_app(
     llm: LlmClient | None = None,
     core: CoreApi | None = None,
     store: ConversationStore | None = None,
+    gateway: Gateway | None = None,
 ) -> FastAPI:
     """Build the FastAPI application.
 
@@ -89,6 +93,7 @@ def create_app(
         llm: Access to the model, built from the settings if not given.
         core: Access to the core, built from the settings if not given.
         store: Where conversations are kept, a new one if not given.
+        gateway: How messages go out on the channels, a simulated one if not given.
 
     Returns:
         The configured application.
@@ -106,6 +111,16 @@ def create_app(
     phones = WindowLimiter(config.max_conversations_per_phone_per_hour, 3600)
     starts = WindowLimiter(config.max_conversations_per_minute, 60)
 
+    channels = None
+    if agent is not None and core is not None and config.channel_webhook_secret is not None:
+        channels = ChannelService(
+            agent,
+            core,
+            conversations,
+            gateway or SimulatedGateway(config.channel_outbox),
+            WindowLimiter(config.max_messages_per_conversation_per_minute, 60),
+        )
+
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         reporter = ActivityReporter(conversations, core) if core is not None else None
@@ -113,7 +128,12 @@ def create_app(
             reporter.start()
         if agent is not None:
             threading.Thread(target=agent.warm_up, name="warm-up", daemon=True).start()
+        sender = NoticeSender(channels) if channels is not None else None
+        if sender is not None:
+            sender.start()
         yield
+        if sender is not None:
+            sender.stop()
         if reporter is not None:
             reporter.stop()
 
@@ -131,6 +151,9 @@ def create_app(
         response = refusal if refusal is not None else await call_next(request)
         response.headers.update(_SECURITY_HEADERS)
         return response
+
+    if channels is not None and config.channel_webhook_secret is not None:
+        add_webhooks(app, channels, config.channel_webhook_secret.get_secret_value())
 
     def conversation_of(conversation_id: str) -> Conversation:
         conversation = conversations.get(conversation_id)
