@@ -3,6 +3,7 @@
 Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
+import threading
 from collections.abc import AsyncIterator, Awaitable, Callable
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -105,6 +106,8 @@ def create_app(
         reporter = ActivityReporter(conversations, core) if core is not None else None
         if reporter is not None:
             reporter.start()
+        if agent is not None:
+            threading.Thread(target=agent.warm_up, name="warm-up", daemon=True).start()
         yield
         if reporter is not None:
             reporter.stop()

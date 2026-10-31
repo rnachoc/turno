@@ -34,11 +34,47 @@ from turno_agents.guards import Triage, check_outbound, is_affirmative, triage
         "quiero quitarme la vida",
         "I want to kill myself",
         "Sí, y además no puedo respirar, ¿tenéis cita?",
+        "sigo sin poder respirar, me muero",
+        "mi hijo no puede respirar",
+        "no respiro bien",
+        "me falta el aire",
+        "se está ahogando",
+        "me duele mucho el pecho",
+        "tengo un dolor fuerte en el pecho",
+        "creo que es un infarto",
+        "está teniendo convulsiones",
+        "me muero de dolor",
+        "me estoy muriendo",
+        "es una emergencia",
+        "he is not breathing",
+        "I'm struggling to breathe",
+        "my chest hurts",
+        "pain in my chest",
+        "I think it's a heart attack",
+        "she is having a seizure",
+        "I'm dying",
+        "this is an emergency",
     ],
 )
 def test_emergencies_are_detected_in_both_languages(message: str) -> None:
     """Emergencies never reach the model."""
     assert triage(message) is Triage.EMERGENCY
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "me muero de ganas de que me arregléis la sonrisa",
+        "me muero de vergüenza por llegar tarde",
+        "quiero una cita para una revisión",
+        "¿puedo respirar tranquilo si cancelo a tiempo?",
+        "I would like a check-up on Tuesday",
+        "no, no quiero cambiarla",
+    ],
+)
+def test_everyday_phrases_are_not_emergencies(message: str) -> None:
+    """A rule that fires on anything would teach the clinic to ignore it."""
+    assert triage(message) is Triage.ROUTINE
 
 
 @pytest.mark.parametrize(

@@ -82,6 +82,13 @@ class AgentService:
         self._schema = proposal_schema()
         self._emergency_number: str | None = None
 
+    def warm_up(self) -> None:
+        """Learn the emergency number in advance, so that no emergency waits for the core."""
+        try:
+            self._read_clinic()
+        except (CoreRefusalError, CoreUnavailableError):
+            LOG.warning("The clinic could not be read at startup")
+
     def handle(self, conversation: Conversation, message: str) -> str:
         """Answer a patient's message.
 

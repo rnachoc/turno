@@ -376,6 +376,26 @@ def test_an_emergency_gets_the_last_known_number_with_the_core_down() -> None:
     assert "112" in agent.handle(conversation, "no puedo respirar")
 
 
+def test_warming_up_means_the_first_emergency_does_not_need_the_core() -> None:
+    """A first message after starting gets the number, with no call to wait for."""
+    agent, conversation, core, _ = setup([])
+
+    agent.warm_up()
+    core.down = True
+
+    assert "112" in agent.handle(conversation, "no puedo respirar")
+
+
+def test_warming_up_with_the_core_down_breaks_nothing(caplog: pytest.LogCaptureFixture) -> None:
+    """Starting before the core is normal, so it is only worth a warning."""
+    agent, _, core, _ = setup([])
+    core.down = True
+
+    agent.warm_up()
+
+    assert "could not be read" in caplog.text
+
+
 def test_an_emergency_still_gets_an_answer_if_the_number_was_never_known() -> None:
     """With the core down from the start, the text points to the emergency services in general."""
     agent, conversation, core, _ = setup([])

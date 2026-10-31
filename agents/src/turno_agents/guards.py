@@ -24,9 +24,16 @@ class Triage(Enum):
 
 # Matched against lower-case text without accents.
 _EMERGENCY = re.compile(
-    r"no puedo respirar|me cuesta respirar|dificultad(es)? para respirar|me ahogo|"
-    r"can'?t breathe|cannot breathe|trouble breathing|hard to breathe|short(ness)? of breath|"
-    r"dolor (en el|de) pecho|chest pain|"
+    r"(no|sin) (puedo |puede |poder |consigo |logro )?respir\w*|(me|le) cuesta respirar|"
+    r"dificultad(es)? para respirar|me (estoy )?ahog\w*|se (esta )?ahog\w*|"
+    r"(me|le) falta (el )?aire|falta de aire|"
+    r"(can'?t|cannot|can not|couldn'?t|not|struggling to|difficulty|trouble) breath\w*|"
+    r"hard to breathe|short(ness)? of breath|choking|"
+    r"dolor .{0,15}pecho|(me|le) duele .{0,15}pecho|"
+    r"chest (pain|hurts)|pain in (my|the|his|her) chest|"
+    r"infarto|heart attack|convulsi\w*|seizure|"
+    r"me muero(?! de (ganas|risa|hambre|sed|sueno|verguenza|calor|frio|pena|aburrimiento|envidia))|"
+    r"me estoy muriendo|i'?m dying|i am dying|es una emergencia|(this is|it'?s) an emergency|"
     r"(hincha\w*|inflama\w*) .{0,25}(cara|cuello|garganta|ojo)|"
     r"(cara|cuello|garganta|ojo) .{0,25}(hincha\w*|inflama\w*)|"
     r"(swollen|swelling|swells?) .{0,25}(face|neck|throat|eye)|"
