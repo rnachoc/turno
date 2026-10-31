@@ -27,4 +27,4 @@ The `migrate` step first exited successfully without having migrated anything. I
 - A compromised service can still read and alter patients and appointments, and it can add false entries to the audit trail. What it cannot do is remove or change the entries already there.
 - The owner's password still exists in the `.env` file of a Compose deployment, and in the `migrate` container while it runs. A real deployment would keep it in a secrets manager.
 - The role's password must not contain a single quote, because it is written into a SQL statement.
-- There is still no rate limiting. It is planned for Phase 5, with the attack tests.
+- There was still no rate limiting at this point. See [ADR 15](0015-limits-and-an-attack-bank.md).

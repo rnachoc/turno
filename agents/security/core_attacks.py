@@ -825,4 +825,6 @@ def flood_of_requests(stack: Stack) -> Stopper:
         statuses = list(pool.map(ask, range(400)))
     if 429 not in statuses:
         raise Breach("400 requests in a row were all answered")
+    # Only that token has to wait: anyone else is still heard.
+    must_be(stack.agents.get("/api/v1/clinic"), 200)
     return Stopper.LIMIT

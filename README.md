@@ -43,9 +43,11 @@ This is the target design. Today, `core`, PostgreSQL, a text agent over web chat
 | A crash repeats an offer or loses a slot | Freed slots are written with the cancellation, and Temporal resumes from its history | [ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md) |
 | A patient's words end up in the clinic's records | The core only accepts codes in what the agents report, which a pattern enforces | [ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md) |
 | A script in the console steals the staff's token | The token stays in memory, and the policy lets the page run only its own files | [ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md) |
+| A runaway or manipulated caller floods the service | Limits per token, per conversation and per phone, which never stand before an emergency | [ADR 15](docs/adr/0015-limits-and-an-attack-bank.md) |
+| A new route ends up open by accident | Tests fail until a table says who may use it | [ADR 15](docs/adr/0015-limits-and-an-attack-bank.md) |
 | Someone describes an emergency | Fixed rules answer first with the emergency number, without the model | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 
-Known limits are listed in those records, such as the lack of rate limiting.
+Every attack in the [security report](agents/security/REPORT.md) runs against the real stack on each build, and the report says what stopped it. Known limits are listed in those records.
 
 ## Quick start
 
@@ -116,6 +118,7 @@ post "/patients/$PATIENT/appointments/$HOLD/confirm" | jq '{status, startsAt, pr
 | `agents/`, against the real model | The stack running and a Claude login; spends your plan and never runs in CI | `make test-live` |
 | Slot refill, end to end | The stack running with `TURNO_TENANT=e2e-clinic`, whose contact hours never make it wait | `make test-e2e` |
 | `console/` | Node 24 | `npm test` |
+| Attack bank and security report | The stack running; takes a couple of minutes and spends nothing | `make test-attacks` |
 | Evaluations: record | The stack running and a Claude login; spends your plan | `make eval ARGS="--limit 10"` |
 | Evaluations: gate | Nothing else: no model and no core | `make eval-gate` |
 
@@ -139,7 +142,7 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 - [x] **Phase 2: Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
 - [ ] **Phase 3: Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 8](docs/adr/0008-no-api-budget.md)).
 - [x] **Phase 4: Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)) the daily owner report, the console with its queue of decisions and the traces are done ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)). Metrics go to an optional Grafana ([ADR 14](docs/adr/0014-metrics-from-the-core.md)).
-- [ ] **Phase 5: Security.** Attack tests, calibrated LLM judge, model matrix.
+- [ ] **Phase 5: Security.** Rate limits and an attack bank with a published report are done ([ADR 15](docs/adr/0015-limits-and-an-attack-bank.md)). Still to come: calibrated LLM judge, model matrix.
 - [ ] **Phase 6: Voice.** Streaming pipeline with barge-in and measured latency.
 - [ ] **Phase 7: Channels and MCP.** WhatsApp, email, MCP server for the owner.
 - [ ] **Phase 8: Release.** Public replay of recorded conversations, video, case study with real numbers.

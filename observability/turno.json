@@ -583,6 +583,53 @@
         },
         "overrides": []
       }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "Pressure on the limits",
+      "description": "Requests held back by a limit, and requests with no valid token. Zero is normal.",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "A",
+          "expr": "sum by (actor) (increase(turno_rate_limited_total[$__rate_interval]))",
+          "legendFormat": "held back: {{actor}}",
+          "range": true,
+          "instant": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "refId": "B",
+          "expr": "sum(increase(turno_authentication_failures_total[$__rate_interval]))",
+          "legendFormat": "no valid token",
+          "range": true,
+          "instant": false
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "noValue": "0"
+        },
+        "overrides": []
+      }
     }
   ]
 }

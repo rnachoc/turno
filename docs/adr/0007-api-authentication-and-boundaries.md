@@ -22,4 +22,4 @@
 
 - A manipulated agent can still act on any patient whose identifier or phone number it holds. Binding each conversation to a verified patient belongs to the agents service and is planned for Phase 2.
 - Static tokens have no expiry or rotation. That is acceptable for two internal callers on a private network, and would not be for a public API.
-- There is no rate limiting yet. It is planned for Phase 5, with the attack tests.
+- There was no rate limiting at this point. See [ADR 15](0015-limits-and-an-attack-bank.md).

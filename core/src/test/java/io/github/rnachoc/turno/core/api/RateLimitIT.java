@@ -107,6 +107,7 @@ class RateLimitIT extends ApiIntegrationTest {
         }
 
         assertThat(auditedRefusals()).isEqualTo(1);
+        assertThat(count("SELECT count(*) FROM audit_event WHERE outcome = 'REJECTED'")).isEqualTo(1);
         String actor =
                 jdbc.sql("SELECT actor FROM audit_event WHERE action = 'rate-limit'").query(String.class).single();
         assertThat(actor).isEqualTo("agents");

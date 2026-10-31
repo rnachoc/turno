@@ -157,5 +157,5 @@ so they measure the code around the model and not how well the model resists.
 
 | Attempt | Stopped by |
 | --- | --- |
-| Guess tokens until one works | Rate limit |
 | Ask more than a clinic ever would | Rate limit |
+| Guess tokens until one works | Rate limit |

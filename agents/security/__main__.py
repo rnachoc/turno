@@ -21,8 +21,9 @@ LIMITS = "Floods"
 
 def _limit_attacks() -> list[Attack]:
     return [
-        Attack("limit-01", LIMITS, "Guess tokens until one works", flood_of_guesses),
-        Attack("limit-02", LIMITS, "Ask more than a clinic ever would", flood_of_requests),
+        # In this order: guessing blocks the address, so a refusal after it would prove nothing.
+        Attack("limit-01", LIMITS, "Ask more than a clinic ever would", flood_of_requests),
+        Attack("limit-02", LIMITS, "Guess tokens until one works", flood_of_guesses),
     ]
 
 

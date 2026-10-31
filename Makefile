@@ -1,5 +1,5 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up up-observability down agents demo-data test test-core test-agents test-console test-contract test-e2e test-live eval eval-gate lint
+.PHONY: up up-observability down agents demo-data test test-core test-agents test-console test-contract test-attacks test-e2e test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
@@ -29,6 +29,9 @@ test-console:
 
 test-contract: ## Check the agents against the real core. Needs `make up`.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env pytest -m integration
+
+test-attacks: ## Attack the running stack and write the security report. Needs `make up`.
+	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env python -m security
 
 test-e2e: ## Run the slot refill through the whole stack, with a clinic that may contact at any hour.
 	TURNO_TENANT=e2e-clinic docker compose up --detach --wait core
