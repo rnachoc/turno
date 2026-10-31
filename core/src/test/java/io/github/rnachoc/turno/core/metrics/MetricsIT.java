@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * The figures behind the dashboards. The registry lives as long as the tests' application, so each
@@ -28,6 +29,12 @@ class MetricsIT extends ApiIntegrationTest {
 
     @Autowired
     private MeterRegistry registry;
+
+    @Autowired
+    private DomainMetrics metrics;
+
+    @Autowired
+    private TransactionTemplate transactions;
 
     private double metric(String name, String... tags) {
         Counter counter = registry.find(name).tags(tags).counter();
@@ -124,25 +131,37 @@ class MetricsIT extends ApiIntegrationTest {
 
     @Test
     void whatRollsBackIsNotCounted() {
-        UUID patient = newPatient();
-        UUID conversation = UUID.randomUUID();
-        Response first =
-                post(
-                        "/api/v1/patients/" + patient + "/conversations/" + conversation + "/steps",
-                        Map.of("firstPosition", 0, "steps", List.of(step("action", "book:ok"))));
-        assertThat(first.status()).isEqualTo(200);
-        double before = metric("turno.agent.steps", "kind", "handover");
-        double handovers = metric("turno.handovers", "reason", "core_down");
+        double before = metric("turno.handovers", "reason", "invalid_format");
 
-        // Refused after the conversation is checked, for belonging to someone else.
-        Response refused =
-                post(
-                        "/api/v1/patients/" + newPatient() + "/conversations/" + conversation + "/steps",
-                        Map.of("firstPosition", 1, "steps", List.of(step("handover", "core_down"))));
+        transactions.executeWithoutResult(
+                transaction -> {
+                    metrics.handoverOpened("invalid_format");
+                    transaction.setRollbackOnly();
+                });
 
-        assertThat(refused.status()).isEqualTo(404);
-        assertThat(metric("turno.agent.steps", "kind", "handover")).isEqualTo(before);
-        assertThat(metric("turno.handovers", "reason", "core_down")).isEqualTo(handovers);
+        assertThat(metric("turno.handovers", "reason", "invalid_format")).isEqualTo(before);
+    }
+
+    @Test
+    void whatCommitsCountsOnlyOnceItHas() {
+        double before = metric("turno.handovers", "reason", "model_failure");
+
+        transactions.executeWithoutResult(
+                transaction -> {
+                    metrics.handoverOpened("model_failure");
+                    assertThat(metric("turno.handovers", "reason", "model_failure")).isEqualTo(before);
+                });
+
+        assertThat(metric("turno.handovers", "reason", "model_failure")).isEqualTo(before + 1);
+    }
+
+    @Test
+    void anAcceptedOperationIsNotARefusal() {
+        double before = metric("turno.refusals", "actor", "agents");
+
+        bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+
+        assertThat(metric("turno.refusals", "actor", "agents")).isEqualTo(before);
     }
 
     @Test
@@ -221,7 +240,16 @@ class MetricsIT extends ApiIntegrationTest {
         send("GET", appointments(patient) + "/" + appointment, AGENTS, null, null);
         send("GET", "/api/v1/patients/" + UUID.randomUUID(), AGENTS, null, null);
 
-        for (Meter meter : registry.getMeters()) {
+        // Only what requests can reach: the disk's meter holds the path of this checkout, whatever it is.
+        List<Meter> meters =
+                registry.getMeters().stream()
+                        .filter(
+                                meter ->
+                                        meter.getId().getName().startsWith("turno.")
+                                                || meter.getId().getName().startsWith("http."))
+                        .toList();
+        assertThat(meters).isNotEmpty();
+        for (Meter meter : meters) {
             for (Tag tag : meter.getId().getTags()) {
                 assertThat(UUID_LIKE.matcher(tag.getValue()).find())
                         .as("%s %s=%s", meter.getId().getName(), tag.getKey(), tag.getValue())
