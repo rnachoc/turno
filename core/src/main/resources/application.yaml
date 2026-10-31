@@ -20,6 +20,12 @@ spring:
       fail-on-unknown-properties: true
 
 turno:
+  # Generous for a clinic: they stop a runaway or manipulated caller, not a busy morning.
+  rate-limit:
+    agents-per-minute: ${TURNO_RATE_LIMIT_AGENTS:600}
+    staff-per-minute: ${TURNO_RATE_LIMIT_STAFF:300}
+    workflows-per-minute: ${TURNO_RATE_LIMIT_WORKFLOWS:300}
+    failed-authentications-per-minute: ${TURNO_RATE_LIMIT_FAILED_AUTHENTICATIONS:20}
   tenant-file: ${TURNO_TENANT_FILE}
   security:
     agents-token: ${TURNO_API_TOKEN_AGENTS}

@@ -9,15 +9,21 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -30,7 +36,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author Ignacio Rodriguez Caro &lt;rnachoccontact@gmail.com&gt;
  */
 @RestControllerAdvice
-class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+class ApiExceptionHandler extends ResponseEntityExceptionHandler implements ResponseBodyAdvice<Object> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
@@ -42,7 +48,8 @@ class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DomainException.class)
     ResponseEntity<ProblemDetail> handleDomain(DomainException e, HttpServletRequest request) {
-        if (e.code() != ErrorCode.UNAUTHENTICATED) {
+        // Neither is recorded per request, because anyone could fill the trail with them.
+        if (e.code() != ErrorCode.UNAUTHENTICATED && e.code() != ErrorCode.RATE_LIMITED) {
             recordRefusal(e.code(), request);
         }
         HttpHeaders headers = new HttpHeaders();
@@ -104,6 +111,26 @@ class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             problem.setProperty("code", code.name());
         }
         return ResponseEntity.status(status).headers(headers).body(problem);
+    }
+
+    @Override
+    public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+        return true;
+    }
+
+    /** Spring fills in the address that was asked for, and no error repeats what a caller sent. */
+    @Override
+    public @Nullable Object beforeBodyWrite(
+            @Nullable Object body,
+            MethodParameter returnType,
+            MediaType selectedContentType,
+            Class<? extends HttpMessageConverter<?>> selectedConverterType,
+            ServerHttpRequest request,
+            ServerHttpResponse response) {
+        if (body instanceof ProblemDetail problem) {
+            problem.setInstance(null);
+        }
+        return body;
     }
 
     private static ProblemDetail problem(ErrorCode code) {

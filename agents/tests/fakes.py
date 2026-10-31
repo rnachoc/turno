@@ -49,6 +49,7 @@ class FakeCore:
         self.reported: list[tuple[str, str, int, list[str]]] = []
         self.report_attempts = 0
         self.refuse_reports_for: str | None = None
+        self.refuse_reports_with = CoreRefusalError("VALIDATION_FAILED", 400)
 
     def _check(self) -> None:
         if self.down:
@@ -77,7 +78,7 @@ class FakeCore:
         self.report_attempts += 1
         self._check()
         if patient_id == self.refuse_reports_for:
-            raise CoreRefusalError("VALIDATION_FAILED", 400)
+            raise self.refuse_reports_with
         details = [step.detail for step in steps]
         self.reported.append((patient_id, conversation_id, first_position, details))
         return {"added": len(steps)}

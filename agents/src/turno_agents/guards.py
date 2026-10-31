@@ -94,7 +94,7 @@ class OutboundViolation:
 
 
 def normalize(text: str) -> str:
-    """Prepare text for matching: lower case, without accents, with spaces collapsed.
+    """Prepare text for matching: lower case, no accents or invisible characters, single spaces.
 
     Args:
         text: The text.
@@ -103,7 +103,10 @@ def normalize(text: str) -> str:
         The normalized text.
     """
     decomposed = unicodedata.normalize("NFKD", text)
-    without_marks = "".join(c for c in decomposed if not unicodedata.combining(c))
+    # Invisible characters would break a word in two for the rules, though not for a reader.
+    without_marks = "".join(
+        c for c in decomposed if not unicodedata.combining(c) and unicodedata.category(c) != "Cf"
+    )
     return " ".join(without_marks.lower().split())
 
 

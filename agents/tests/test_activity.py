@@ -114,6 +114,23 @@ def test_a_refusal_does_not_block_the_rest(caplog: pytest.LogCaptureFixture) -> 
     assert "VALIDATION_FAILED" in caplog.text
 
 
+def test_being_told_to_wait_loses_nothing() -> None:
+    """A limit in the core is not a refusal of the steps, so they are sent again later."""
+    core = FakeCore()
+    store, conversation_id = _store_with_steps(1)
+    reporter = ActivityReporter(store, core)
+    core.refuse_reports_for = PATIENT
+    core.refuse_reports_with = CoreRefusalError("RATE_LIMITED", 429)
+
+    reporter.report_pending()
+    assert core.reported == []
+
+    core.refuse_reports_for = None
+    reporter.report_pending()
+
+    assert core.reported == [(PATIENT, conversation_id, 0, ["step-0"])]
+
+
 def test_it_sends_in_the_background_and_flushes_when_stopping() -> None:
     """The thread reports by itself and once more when stopping."""
     core = FakeCore()

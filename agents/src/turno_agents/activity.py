@@ -67,6 +67,9 @@ class ActivityReporter:
                     LOG.warning("The core could not be told about the agents' work, retrying later")
                     return
                 except CoreRefusalError as error:
+                    if error.status == 429:
+                        LOG.warning("The core asked to wait before hearing about the agents' work")
+                        return
                     # The same request would get the same answer, so retrying would block the rest.
                     LOG.error("The core refused the agents' steps with code %s", error.code)
                 conversation.reported_steps = first + len(steps)

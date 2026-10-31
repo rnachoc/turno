@@ -5,7 +5,7 @@ Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import PositiveInt, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -27,6 +27,9 @@ class Settings(BaseSettings):
 
     # Protects the author's plan from a runaway loop.
     max_llm_calls_per_day: int = 150
+    max_messages_per_conversation_per_minute: PositiveInt = 20
+    max_conversations_per_phone_per_hour: PositiveInt = 10
+    max_conversations_per_minute: PositiveInt = 30
 
     # Rejecting other host names stops a malicious website from reaching this local service through
     # DNS rebinding, and from spending the plan.

@@ -89,6 +89,19 @@ class AgentService:
         except (CoreRefusalError, CoreUnavailableError):
             LOG.warning("The clinic could not be read at startup")
 
+    def answer_emergency(self, conversation: Conversation) -> str:
+        """Answer an emergency at once, even while another message of this patient is in progress.
+
+        Args:
+            conversation: The conversation.
+
+        Returns:
+            The reply to show to the patient.
+        """
+        return self._hand_over(
+            conversation, self._emergency_text(conversation.language), "triage_emergency"
+        )
+
     def handle(self, conversation: Conversation, message: str) -> str:
         """Answer a patient's message.
 

@@ -24,6 +24,8 @@ public class DomainMetrics {
 
     private static final String AUDIT_EVENTS = "turno.audit.events";
     private static final String REFUSALS = "turno.refusals";
+    private static final String RATE_LIMITED = "turno.rate.limited";
+    private static final String AUTHENTICATION_FAILURES = "turno.authentication.failures";
     private static final String STEPS = "turno.agent.steps";
     private static final String TOKENS = "turno.agent.tokens";
     private static final String COST = "turno.agent.estimated.cost.usd";
@@ -53,6 +55,10 @@ public class DomainMetrics {
             }
             registry.counter(REFUSALS, "actor", actor);
         }
+        for (String actor : List.of("agents", "staff", "workflows", "unknown")) {
+            registry.counter(RATE_LIMITED, "actor", actor);
+        }
+        registry.counter(AUTHENTICATION_FAILURES);
         registry.counter(AUDIT_EVENTS, "actor", "workflows", "action", "waitlist.offer", "outcome", "ACCEPTED");
         STEP_KINDS.forEach(kind -> registry.counter(STEPS, "kind", kind));
         registry.counter(STEPS, "kind", OTHER);
@@ -83,6 +89,20 @@ public class DomainMetrics {
                         registry.counter(REFUSALS, "actor", actor).increment();
                     }
                 });
+    }
+
+    /**
+     * Counts a request refused for going over a limit.
+     *
+     * @param actor who asked, or {@code unknown}
+     */
+    public void rateLimited(String actor) {
+        registry.counter(RATE_LIMITED, "actor", actor).increment();
+    }
+
+    /** Counts a request with no valid token. */
+    public void authenticationFailed() {
+        registry.counter(AUTHENTICATION_FAILURES).increment();
     }
 
     /**

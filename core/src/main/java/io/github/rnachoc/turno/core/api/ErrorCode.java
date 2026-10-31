@@ -39,6 +39,7 @@ public enum ErrorCode {
     SLOT_NOT_BOOKABLE(HttpStatus.UNPROCESSABLE_CONTENT, "The clinic's rules do not allow an appointment at that time."),
     LANGUAGE_NOT_SUPPORTED(HttpStatus.UNPROCESSABLE_CONTENT, "The clinic does not attend patients in this language."),
     IDEMPOTENCY_KEY_REUSED(HttpStatus.UNPROCESSABLE_CONTENT, "This Idempotency-Key was already used for a different request."),
+    RATE_LIMITED(HttpStatus.TOO_MANY_REQUESTS, "Too many requests. Wait before trying again."),
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong.");
 
     private final HttpStatus status;

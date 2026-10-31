@@ -34,6 +34,9 @@ function explain(code) {
   if (code === "PATIENT_NOT_FOUND") {
     return "This phone number is new: please add a name to register.";
   }
+  if (code === "TOO_MANY_MESSAGES" || code === "TOO_MANY_CONVERSATIONS") {
+    return "That was a lot in a short time. Please wait a minute and try again.";
+  }
   return `Something went wrong (${code}).`;
 }
 

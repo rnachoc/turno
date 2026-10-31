@@ -24,6 +24,8 @@ from turno_agents.core_client import (
     CoreUnavailableError,
     HttpCoreClient,
 )
+from turno_agents.guards import Triage, triage
+from turno_agents.limits import WindowLimiter
 from turno_agents.llm import ClaudeCliClient, DailyLimitedLlm, LlmClient
 from turno_agents.settings import Settings
 
@@ -100,6 +102,9 @@ def create_app(
 
     conversations = store or ConversationStore()
     agent = AgentService(llm, core) if llm is not None and core is not None else None
+    messages = WindowLimiter(config.max_messages_per_conversation_per_minute, 60)
+    phones = WindowLimiter(config.max_conversations_per_phone_per_hour, 3600)
+    starts = WindowLimiter(config.max_conversations_per_minute, 60)
 
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
@@ -165,6 +170,11 @@ def create_app(
         """
         if agent is None or core is None:
             raise _problem(503, "MODEL_NOT_CONFIGURED")
+        # Before the core: each new phone would register a patient.
+        if not phones.allow(body.phone):
+            raise _too_many("TOO_MANY_CONVERSATIONS", phones)
+        if not starts.allow("all"):
+            raise _too_many("TOO_MANY_CONVERSATIONS", starts)
         try:
             patient = _find_or_register(core, body)
         except CoreRefusalError as error:
@@ -187,7 +197,14 @@ def create_app(
         """
         if agent is None:
             raise _problem(503, "MODEL_NOT_CONFIGURED")
+        # No limit may stand between someone and the emergency number.
+        emergency = triage(body.text) is Triage.EMERGENCY
+        if not messages.allow(conversation.id) and not emergency:
+            raise _too_many("TOO_MANY_MESSAGES", messages)
         if not conversation.lock.acquire(blocking=False):
+            if emergency:
+                reply = agent.answer_emergency(conversation)
+                return {"reply": reply, "state": conversation.state.value}
             raise _problem(409, "CONVERSATION_BUSY")
         try:
             reply = agent.handle(conversation, body.text)
@@ -209,6 +226,14 @@ def create_app(
 
     app.mount("/static", StaticFiles(directory=_STATIC), name="static")
     return app
+
+
+def _too_many(code: str, limiter: WindowLimiter) -> HTTPException:
+    return HTTPException(
+        status_code=429,
+        detail={"code": code},
+        headers={"Retry-After": str(limiter.seconds_until_next_window())},
+    )
 
 
 def _find_or_register(core: CoreApi, body: StartRequest) -> dict[str, Any]:

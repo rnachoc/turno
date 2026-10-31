@@ -36,9 +36,9 @@ class PatientController {
      * domain, so that no real person can ever be contacted by mistake. See {@code docs/adr/0004}.
      */
     record RegisterRequest(
-            @NotBlank @Size(max = 200) @Pattern(regexp = "^[^\\p{Cntrl}]+$") String fullName,
+            @NotBlank @Size(max = 200) @Pattern(regexp = "^[^\\p{Cntrl}\\p{Cf}\\p{Cs}]+$") String fullName,
             @NotBlank @Pattern(regexp = PHONE) String phone,
-            @Nullable @Size(max = 254) @Pattern(regexp = "^[^@\\s]+@[^@\\s]+\\.example$") String email,
+            @Nullable @Size(max = 254) @Pattern(regexp = "^[^@\\s\\p{Cntrl}\\p{Cf}\\p{Cs}]+@[^@\\s\\p{Cntrl}\\p{Cf}\\p{Cs}]+\\.example$") String email,
             @NotBlank @Pattern(regexp = "^[a-z]{2}$") String language) {}
 
     /** Request to find a patient. The phone number travels in the body to keep it out of URLs and logs. */

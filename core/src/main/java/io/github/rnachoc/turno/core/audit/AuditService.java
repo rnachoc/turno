@@ -1,10 +1,13 @@
 package io.github.rnachoc.turno.core.audit;
 
+import io.github.rnachoc.turno.core.api.DomainException;
+import io.github.rnachoc.turno.core.api.ErrorCode;
 import io.github.rnachoc.turno.core.metrics.DomainMetrics;
 import java.time.Clock;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,8 @@ public class AuditService {
 
     /** Most entries returned by one query. */
     public static final int MAX_LIMIT = 200;
+
+    private static final Pattern ENTITY_ID = Pattern.compile("[A-Za-z0-9_.:-]{1,100}");
 
     private final AuditRepository repository;
     private final Clock clock;
@@ -92,6 +97,10 @@ public class AuditService {
      */
     @Transactional(readOnly = true)
     public List<AuditEvent> find(@Nullable String entityId, @Nullable UUID patientId, int limit) {
+        // Entities are identifiers and dates, and PostgreSQL fails on some characters of anything else.
+        if (entityId != null && !ENTITY_ID.matcher(entityId).matches()) {
+            throw new DomainException(ErrorCode.VALIDATION_FAILED);
+        }
         return repository.find(entityId, patientId, Math.clamp(limit, 1, MAX_LIMIT));
     }
 }

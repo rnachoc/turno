@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author Ignacio Rodriguez Caro &lt;rnachoccontact@gmail.com&gt;
  */
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(SecurityProperties.class)
+@EnableConfigurationProperties({SecurityProperties.class, RateLimitProperties.class})
 class WebConfiguration implements WebMvcConfigurer {
 
     private final AuthenticationInterceptor authentication;

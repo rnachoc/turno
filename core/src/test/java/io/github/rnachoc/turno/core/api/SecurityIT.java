@@ -161,6 +161,65 @@ class SecurityIT extends ApiIntegrationTest {
     }
 
     @Test
+    void noErrorRepeatsTheAddressThatWasAskedFor() {
+        for (Response response :
+                new Response[] {
+                    send("GET", "/api/v1/nothing/here", AGENTS, null, null),
+                    send("GET", "/api/v1/clinic", "wrong", null, null),
+                    send("GET", "/api/v1/staff/audit", AGENTS, null, null),
+                    send("GET", "/api/v1/patients/" + UUID.randomUUID(), AGENTS, null, null),
+                    send("GET", "/api/v1/patients/not-a-uuid", AGENTS, null, null),
+                }) {
+            assertThat(response.body()).doesNotContain("instance").doesNotContain("/api/");
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+            strings = {
+                "{\"fullName\":\"Nul\\u0000Name\",\"phone\":\"+34666000111\",\"language\":\"es\"}",
+                "{\"fullName\":\"Half \\ud800 char\",\"phone\":\"+34666000111\",\"language\":\"es\"}",
+                "{\"fullName\":\"Zero\\u200bwidth\",\"phone\":\"+34666000111\",\"language\":\"es\"}",
+                "{\"fullName\":\"Right\\u202eleft\",\"phone\":\"+34666000111\",\"language\":\"es\"}",
+                "{\"fullName\":\"N\",\"phone\":\"+34666000111\",\"email\":\"a\\u0000@x.example\",\"language\":\"es\"}",
+                "{\"fullName\":\"N\",\"phone\":\"+34666000111\",\"email\":\"a@x\\ud800.example\",\"language\":\"es\"}",
+            })
+    void charactersTheDatabaseOrAReaderWouldChokeOnAreRefused(String body) {
+        Response response = send("POST", "/api/v1/patients", AGENTS, newKey(), body);
+
+        assertThat(response.status()).as(body).isEqualTo(400);
+        assertThat(response.code()).isEqualTo("VALIDATION_FAILED");
+        assertThat(count("SELECT count(*) FROM patient")).isZero();
+    }
+
+    @Test
+    void ordinaryNamesStayValid() {
+        String body = "{\"fullName\":\"María-José O'Connor Núñez 李\",\"phone\":\"+34666000111\",\"language\":\"es\"}";
+
+        assertThat(send("POST", "/api/v1/patients", AGENTS, newKey(), body).status()).isEqualTo(201);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"a%00b", "%27%20OR%201=1", "x%20y"})
+    void theAuditTrailOnlySearchesForIdentifiers(String entityId) {
+        Response response = send("GET", "/api/v1/staff/audit?entityId=" + entityId, STAFF, null, null);
+
+        assertThat(response.status()).isEqualTo(400);
+        assertThat(response.code()).isEqualTo("VALIDATION_FAILED");
+    }
+
+    @Test
+    void theAuditTrailStillFindsAnEntity() {
+        UUID patient = newPatient();
+        String appointment = bookOk(patient, "ana", "check-up", tuesday(10, 0));
+
+        Response response = send("GET", "/api/v1/staff/audit?entityId=" + appointment, STAFF, null, null);
+
+        assertThat(response.status()).isEqualTo(200);
+        assertThat(response.json()).isNotEmpty();
+    }
+
+    @Test
     void healthStaysOpenForTheOrchestrator() {
         assertThat(send("GET", "/actuator/health", null, null, null).status()).isEqualTo(200);
     }

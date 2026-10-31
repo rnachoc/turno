@@ -6,6 +6,12 @@ spring:
 
 turno:
   tenant-file: src/test/resources/tenants/test-clinic.yaml
+  # A frozen clock would otherwise put every test in one minute. RateLimitIT sets its own.
+  rate-limit:
+    agents-per-minute: 1000000
+    staff-per-minute: 1000000
+    workflows-per-minute: 1000000
+    failed-authentications-per-minute: 1000000
   security:
     agents-token: test-agents-token-0123456789-abcdef
     staff-token: test-staff-token-0123456789-abcdefg
