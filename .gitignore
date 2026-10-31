@@ -41,3 +41,6 @@ logs/
 node_modules/
 dist/
 .angular/
+
+# What the simulated gateway would have sent
+simulated-outbox.jsonl
