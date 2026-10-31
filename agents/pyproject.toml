@@ -56,13 +56,15 @@ ignore = ["ANN401"]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S101", "D104", "E501"]
+"tests/**" = ["S101", "D104", "E501", "RUF001"]
 # Fixed texts for patients read better on one line.
 "src/turno_agents/prompts.py" = ["E501"]
 # Instructions and messages read better on one line.
 "evals/**" = ["E501"]
 "demo/**" = ["E501", "T201", "S603", "S607", "S608"]
+# Attacks read better on one line, and they are made of the things these rules forbid.
+"security/**" = ["E501", "T201", "RUF001", "S101", "S105", "S106", "D103", "D102", "D105", "D107"]
 
 [tool.mypy]
 strict = true
-files = ["src", "tests", "evals", "demo"]
+files = ["src", "tests", "evals", "demo", "security"]
