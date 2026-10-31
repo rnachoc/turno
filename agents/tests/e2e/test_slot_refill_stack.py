@@ -13,6 +13,7 @@ from collections.abc import Callable, Iterator
 from datetime import date, timedelta
 from typing import Any
 
+import httpx2
 import pytest
 
 from turno_agents.core_client import HttpCoreClient
@@ -21,6 +22,7 @@ pytestmark = pytest.mark.e2e
 
 # The worker looks for freed slots every 10 seconds, and for answers every minute.
 PICK_UP_SECONDS = 60
+SETTLE_SECONDS = 5
 ANSWER_SECONDS = 100
 
 
@@ -34,6 +36,24 @@ def core() -> Iterator[HttpCoreClient]:
     client = HttpCoreClient(url, token)
     yield client
     client.close()
+
+
+@pytest.fixture(autouse=True)
+def no_slots_left_from_other_tests() -> None:
+    """Let the worker deal with earlier cancellations, or their slots would go to this waitlist."""
+    url = os.environ["TURNO_CORE_URL"]
+    token = os.environ.get("TURNO_API_TOKEN_WORKFLOWS")
+    if not token:
+        pytest.fail("Set TURNO_API_TOKEN_WORKFLOWS: this test must not be skipped")
+    headers = {"Authorization": f"Bearer {token}"}
+
+    def nothing_pending() -> bool:
+        pending = httpx2.get(f"{url}/api/v1/workflows/freed-slots", headers=headers, timeout=5)
+        return pending.status_code == 200 and pending.json() == []
+
+    _wait_for(nothing_pending, PICK_UP_SECONDS)
+    # A workflow that has just started still has to ask, and finds nobody waiting yet.
+    time.sleep(SETTLE_SECONDS)
 
 
 def _key() -> str:

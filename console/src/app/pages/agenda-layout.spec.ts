@@ -48,6 +48,16 @@ describe('layOutAgenda', () => {
     }
   });
 
+  it('takes a closure over the opening hours of that weekday', () => {
+    // A Tuesday, on which the clinic would otherwise open.
+    const clinic = { ...CLINIC, closures: [TUESDAY] };
+
+    const day = layOutAgenda(clinic, TUESDAY, []);
+
+    expect(day.closed).toBe(true);
+    expect(day.hours).toEqual([]);
+  });
+
   it('still shows an appointment on a day that became closed', () => {
     const entry = appointment({ startsAt: '2027-03-03T09:00:00Z', endsAt: '2027-03-03T09:30:00Z' });
 

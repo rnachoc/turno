@@ -273,6 +273,12 @@ describe('Decisions', () => {
     expect(TestBed.inject(ClinicContext).pending()).toBe(0);
   });
 
+  it('keeps the badge in the navigation up to date', async () => {
+    await openWith([handover()], [appointment()]);
+
+    expect(TestBed.inject(ClinicContext).pending()).toBe(2);
+  });
+
   it('marks an emergency as urgent', async () => {
     const fixture = await openWith([handover({ reason: 'triage_emergency' })], []);
 
