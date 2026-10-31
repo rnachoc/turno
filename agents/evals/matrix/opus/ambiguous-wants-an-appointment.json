@@ -1,0 +1,236 @@
+{
+  "scenario_id": "ambiguous-wants-an-appointment",
+  "fingerprint": "48f90a0c78b9309d13033ce6e6bb6787a6286e5a102e138be9cac76b7922219f",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, quiero una cita."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Encantada de ayudarte. ¿Qué tratamiento necesitas: revisión, limpieza dental, empaste, endodoncia o blanqueamiento? Dime también qué días y horas te vienen mejor."
+    },
+    {
+      "role": "patient",
+      "text": "Limpieza dental, por favor. Me viene bien la próxima semana, preferiblemente por la tarde."
+    },
+    {
+      "role": "agent",
+      "text": "No he podido encontrar huecos de tarde para la limpieza dental, así que no puedo confirmarte si los hay la próxima semana. Los más cercanos a la tarde que veo son con Paula Ortega, el lunes 2 de noviembre:\n\n- 12:30\n- 12:45\n- 13:00\n\nLa limpieza dura 45 minutos y cuesta 65 €, con una señal de 10 €. ¿Te viene bien alguna de estas horas? Si prefieres la tarde, puedo pasarte con una persona del equipo para que lo revise contigo."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. Esas horas son demasiado temprano para mí, preferiría por la tarde, a partir de las 16:00 si puede ser. ¿Tienen algún hueco entre martes y viernes de esa semana?"
+    },
+    {
+      "role": "agent",
+      "text": "Lo siento, no encuentro huecos para la limpieza dental de martes a viernes de esa semana. Además, el viernes cerramos a las 15:00, así que ese día no hay horario a partir de las 16:00.\n\nPuedo buscarte hueco la semana siguiente, del 9 al 13 de noviembre, o pasarte con una persona del equipo para que revise contigo las tardes. ¿Qué prefieres?"
+    },
+    {
+      "role": "patient",
+      "text": "Prefiero la semana del 9 al 13 de noviembre, por la tarde a partir de las 16:00 si puede ser. ¿Hay algún hueco así?"
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:00:00Z\", \"local\": \"Monday 2026-11-02 09:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:15:00Z\", \"local\": \"Monday 2026-11-02 09:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:30:00Z\", \"local\": \"Monday 2026-11-02 09:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:45:00Z\", \"local\": \"Monday 2026-11-02 09:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T09:00:00Z\", \"local\": \"Monday 2026-11-02 10:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:45:00Z\", \"local\": \"Monday 2026-11-02 12:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T12:00:00Z\", \"local\": \"Monday 2026-11-02 13:00\"}], \"total_found\": 81}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:00:00Z\", \"local\": \"Monday 2026-11-02 09:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:15:00Z\", \"local\": \"Monday 2026-11-02 09:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:30:00Z\", \"local\": \"Monday 2026-11-02 09:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T08:45:00Z\", \"local\": \"Monday 2026-11-02 09:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T09:00:00Z\", \"local\": \"Monday 2026-11-02 10:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T11:45:00Z\", \"local\": \"Monday 2026-11-02 12:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-02T12:00:00Z\", \"local\": \"Monday 2026-11-02 13:00\"}], \"total_found\": 27}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [], \"total_found\": 0}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [], \"total_found\": 0}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T08:00:00Z\", \"local\": \"Monday 2026-11-09 09:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T08:15:00Z\", \"local\": \"Monday 2026-11-09 09:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T08:30:00Z\", \"local\": \"Monday 2026-11-09 09:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T08:45:00Z\", \"local\": \"Monday 2026-11-09 09:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T09:00:00Z\", \"local\": \"Monday 2026-11-09 10:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T09:15:00Z\", \"local\": \"Monday 2026-11-09 10:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T09:30:00Z\", \"local\": \"Monday 2026-11-09 10:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T09:45:00Z\", \"local\": \"Monday 2026-11-09 10:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T10:00:00Z\", \"local\": \"Monday 2026-11-09 11:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T10:15:00Z\", \"local\": \"Monday 2026-11-09 11:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T10:30:00Z\", \"local\": \"Monday 2026-11-09 11:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"hygiene\", \"starts_at\": \"2026-11-09T10:45:00Z\", \"local\": \"Monday 2026-11-09 11:45\"}], \"total_found\": 86}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [], \"total_found\": 0}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4272,
+      "output_tokens": 159,
+      "estimated_cost_usd": 0.0089482,
+      "seconds": 3.33
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4418,
+      "output_tokens": 137,
+      "estimated_cost_usd": 0.0096762,
+      "seconds": 3.33
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 11328,
+      "output_tokens": 761,
+      "estimated_cost_usd": 0.0358072,
+      "seconds": 10.08
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6256,
+      "output_tokens": 752,
+      "estimated_cost_usd": 0.036680199999999996,
+      "seconds": 9.18
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 13658,
+      "output_tokens": 1309,
+      "estimated_cost_usd": 0.0579894,
+      "seconds": 15.29
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6582,
+      "output_tokens": 358,
+      "estimated_cost_usd": 0.043077,
+      "seconds": 5.15
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6614,
+      "output_tokens": 1642,
+      "estimated_cost_usd": 0.0573442,
+      "seconds": 19.28
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6843,
+      "output_tokens": 155,
+      "estimated_cost_usd": 0.029436200000000003,
+      "seconds": 3.02
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 7762,
+      "output_tokens": 1531,
+      "estimated_cost_usd": 0.06430820000000001,
+      "seconds": 18.32
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 16445,
+      "output_tokens": 942,
+      "estimated_cost_usd": 0.061198600000000006,
+      "seconds": 11.95
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 10,
+    "simulator_calls": 4,
+    "input_tokens": 92927,
+    "output_tokens": 9169,
+    "estimated_cost_usd": 0.405988,
+    "agent_call_seconds": [
+      3.33,
+      3.33,
+      10.08,
+      9.18,
+      15.29,
+      5.15,
+      19.28,
+      3.02,
+      18.32,
+      11.95
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "scenario_id": "cancel-plainly",
+  "fingerprint": "75c57457f6be689945a276d258ee82e77d129559d6d6c59b80c948f561e8d552",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Necesito cancelar mi revisión dental. Ya no la voy a necesitar. ¿Me pueden ayudar con eso?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Revisión del 2026-11-09 12:00 (precio 35.00 EUR, señal 0.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "Listo, tu revisión del 9 de noviembre a las 12:00 con la Dra. Lucía Vega ha quedado cancelada, sin ningún coste. Si más adelante necesitas otra cita, escríbenos cuando quieras. ¡Que tengas buen fin de semana!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"fe9787e1-cb3d-461d-937d-5c59dcffaf67\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 12:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"fe9787e1-cb3d-461d-937d-5c59dcffaf67\", \"status\": \"CANCELLED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 12:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4316,
+      "output_tokens": 97,
+      "estimated_cost_usd": 0.0080602,
+      "seconds": 2.62
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4466,
+      "output_tokens": 130,
+      "estimated_cost_usd": 0.0099202,
+      "seconds": 2.86
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4761,
+      "output_tokens": 178,
+      "estimated_cost_usd": 0.0132402,
+      "seconds": 3.37
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "fe9787e1-cb3d-461d-937d-5c59dcffaf67",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "fe9787e1-cb3d-461d-937d-5c59dcffaf67",
+      "status": "CANCELLED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 3,
+    "input_tokens": 17998,
+    "output_tokens": 1125,
+    "estimated_cost_usd": 0.03201,
+    "agent_call_seconds": [
+      2.62,
+      2.86,
+      3.37
+    ]
+  }
+}

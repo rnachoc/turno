@@ -102,7 +102,7 @@ def _matrix(args: argparse.Namespace) -> int:
         code = _run(args, folder)
         if code != 0:
             return code
-    matrix.REPORT.write_text(matrix.render_report(load_bank()), encoding="utf-8", newline="\n")
+    matrix.REPORT.write_text(_matrix_report(), encoding="utf-8", newline="\n")
     return 0
 
 
@@ -166,6 +166,10 @@ def _gate(_: argparse.Namespace) -> int:
     return 1 if problems else 0
 
 
+def _matrix_report() -> str:
+    return matrix.render_report(load_bank(), baseline=(DEFAULT_MODEL, RECORDINGS))
+
+
 def _judge_report_text() -> str:
     return judge.render_report(judge.load_calibration(), judge.load_labels())
 
@@ -173,7 +177,7 @@ def _judge_report_text() -> str:
 def _stale_reports() -> list[str]:
     expected = {
         judge.REPORT: _judge_report_text(),
-        matrix.REPORT: matrix.render_report(load_bank()),
+        matrix.REPORT: _matrix_report(),
         replay.DATA: replay.render_data(load_bank()),
     }
     return [
@@ -186,7 +190,7 @@ def _stale_reports() -> list[str]:
 def _report(_: argparse.Namespace) -> int:
     replay.DATA.write_text(replay.render_data(load_bank()), encoding="utf-8", newline="\n")
     judge.REPORT.write_text(_judge_report_text(), encoding="utf-8", newline="\n")
-    matrix.REPORT.write_text(matrix.render_report(load_bank()), encoding="utf-8", newline="\n")
+    matrix.REPORT.write_text(_matrix_report(), encoding="utf-8", newline="\n")
     REPORT.write_text(render_report(grade_bank(load_bank())), encoding="utf-8", newline="\n")
     print(f"Wrote {REPORT.name}")
     return 0

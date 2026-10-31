@@ -1,0 +1,68 @@
+{
+  "scenario_id": "ambiguous-just-hello",
+  "fingerprint": "87e4f76a15afd0c16f2fae051d6ee0f345e395e2d3f22e5a487d5146ed1012dc",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Soy la recepcionista virtual de Mirador Dental. ¿En qué puedo ayudarte? Puedo buscarte cita, cambiarla, cancelarla o resolver tus dudas sobre la clínica."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4265,
+      "output_tokens": 160,
+      "estimated_cost_usd": 0.037312000000000005,
+      "seconds": 3.6
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4265,
+    "output_tokens": 160,
+    "estimated_cost_usd": 0.037312,
+    "agent_call_seconds": [
+      3.6
+    ]
+  }
+}

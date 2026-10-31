@@ -1,0 +1,173 @@
+{
+  "scenario_id": "book-friday-only",
+  "fingerprint": "3b7e990cc95db8829377b82e0b24516b6bc89b026cd9587aadfa2610b27b69a0",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería pedir cita para una revisión general. Solo puedo venir los viernes. ¿Tienen hueco en algún viernes de las próximas tres semanas?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Sí, tenemos hueco el viernes 6 de noviembre para tu revisión con el Dr. Marcos Soler. Estas son algunas opciones:\n\n- 09:00\n- 10:00\n- 11:00\n\nLa revisión dura 30 minutos, cuesta 35 € y no requiere depósito. ¿Te va bien alguna de estas horas? Si prefieres otra hora u otro viernes, como el 13 o el 20 de noviembre, dímelo y lo miro."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, me va bien el viernes 6 de noviembre a las 10:00. ¿Me lo podéis reservar?"
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Revisión del 2026-11-06 10:00 (precio 35.00 EUR, señal 0.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu revisión está confirmada para el viernes 6 de noviembre a las 10:00 con el Dr. Marcos Soler. Cuesta 35 € y no tiene señal. Si necesitas cancelarla, puedes hacerlo gratis hasta 24 horas antes. ¡Hasta pronto!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T08:00:00Z\", \"local\": \"Friday 2026-11-06 09:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T08:15:00Z\", \"local\": \"Friday 2026-11-06 09:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T08:30:00Z\", \"local\": \"Friday 2026-11-06 09:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T08:45:00Z\", \"local\": \"Friday 2026-11-06 09:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T09:00:00Z\", \"local\": \"Friday 2026-11-06 10:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T09:15:00Z\", \"local\": \"Friday 2026-11-06 10:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T09:30:00Z\", \"local\": \"Friday 2026-11-06 10:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T09:45:00Z\", \"local\": \"Friday 2026-11-06 10:45\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T10:00:00Z\", \"local\": \"Friday 2026-11-06 11:00\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T10:15:00Z\", \"local\": \"Friday 2026-11-06 11:15\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T10:30:00Z\", \"local\": \"Friday 2026-11-06 11:30\"}, {\"practitioner_id\": \"dr-soler\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-06T10:45:00Z\", \"local\": \"Friday 2026-11-06 11:45\"}], \"total_found\": 520}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"9d02cf08-3999-4b65-887b-47d537436514\", \"status\": \"HOLD\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-06 10:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"9d02cf08-3999-4b65-887b-47d537436514\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-soler\", \"local\": \"2026-11-06 10:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4325,
+      "output_tokens": 391,
+      "estimated_cost_usd": 0.025681,
+      "seconds": 5.71
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 10862,
+      "output_tokens": 652,
+      "estimated_cost_usd": 0.0309054,
+      "seconds": 7.68
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5450,
+      "output_tokens": 147,
+      "estimated_cost_usd": 0.0181322,
+      "seconds": 2.95
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5583,
+      "output_tokens": 125,
+      "estimated_cost_usd": 0.0187562,
+      "seconds": 2.95
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5875,
+      "output_tokens": 192,
+      "estimated_cost_usd": 0.0224322,
+      "seconds": 3.27
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "9d02cf08-3999-4b65-887b-47d537436514",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-soler",
+      "starts_at": "2026-11-06T09:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 4,
+    "input_tokens": 38643,
+    "output_tokens": 2302,
+    "estimated_cost_usd": 0.11701,
+    "agent_call_seconds": [
+      5.71,
+      7.68,
+      2.95,
+      2.95,
+      3.27
+    ]
+  }
+}

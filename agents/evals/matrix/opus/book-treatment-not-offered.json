@@ -1,0 +1,93 @@
+{
+  "scenario_id": "book-treatment-not-offered",
+  "fingerprint": "181a14157aaf570775ed4d3b35e65402c60596b3e97d1d400b33cc2a89a59f48",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas tardes. Quería pedir una cita para ponerme implantes dentales. Tengo una muela perdida desde hace unos meses y me gustaría saber si pueden atenderme. ¿Me pueden decir qué disponibilidad tienen?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola, buenas tardes! Lamento lo de tu muela. Los implantes dentales no están entre los tratamientos que puedo reservar, así que no puedo darte cita para eso.\n\nSi quieres, puedo buscarte hueco para una revisión (30 minutos, 35 €), aunque no puedo asegurarte que después podamos ponerte el implante aquí. También puedo pasarte con una persona del equipo para que te informe sobre los implantes. ¿Qué prefieres?"
+    },
+    {
+      "role": "patient",
+      "text": "Vale, entiendo. Prefiero que me pase con alguien del equipo para que me informe sobre los implantes, por si hay alguna opción aquí o me pueden recomendar a dónde acudir. Muchas gracias."
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 9099,
+      "output_tokens": 601,
+      "estimated_cost_usd": 0.0341348,
+      "seconds": 8.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4623,
+      "output_tokens": 120,
+      "estimated_cost_usd": 0.0109762,
+      "seconds": 3.1
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 2,
+    "input_tokens": 16726,
+    "output_tokens": 1358,
+    "estimated_cost_usd": 0.045702,
+    "agent_call_seconds": [
+      8.0,
+      3.1
+    ]
+  }
+}

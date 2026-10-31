@@ -1,0 +1,68 @@
+{
+  "scenario_id": "ambiguous-off-topic",
+  "fingerprint": "7906f8095c7f29c4d5caf9dd1bde2a233b0b3da24fc2280276b278ad9e9217d7",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Me recomiendas una película para esta noche?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Qué buen plan para esta noche! Pero en películas no puedo ayudarte, solo con las citas y las dudas sobre la clínica. Si necesitas una revisión o una limpieza, dime y te busco hueco. 😊"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4279,
+      "output_tokens": 159,
+      "estimated_cost_usd": 0.0090042,
+      "seconds": 3.33
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4279,
+    "output_tokens": 159,
+    "estimated_cost_usd": 0.009004,
+    "agent_call_seconds": [
+      3.33
+    ]
+  }
+}

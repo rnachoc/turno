@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-what-treatments",
+  "fingerprint": "a84aa1323abdac633adec6068cb691cf803ed182e11047418fa66afc7ccc31f0",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Qué tratamientos ofrecéis?"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Estos son nuestros tratamientos:\n\n- Revisión: 30 min, 35 €, sin señal\n- Limpieza dental: 45 min, 65 €, señal de 10 €\n- Empaste: 45 min, 80 €, señal de 15 €\n- Endodoncia: 90 min, 280 €, señal de 50 €\n- Blanqueamiento: 60 min, 250 €, señal de 50 €\n\n¿Te gustaría pedir cita para alguno?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4280,
+      "output_tokens": 244,
+      "estimated_cost_usd": 0.0107122,
+      "seconds": 3.54
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4280,
+    "output_tokens": 244,
+    "estimated_cost_usd": 0.010712,
+    "agent_call_seconds": [
+      3.54
+    ]
+  }
+}

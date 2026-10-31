@@ -1,0 +1,200 @@
+{
+  "scenario_id": "book-then-gives-up",
+  "fingerprint": "af5492b0ea0aaf591b9c9c622ac79a0dcdf053004940ea73de772cd8b10b84b8",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería informarme sobre una revisión dental. ¿Tienen hueco para una revisión general? No sé si me conviene pedir cita ya o si primero me conviene preguntar algunas cosas."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Sí, tenemos hueco. La revisión dura 30 minutos y cuesta 35 €, sin depósito.\n\nPor ejemplo, con la Dra. Lucía Vega el lunes 2 de noviembre hay estas horas:\n- 12:15\n- 16:30\n- 18:00\n\nSi tienes dudas, pregúntame sin problema antes de decidirte. Y si te encaja alguna hora o prefieres otro día, dímelo."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. Mmm, la verdad es que todavía no lo tengo claro. ¿La de las 16:30 incluye limpieza o solo es la revisión? Y si pido cita, ¿puedo cambiarla después si me surge algo?"
+    },
+    {
+      "role": "agent",
+      "text": "Es solo la revisión: la limpieza dental es un tratamiento aparte, de 45 minutos y 65 € (con 10 € de depósito), y la hace Paula Ortega.\n\nY sí, puedes cambiar la cita más adelante si te surge algo. Solo dime qué día te viene mejor y lo miramos. Además, puedes cancelar gratis hasta 24 horas antes.\n\nSin prisa: si quieres reservar las 16:30 o tienes más dudas, aquí estoy."
+    },
+    {
+      "role": "patient",
+      "text": "Vale, gracias por aclararlo. La de las 16:30 me podría ir bien. ¿Cómo sería para reservarla?"
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Revisión del 2026-11-02 16:30 (precio 35.00 EUR, señal 0.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "No, gracias. Todavía no quiero confirmar la cita. Ya os llamaré otro día. ¡Gracias por la información!"
+    },
+    {
+      "role": "agent",
+      "text": "Sin problema. No se ha confirmado ninguna cita y he liberado la hora de las 16:30, así que no tienes nada pendiente.\n\nCuando quieras pedir cita, aquí estaremos. ¡Gracias a ti y que tengas buen fin de semana!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:00:00Z\", \"local\": \"Monday 2026-11-02 17:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:15:00Z\", \"local\": \"Monday 2026-11-02 17:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:00:00Z\", \"local\": \"Monday 2026-11-02 18:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:15:00Z\", \"local\": \"Monday 2026-11-02 18:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:30:00Z\", \"local\": \"Monday 2026-11-02 18:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:45:00Z\", \"local\": \"Monday 2026-11-02 18:45\"}], \"total_found\": 236}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"baf814eb-e172-4170-b345-0f7e6d026050\", \"status\": \"HOLD\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 16:30\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NOT_DONE_PATIENT_DID_NOT_AGREE\"}</core_result>",
+    "<core_result action=\"release_hold\">{\"appointment_id\": \"baf814eb-e172-4170-b345-0f7e6d026050\", \"status\": \"RELEASED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 16:30\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4336,
+      "output_tokens": 136,
+      "estimated_cost_usd": 0.0090002,
+      "seconds": 2.92
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5219,
+      "output_tokens": 237,
+      "estimated_cost_usd": 0.018084199999999998,
+      "seconds": 4.2
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5489,
+      "output_tokens": 250,
+      "estimated_cost_usd": 0.0205042,
+      "seconds": 4.49
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5735,
+      "output_tokens": 147,
+      "estimated_cost_usd": 0.020412200000000002,
+      "seconds": 3.12
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5869,
+      "output_tokens": 126,
+      "estimated_cost_usd": 0.0210642,
+      "seconds": 2.79
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "not_given",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6118,
+      "output_tokens": 179,
+      "estimated_cost_usd": 0.0241162,
+      "seconds": 3.16
+    },
+    {
+      "kind": "action",
+      "detail": "release_hold:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6252,
+      "output_tokens": 172,
+      "estimated_cost_usd": 0.025048200000000003,
+      "seconds": 3.71
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "baf814eb-e172-4170-b345-0f7e6d026050",
+      "status": "RELEASED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-02T15:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 7,
+    "simulator_calls": 5,
+    "input_tokens": 48108,
+    "output_tokens": 2786,
+    "estimated_cost_usd": 0.14005,
+    "agent_call_seconds": [
+      2.92,
+      4.2,
+      4.49,
+      3.12,
+      2.79,
+      3.16,
+      3.71
+    ]
+  }
+}

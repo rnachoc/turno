@@ -1,0 +1,172 @@
+{
+  "scenario_id": "move-then-regrets",
+  "fingerprint": "e7ed9e0f1a66415359b3ea1bb7d38a343c66bdb4d7fa31b0c3f608e94537ee23",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una revisión reservada, pero quizás no me viene bien esa hora. ¿Podría cambiarla por otra? No estoy muy seguro de qué día me iría mejor."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Claro que sí. Tu revisión con la Dra. Vega está reservada para el lunes 9 de noviembre a las 12:00.\n\nSi quieres cambiarla, estas son algunas opciones con ella:\n- Lunes 2 de noviembre a las 12:15\n- Lunes 2 de noviembre a las 16:30\n- Lunes 2 de noviembre a las 18:00\n\n¿Te encaja alguna? Si no, dime qué día o franja te viene mejor (mañana o tarde) y busco otras opciones."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. Mmm, no sé... el lunes 2 a las 12:15 podría ir, pero no estoy seguro. ¿Me podrías decir si esa hora está libre y cuánto dura la revisión?"
+    },
+    {
+      "role": "agent",
+      "text": "Sí, el lunes 2 de noviembre a las 12:15 con la Dra. Vega aparecía libre en la última búsqueda, y la revisión dura 30 minutos.\n\nTu cita sigue igual, el lunes 9 a las 12:00, hasta que decidas. Tómate tu tiempo: si quieres cambiarla a esa hora, dímelo y lo preparo. Si prefieres, también puedo buscar otro día."
+    },
+    {
+      "role": "patient",
+      "text": "Vale, gracias. Lo voy a pensar un poco y te digo algo. ¿Y el lunes 2 a las 12:15 la doctora está libre todo el rato o puede cambiar algo?"
+    },
+    {
+      "role": "agent",
+      "text": "Esa hora aparecía libre cuando la consulté, pero todavía no está reservada para ti, así que otra persona podría cogerla mientras lo piensas. Si cuando te decidas ya no está disponible, te busco otras opciones.\n\nTu cita del lunes 9 de noviembre a las 12:00 se mantiene igual. Piénsalo con calma y me dices algo."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias por la info. La verdad es que no estoy seguro, y creo que mejor la dejo como estaba, el lunes 9 a las 12:00. Perdón por las vueltas."
+    },
+    {
+      "role": "agent",
+      "text": "¡No te preocupes, no hay ningún problema! Tu revisión con la Dra. Vega sigue como estaba, el lunes 9 de noviembre a las 12:00. No hemos cambiado nada.\n\nSi más adelante necesitas moverla, escríbeme. ¡Hasta pronto!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"428669c8-c704-431f-91a0-d0397637325c\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 12:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:00:00Z\", \"local\": \"Monday 2026-11-02 17:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:15:00Z\", \"local\": \"Monday 2026-11-02 17:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:00:00Z\", \"local\": \"Monday 2026-11-02 18:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:15:00Z\", \"local\": \"Monday 2026-11-02 18:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:30:00Z\", \"local\": \"Monday 2026-11-02 18:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T17:45:00Z\", \"local\": \"Monday 2026-11-02 18:45\"}], \"total_found\": 232}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4333,
+      "output_tokens": 95,
+      "estimated_cost_usd": 0.008156199999999999,
+      "seconds": 2.58
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4477,
+      "output_tokens": 524,
+      "estimated_cost_usd": 0.0178882,
+      "seconds": 6.59
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5360,
+      "output_tokens": 264,
+      "estimated_cost_usd": 0.0197522,
+      "seconds": 4.55
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5648,
+      "output_tokens": 229,
+      "estimated_cost_usd": 0.033025,
+      "seconds": 3.93
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 12146,
+      "output_tokens": 520,
+      "estimated_cost_usd": 0.033171,
+      "seconds": 6.89
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 6117,
+      "output_tokens": 182,
+      "estimated_cost_usd": 0.0241682,
+      "seconds": 3.64
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "428669c8-c704-431f-91a0-d0397637325c",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "428669c8-c704-431f-91a0-d0397637325c",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 6,
+    "simulator_calls": 5,
+    "input_tokens": 47426,
+    "output_tokens": 3453,
+    "estimated_cost_usd": 0.138071,
+    "agent_call_seconds": [
+      2.58,
+      6.59,
+      4.55,
+      3.93,
+      6.89,
+      3.64
+    ]
+  }
+}

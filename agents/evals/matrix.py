@@ -117,12 +117,15 @@ def recorded_models(root: Path = MATRIX) -> list[str]:
     return sorted(path.name for path in root.iterdir() if path.is_dir()) if root.exists() else []
 
 
-def render_report(bank: list[Scenario], root: Path = MATRIX) -> str:
+def render_report(
+    bank: list[Scenario], root: Path = MATRIX, baseline: tuple[str, Path] | None = None
+) -> str:
     """Write the comparison.
 
     Args:
         bank: The scenarios.
         root: The folder of the matrix.
+        baseline: A model recorded elsewhere, with its folder: the one the gate depends on.
 
     Returns:
         The report, in Markdown.
@@ -135,11 +138,14 @@ def render_report(bank: list[Scenario], root: Path = MATRIX) -> str:
         "included: the plan in use has no cost per call.",
         "",
     ]
-    models = recorded_models(root)
+    folders = {model: root / model for model in recorded_models(root)}
+    if baseline is not None and folders:
+        folders[baseline[0]] = baseline[1]
+    models = sorted(folders)
     if not models:
         lines.append(f"**Nothing recorded yet**, out of {len(bank)} scenarios in the bank.")
         return "\n".join(lines) + "\n"
-    results = [summarize(model, grade_bank(bank, root / model, model)) for model in models]
+    results = [summarize(model, grade_bank(bank, folders[model], model)) for model in models]
     lines.extend(
         [
             "| Model | Recorded | Passed | Agent calls | Tokens read | Tokens written | Est. cost | Cost per scenario | Call p50 | Call p95 |",
@@ -155,7 +161,7 @@ def render_report(bank: list[Scenario], root: Path = MATRIX) -> str:
             f"${per_scenario:.4f} | {result.p50_seconds:.1f} s | {result.p95_seconds:.1f} s |"
         )
     lines.extend(["", "## Scenarios on which the models differ", ""])
-    by_model = {model: grade_bank(bank, root / model, model) for model in models}
+    by_model = {model: grade_bank(bank, folders[model], model) for model in models}
     differing = [
         index
         for index in range(len(bank))

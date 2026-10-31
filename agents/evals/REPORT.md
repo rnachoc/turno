@@ -29,6 +29,6 @@ Each scenario has run once, so these numbers do not separate real failures from 
 
 No money is spent, as this runs on a Claude subscription. The cost is what the CLI estimates the same calls would cost on the API.
 
-- Model calls: 149 by the agent and 93 by the simulated patient.
-- Estimated API-equivalent cost of the whole run: $0.1390.
-- Agent call latency through the CLI: median 4.4 s, slowest 14.5 s, over 149 calls.
+- Model calls: 148 by the agent and 93 by the simulated patient.
+- Estimated API-equivalent cost of the whole run: $0.1392.
+- Agent call latency through the CLI: median 4.4 s, slowest 14.5 s, over 148 calls.

@@ -1,0 +1,146 @@
+{
+  "scenario_id": "english-cancels",
+  "fingerprint": "8620b8c7a68945286e185a32556109688b0990c58a9052f7d12e3acfc746a91f",
+  "model": "opus",
+  "language": "en",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hi, good morning. I'd like to cancel my dental cleaning appointment, please. Thank you."
+    },
+    {
+      "role": "agent",
+      "text": "To cancel your Dental cleaning appointment on 2026-11-09 11:15 (price 65.00 EUR, deposit 10.00 EUR), reply \"yes\". Any other answer keeps it."
+    },
+    {
+      "role": "patient",
+      "text": "yes"
+    },
+    {
+      "role": "agent",
+      "text": "Your dental cleaning on 9 November at 11:15 is now cancelled, and you keep your 10.00 EUR deposit, as it wasn't forfeited. If you'd like to book a new date, just let me know. Take care!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"ca35d586-5535-44ac-8df4-7d805f68d334\", \"status\": \"CONFIRMED\", \"treatment\": \"Dental cleaning\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 11:15\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"ca35d586-5535-44ac-8df4-7d805f68d334\", \"status\": \"CANCELLED\", \"treatment\": \"Dental cleaning\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 11:15\", \"price_cents\": 6500, \"deposit_cents\": 1000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4286,
+      "output_tokens": 93,
+      "estimated_cost_usd": 0.0078182,
+      "seconds": 2.78
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4439,
+      "output_tokens": 134,
+      "estimated_cost_usd": 0.0098622,
+      "seconds": 2.84
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4730,
+      "output_tokens": 153,
+      "estimated_cost_usd": 0.012570200000000002,
+      "seconds": 3.05
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "ca35d586-5535-44ac-8df4-7d805f68d334",
+      "status": "CONFIRMED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T10:15:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "ca35d586-5535-44ac-8df4-7d805f68d334",
+      "status": "CANCELLED",
+      "treatment": "hygiene",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T10:15:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 3,
+    "input_tokens": 17812,
+    "output_tokens": 1076,
+    "estimated_cost_usd": 0.031013,
+    "agent_call_seconds": [
+      2.78,
+      2.84,
+      3.05
+    ]
+  }
+}

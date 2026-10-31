@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-price-of-a-filling",
+  "fingerprint": "79e250dc178d32f6e612a407d0b9d4951820905d58bce9536169c8a0052601d2",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Cuánto cuesta un empaste?"
+    },
+    {
+      "role": "agent",
+      "text": "Un empaste cuesta 80 €, con una señal de 15 €, y la cita dura unos 45 minutos. ¿Quieres que te busque hueco?"
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4279,
+      "output_tokens": 133,
+      "estimated_cost_usd": 0.0084842,
+      "seconds": 3.04
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4279,
+    "output_tokens": 133,
+    "estimated_cost_usd": 0.008484,
+    "agent_call_seconds": [
+      3.04
+    ]
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "scenario_id": "book-root-canal",
+  "fingerprint": "98bb6053a594503ebe9bc5f24707b2d6cb707f23d5d25263ea0c0471970ad1f3",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Un dentista me dijo que necesito una endodoncia (un tratamiento de conducto). ¿Tienen hueco para una cita la semana que viene? Quedo atento, gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Sí, tenemos hueco la semana que viene para tu endodoncia con la Dra. Lucía Vega. Por ejemplo, el lunes 2 de noviembre a estas horas:\n\n- 10:45\n- 11:30\n- 16:00\n\nLa endodoncia dura unos 90 minutos y cuesta 280 €, con un depósito de 50 €. ¿Te viene bien alguna de estas horas? Si prefieres otro día de la semana, dímelo y lo miro."
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, me va bien el lunes 2 de noviembre a las 10:45. ¿Me confirmáis la cita? Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "Para confirmar tu cita de Endodoncia del 2026-11-02 10:45 (precio 280.00 EUR, señal 50.00 EUR), responde «sí». Cualquier otra respuesta lo deja como está."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Listo! Tu cita de endodoncia está confirmada para el lunes 2 de noviembre a las 10:45 con la Dra. Lucía Vega. El precio es de 280 €, con una señal de 50 €. Si necesitas cancelarla, puedes hacerlo gratis hasta 24 horas antes. ¡Hasta el lunes!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T09:45:00Z\", \"local\": \"Monday 2026-11-02 10:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T10:00:00Z\", \"local\": \"Monday 2026-11-02 11:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T10:15:00Z\", \"local\": \"Monday 2026-11-02 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:00:00Z\", \"local\": \"Monday 2026-11-02 17:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:15:00Z\", \"local\": \"Monday 2026-11-02 17:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:30:00Z\", \"local\": \"Monday 2026-11-02 17:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"root-canal\", \"starts_at\": \"2026-11-02T16:45:00Z\", \"local\": \"Monday 2026-11-02 17:45\"}], \"total_found\": 87}</core_result>",
+    "<core_result action=\"hold_slot\">{\"appointment_id\": \"911417a5-7aa1-4c31-9cc7-79182eef4b34\", \"status\": \"HOLD\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 10:45\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"confirm_appointment\">{\"appointment_id\": \"911417a5-7aa1-4c31-9cc7-79182eef4b34\", \"status\": \"CONFIRMED\", \"treatment\": \"Endodoncia\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-02 10:45\", \"price_cents\": 28000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4332,
+      "output_tokens": 140,
+      "estimated_cost_usd": 0.0090482,
+      "seconds": 2.9
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5227,
+      "output_tokens": 248,
+      "estimated_cost_usd": 0.0183682,
+      "seconds": 3.74
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5473,
+      "output_tokens": 148,
+      "estimated_cost_usd": 0.0183362,
+      "seconds": 2.89
+    },
+    {
+      "kind": "action",
+      "detail": "hold_slot:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5613,
+      "output_tokens": 141,
+      "estimated_cost_usd": 0.0193162,
+      "seconds": 2.89
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:confirm_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "confirm_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5914,
+      "output_tokens": 201,
+      "estimated_cost_usd": 0.0229242,
+      "seconds": 3.48
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [
+    {
+      "id": "911417a5-7aa1-4c31-9cc7-79182eef4b34",
+      "status": "CONFIRMED",
+      "treatment": "root-canal",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-02T09:45:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 5,
+    "simulator_calls": 4,
+    "input_tokens": 33150,
+    "output_tokens": 1823,
+    "estimated_cost_usd": 0.089181,
+    "agent_call_seconds": [
+      2.9,
+      3.74,
+      2.89,
+      2.89,
+      3.48
+    ]
+  }
+}

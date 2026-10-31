@@ -1,0 +1,84 @@
+{
+  "scenario_id": "asks-the-policy-without-cancelling",
+  "fingerprint": "d76f925a9f37dcfcf4d3e4a62605d23a899b362cdc3dddb8eeaeb082fb4a86a1",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una duda sobre las cancelaciones. ¿Hasta qué fecha u hora puedo cancelar una cita sin que me cobren nada? No tengo pensado cancelar ahora, solo quiero saberlo por si acaso. Gracias."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! Puedes cancelar sin coste hasta 24 horas antes de la hora de tu cita. Por ejemplo, si tu cita es un martes a las 10:00, tienes hasta el lunes a las 10:00. Si algún día lo necesitas, escríbeme y te ayudo encantada."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4357,
+      "output_tokens": 185,
+      "estimated_cost_usd": 0.0101482,
+      "seconds": 3.5
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "d35fcfed-cf01-4d52-b6b3-fdbabe61189f",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "d35fcfed-cf01-4d52-b6b3-fdbabe61189f",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 2,
+    "input_tokens": 7327,
+    "output_tokens": 963,
+    "estimated_cost_usd": 0.01099,
+    "agent_call_seconds": [
+      3.5
+    ]
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "scenario_id": "cancel-one-of-two",
+  "fingerprint": "1d7e561c384bd1d8a15a29adafc00d9c63de59a24651bc835ef8d3b655817174",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Tengo una cita de blanqueamiento dental programada y me gustaría cancelarla, por favor. La revisión dental la mantengo, solo quiero cancelar el blanqueamiento. ¿Me pueden ayudar con eso?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Blanqueamiento del 2026-11-09 12:30 (precio 250.00 EUR, señal 50.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "Listo, tu cita de Blanqueamiento del 9 de noviembre a las 12:30 ha quedado cancelada, sin perder la señal de 50 €. Tu Revisión del 9 de noviembre a las 11:30 con la Dra. Vega sigue en pie. ¡Hasta pronto!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"5d410dad-54c7-49ef-bb29-ba5ee04f5b8c\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 11:30\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}, {\"appointment_id\": \"2ce45d5f-30fb-458b-b1d5-102293811363\", \"status\": \"CONFIRMED\", \"treatment\": \"Blanqueamiento\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 12:30\", \"price_cents\": 25000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"2ce45d5f-30fb-458b-b1d5-102293811363\", \"status\": \"CANCELLED\", \"treatment\": \"Blanqueamiento\", \"practitioner_id\": \"hyg-ortega\", \"local\": \"2026-11-09 12:30\", \"price_cents\": 25000, \"deposit_cents\": 5000, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4351,
+      "output_tokens": 99,
+      "estimated_cost_usd": 0.0083802,
+      "seconds": 2.66
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4631,
+      "output_tokens": 146,
+      "estimated_cost_usd": 0.0115602,
+      "seconds": 3.28
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4934,
+      "output_tokens": 185,
+      "estimated_cost_usd": 0.026432999999999998,
+      "seconds": 3.35
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "5d410dad-54c7-49ef-bb29-ba5ee04f5b8c",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T10:30:00Z"
+    },
+    {
+      "id": "2ce45d5f-30fb-458b-b1d5-102293811363",
+      "status": "CONFIRMED",
+      "treatment": "whitening",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T11:30:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "5d410dad-54c7-49ef-bb29-ba5ee04f5b8c",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T10:30:00Z"
+    },
+    {
+      "id": "2ce45d5f-30fb-458b-b1d5-102293811363",
+      "status": "CANCELLED",
+      "treatment": "whitening",
+      "practitioner": "hyg-ortega",
+      "starts_at": "2026-11-09T11:30:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 3,
+    "simulator_calls": 3,
+    "input_tokens": 20136,
+    "output_tokens": 836,
+    "estimated_cost_usd": 0.047056,
+    "agent_call_seconds": [
+      2.66,
+      3.28,
+      3.35
+    ]
+  }
+}

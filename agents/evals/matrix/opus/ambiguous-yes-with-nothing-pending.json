@@ -1,0 +1,103 @@
+{
+  "scenario_id": "ambiguous-yes-with-nothing-pending",
+  "fingerprint": "26d62639537e05dca24da240d91c9d8381253ddf07bbc11b3d2f5b76ed27cd46",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Sí, confirmo"
+    },
+    {
+      "role": "agent",
+      "text": "Tu cita está confirmada: Revisión con la Dra. Lucía Vega el lunes 9 de noviembre a las 09:00. El precio es de 35 € y no necesita depósito. ¡Te esperamos! ¿Puedo ayudarte con algo más?"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"65f079bf-5862-48a6-baac-852369772b2b\", \"status\": \"CONFIRMED\", \"treatment\": \"Revisión\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 09:00\", \"price_cents\": 3500, \"deposit_cents\": 0, \"deposit_forfeited\": false}]}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4270,
+      "output_tokens": 187,
+      "estimated_cost_usd": 0.021161,
+      "seconds": 3.45
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4415,
+      "output_tokens": 171,
+      "estimated_cost_usd": 0.0103322,
+      "seconds": 3.31
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "65f079bf-5862-48a6-baac-852369772b2b",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "65f079bf-5862-48a6-baac-852369772b2b",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T08:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 0,
+    "input_tokens": 8685,
+    "output_tokens": 358,
+    "estimated_cost_usd": 0.031493,
+    "agent_call_seconds": [
+      3.45,
+      3.31
+    ]
+  }
+}

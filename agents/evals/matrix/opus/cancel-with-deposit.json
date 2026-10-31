@@ -1,0 +1,163 @@
+{
+  "scenario_id": "cancel-with-deposit",
+  "fingerprint": "568fa6edb1b51887651a6adda861be2e836389524709f496dc0568d8ab55d96a",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Antes de decidir quiero preguntar una cosa: si cancelo ahora mi cita para el empaste, ¿pierdo la señal que pagué? Según lo que tenga, cancelaría la cita."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! No, no perderías la señal de 15 €. Tu empaste es el 9 de noviembre a las 12:00 con la Dra. Vega, y puedes cancelar gratis hasta 24 horas antes de la cita, es decir, hasta el 8 de noviembre a las 12:00. ¿Quieres que la cancele o prefieres cambiarla a otro día?"
+    },
+    {
+      "role": "patient",
+      "text": "Perfecto, entonces cancélame la cita del empaste, por favor. ¿Me confirmas cuando esté hecho?"
+    },
+    {
+      "role": "agent",
+      "text": "Para cancelar tu cita de Empaste del 2026-11-09 12:00 (precio 80.00 EUR, señal 15.00 EUR), responde «sí». Cualquier otra respuesta la mantiene."
+    },
+    {
+      "role": "patient",
+      "text": "sí"
+    },
+    {
+      "role": "agent",
+      "text": "¡Hecho! Tu cita de empaste del 9 de noviembre a las 12:00 con la Dra. Vega ya está cancelada, y no pierdes la señal de 15 €. Si quieres pedir una nueva cita más adelante, escríbeme cuando quieras. ¡Que tengas buen fin de semana!"
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"list_appointments\">{\"appointments\": [{\"appointment_id\": \"ca8a557b-8666-485e-b4b0-f65c8286c7f2\", \"status\": \"CONFIRMED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 12:00\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}]}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"status\": \"NEEDS_PATIENT_CONFIRMATION\"}</core_result>",
+    "<core_result action=\"cancel_appointment\">{\"appointment_id\": \"ca8a557b-8666-485e-b4b0-f65c8286c7f2\", \"status\": \"CANCELLED\", \"treatment\": \"Empaste\", \"practitioner_id\": \"dr-vega\", \"local\": \"2026-11-09 12:00\", \"price_cents\": 8000, \"deposit_cents\": 1500, \"deposit_forfeited\": false}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4340,
+      "output_tokens": 95,
+      "estimated_cost_usd": 0.0082122,
+      "seconds": 2.7
+    },
+    {
+      "kind": "action",
+      "detail": "list_appointments:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4491,
+      "output_tokens": 409,
+      "estimated_cost_usd": 0.015700199999999997,
+      "seconds": 5.59
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4694,
+      "output_tokens": 140,
+      "estimated_cost_usd": 0.0119442,
+      "seconds": 3.17
+    },
+    {
+      "kind": "consent",
+      "detail": "asked:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "consent",
+      "detail": "given:cancel_appointment",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "action",
+      "detail": "cancel_appointment:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4990,
+      "output_tokens": 190,
+      "estimated_cost_usd": 0.015312200000000002,
+      "seconds": 3.4
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "ca8a557b-8666-485e-b4b0-f65c8286c7f2",
+      "status": "CONFIRMED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "ca8a557b-8666-485e-b4b0-f65c8286c7f2",
+      "status": "CANCELLED",
+      "treatment": "filling",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T11:00:00Z"
+    }
+  ],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 4,
+    "simulator_calls": 4,
+    "input_tokens": 27021,
+    "output_tokens": 2296,
+    "estimated_cost_usd": 0.052682,
+    "agent_call_seconds": [
+      2.7,
+      5.59,
+      3.17,
+      3.4
+    ]
+  }
+}

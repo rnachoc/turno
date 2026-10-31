@@ -1,0 +1,87 @@
+{
+  "scenario_id": "ambiguous-tooth-hurts",
+  "fingerprint": "1ed33fc116c47caf341ba6836c64525ac21eb1911dad4d420f3992d2865d41e7",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Me duele una muela"
+    },
+    {
+      "role": "agent",
+      "text": "Siento que te duela la muela. Lo mejor es que te vea la dentista cuanto antes con una revisión (30 min, 35 €, sin depósito). El fin de semana estamos cerrados, y estas son las primeras horas que tengo con la Dra. Lucía Vega:\n\n- Lunes 2 de noviembre, 09:30\n- Lunes 2 de noviembre, 09:45\n- Lunes 2 de noviembre, 10:00\n\n¿Cuál te viene mejor? Si necesitas otra hora, dímelo y busco más opciones."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T08:30:00Z\", \"local\": \"Monday 2026-11-02 09:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T08:45:00Z\", \"local\": \"Monday 2026-11-02 09:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T09:00:00Z\", \"local\": \"Monday 2026-11-02 10:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T09:15:00Z\", \"local\": \"Monday 2026-11-02 10:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T09:30:00Z\", \"local\": \"Monday 2026-11-02 10:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T09:45:00Z\", \"local\": \"Monday 2026-11-02 10:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T10:00:00Z\", \"local\": \"Monday 2026-11-02 11:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T10:15:00Z\", \"local\": \"Monday 2026-11-02 11:15\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"dr-vega\", \"treatment_id\": \"check-up\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}], \"total_found\": 164}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4269,
+      "output_tokens": 295,
+      "estimated_cost_usd": 0.0116442,
+      "seconds": 4.45
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5152,
+      "output_tokens": 404,
+      "estimated_cost_usd": 0.0208882,
+      "seconds": 5.76
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 2,
+    "simulator_calls": 0,
+    "input_tokens": 9421,
+    "output_tokens": 699,
+    "estimated_cost_usd": 0.032532,
+    "agent_call_seconds": [
+      4.45,
+      5.76
+    ]
+  }
+}

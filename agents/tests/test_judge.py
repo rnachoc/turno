@@ -308,6 +308,18 @@ def test_each_model_is_added_up_apart(folder: Path) -> None:
     assert "5.0 s" in opus
 
 
+def test_the_model_the_gate_depends_on_gets_a_column_too(folder: Path) -> None:
+    """It is recorded elsewhere, and the comparison would otherwise leave out the cheapest one."""
+    bank = load_bank()[:1]
+    save_recording(_recording(bank[0], "opus", [5.0]), folder / "matrix" / "opus")
+    save_recording(_recording(bank[0], "haiku", [1.0]), folder / "default")
+
+    report = matrix.render_report(bank, folder / "matrix", baseline=("haiku", folder / "default"))
+
+    assert "| `haiku` | 1/1 |" in report
+    assert "| `opus` | 1/1 |" in report
+
+
 def test_percentiles_come_from_real_values() -> None:
     """Without interpolating, and with nothing to go on."""
     assert matrix.percentile([], 0.5) == 0.0

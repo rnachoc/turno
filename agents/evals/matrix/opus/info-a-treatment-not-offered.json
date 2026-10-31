@@ -1,0 +1,68 @@
+{
+  "scenario_id": "info-a-treatment-not-offered",
+  "fingerprint": "7ace41729e9679cb6d568268f3b0286de2499de7f76f74620cb7c5dc0432239a",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "¿Cuánto cuesta una ortodoncia invisible?"
+    },
+    {
+      "role": "agent",
+      "text": "La ortodoncia invisible no está entre los tratamientos que ofrecemos, así que no tengo un precio que darte. Lo que sí hacemos es revisión (35 €), limpieza dental (65 €), empaste (80 €), endodoncia (280 €) y blanqueamiento (250 €). Si quieres, puedo buscarte cita para alguno de ellos o pasarte con una persona del equipo para consultarlo."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4285,
+      "output_tokens": 224,
+      "estimated_cost_usd": 0.022021,
+      "seconds": 3.76
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": false,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 1,
+    "simulator_calls": 0,
+    "input_tokens": 4285,
+    "output_tokens": 224,
+    "estimated_cost_usd": 0.022021,
+    "agent_call_seconds": [
+      3.76
+    ]
+  }
+}

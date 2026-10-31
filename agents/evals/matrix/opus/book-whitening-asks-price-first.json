@@ -1,0 +1,129 @@
+{
+  "scenario_id": "book-whitening-asks-price-first",
+  "fingerprint": "651c72bdf826d344d336eb7f270029c521cee216ceffcd3b6a04abbd2f80d71b",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Hola, buenas. Quería saber cuánto cuesta el blanqueamiento dental y de cuánto es la seña para reservarlo. Me gustaría hacerlo la semana que viene."
+    },
+    {
+      "role": "agent",
+      "text": "¡Hola! El blanqueamiento dental cuesta 250 € y la seña para reservarlo es de 50 €. La sesión dura unos 60 minutos.\n\nPara la semana que viene tengo, por ejemplo, estos huecos con Paula Ortega:\n- Lunes 2 de noviembre a las 09:00\n- Lunes 2 de noviembre a las 11:30\n- Lunes 2 de noviembre a las 16:00\n\n¿Te encaja alguno? Si prefieres otro día u otra hora, dímelo y lo busco."
+    },
+    {
+      "role": "patient",
+      "text": "Gracias. ¿La seña de 50 € se descuenta de los 250 € y se devuelve si cancelo? Si me lo confirmas, me quedo con el lunes 2 a las 11:30."
+    },
+    {
+      "role": "agent",
+      "text": "No puedo confirmarte si los 50 € se descuentan de los 250 €, porque no tengo ese dato. Tampoco puedo asegurarte que se devuelvan si cancelas. Lo que sí sé es que la cancelación es gratuita hasta 24 horas antes de la cita, pero no tengo el detalle de cómo se aplica a la seña.\n\nComo tu decisión depende de esto, aún no he reservado el lunes 2 a las 11:30. ¿Quieres que te pase con una persona del equipo para que te lo aclare, o prefieres que siga con la reserva de todos modos?"
+    },
+    {
+      "role": "patient",
+      "text": "Prefiero que me lo aclare alguien del equipo antes de pagar nada. Pásame con una persona, por favor. Si me confirman que la seña se descuenta y se devuelve al cancelar con tiempo, reservo el lunes 2 a las 11:30."
+    },
+    {
+      "role": "agent",
+      "text": "Paso esta conversación a una persona de la clínica, que te atenderá pronto."
+    }
+  ],
+  "core_results": [
+    "<core_result action=\"search_slots\">{\"slots\": [{\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T08:00:00Z\", \"local\": \"Monday 2026-11-02 09:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T10:30:00Z\", \"local\": \"Monday 2026-11-02 11:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T10:45:00Z\", \"local\": \"Monday 2026-11-02 11:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T11:00:00Z\", \"local\": \"Monday 2026-11-02 12:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T11:15:00Z\", \"local\": \"Monday 2026-11-02 12:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T11:30:00Z\", \"local\": \"Monday 2026-11-02 12:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T11:45:00Z\", \"local\": \"Monday 2026-11-02 12:45\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T12:00:00Z\", \"local\": \"Monday 2026-11-02 13:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T15:00:00Z\", \"local\": \"Monday 2026-11-02 16:00\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T15:15:00Z\", \"local\": \"Monday 2026-11-02 16:15\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T15:30:00Z\", \"local\": \"Monday 2026-11-02 16:30\"}, {\"practitioner_id\": \"hyg-ortega\", \"treatment_id\": \"whitening\", \"starts_at\": \"2026-11-02T15:45:00Z\", \"local\": \"Monday 2026-11-02 16:45\"}], \"total_found\": 178}</core_result>"
+  ],
+  "trace": [
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 4327,
+      "output_tokens": 139,
+      "estimated_cost_usd": 0.0089882,
+      "seconds": 3.18
+    },
+    {
+      "kind": "action",
+      "detail": "search_slots:ok",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5234,
+      "output_tokens": 266,
+      "estimated_cost_usd": 0.0187842,
+      "seconds": 3.92
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 11652,
+      "output_tokens": 857,
+      "estimated_cost_usd": 0.038907399999999995,
+      "seconds": 9.31
+    },
+    {
+      "kind": "model",
+      "detail": "claude-opus-5-5",
+      "input_tokens": 5841,
+      "output_tokens": 94,
+      "estimated_cost_usd": 0.020200199999999998,
+      "seconds": 2.63
+    },
+    {
+      "kind": "handover",
+      "detail": "model_escalated",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [],
+  "appointments_after": [],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 4,
+    "simulator_calls": 3,
+    "input_tokens": 33961,
+    "output_tokens": 2478,
+    "estimated_cost_usd": 0.088044,
+    "agent_call_seconds": [
+      3.18,
+      3.92,
+      9.31,
+      2.63
+    ]
+  }
+}

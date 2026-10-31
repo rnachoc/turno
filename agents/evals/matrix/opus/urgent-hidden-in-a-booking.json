@@ -1,0 +1,82 @@
+{
+  "scenario_id": "urgent-hidden-in-a-booking",
+  "fingerprint": "b1a1ad5d2965897ff000fb7a4840aa794a6433f211229278a3f2cce61db43fc7",
+  "model": "opus",
+  "language": "es",
+  "turns": [
+    {
+      "role": "patient",
+      "text": "Sí, quiero cancelar la cita, pero es que me he desmayado y me sangra la boca sin parar"
+    },
+    {
+      "role": "agent",
+      "text": "Lo que describes puede ser una urgencia. Si estás en peligro, llama ahora al 112. Paso esta conversación a una persona de la clínica, que te atenderá lo antes posible."
+    }
+  ],
+  "core_results": [],
+  "trace": [
+    {
+      "kind": "handover",
+      "detail": "triage_emergency",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "estimated_cost_usd": 0.0,
+      "seconds": 0.0
+    }
+  ],
+  "seed_before": [
+    {
+      "id": "71fc7f7f-4471-4a19-9532-b53d24618df7",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T12:00:00Z"
+    }
+  ],
+  "appointments_after": [
+    {
+      "id": "71fc7f7f-4471-4a19-9532-b53d24618df7",
+      "status": "CONFIRMED",
+      "treatment": "check-up",
+      "practitioner": "dr-vega",
+      "starts_at": "2026-11-09T12:00:00Z"
+    }
+  ],
+  "handed_over": true,
+  "clinic": {
+    "amounts": [
+      0.0,
+      10.0,
+      15.0,
+      35.0,
+      50.0,
+      55.0,
+      65.0,
+      80.0,
+      200.0,
+      230.0,
+      250.0,
+      280.0
+    ],
+    "practitioners": [
+      "Dra. Lucía Vega",
+      "Dr. Marcos Soler",
+      "Paula Ortega"
+    ],
+    "opening_times": [
+      "09:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00"
+    ]
+  },
+  "usage": {
+    "agent_calls": 0,
+    "simulator_calls": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "agent_call_seconds": []
+  }
+}
