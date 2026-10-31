@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 
-from evals import judge, matrix
+from evals import judge, matrix, replay
 from evals.gate import (
     BASELINE,
     REPORT,
@@ -174,6 +174,7 @@ def _stale_reports() -> list[str]:
     expected = {
         judge.REPORT: _judge_report_text(),
         matrix.REPORT: matrix.render_report(load_bank()),
+        replay.DATA: replay.render_data(load_bank()),
     }
     return [
         f"{path.name} is not up to date: run `python -m evals report`"
@@ -183,6 +184,7 @@ def _stale_reports() -> list[str]:
 
 
 def _report(_: argparse.Namespace) -> int:
+    replay.DATA.write_text(replay.render_data(load_bank()), encoding="utf-8", newline="\n")
     judge.REPORT.write_text(_judge_report_text(), encoding="utf-8", newline="\n")
     matrix.REPORT.write_text(matrix.render_report(load_bank()), encoding="utf-8", newline="\n")
     REPORT.write_text(render_report(grade_bank(load_bank())), encoding="utf-8", newline="\n")

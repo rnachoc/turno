@@ -1,0 +1,277 @@
+/* Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com> */
+
+:root {
+  color-scheme: light dark;
+  --paper: #f6f4ee;
+  --surface: #fffefb;
+  --ink: #1d2a2a;
+  --muted: #5a6866;
+  --line: #dcd9cf;
+  --accent: #0f5e5a;
+  --accent-soft: #dcefeb;
+  --danger: #a4311f;
+  --danger-soft: #f9e4df;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141a1a;
+    --surface: #1c2424;
+    --ink: #e8ece9;
+    --muted: #9eaca9;
+    --line: #313c3b;
+    --accent: #5cc4ba;
+    --accent-soft: #1f3a37;
+    --danger: #f08a78;
+    --danger-soft: #41211b;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  line-height: 1.2;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+h2 {
+  font-size: 1.3rem;
+  overflow-wrap: anywhere;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.top {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 2rem 16px 1rem;
+}
+
+.wordmark {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0 0 0.75rem;
+}
+
+.lead {
+  max-width: 44rem;
+  margin: 0.75rem 0;
+}
+
+.summary,
+.note {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.layout {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 16px 3rem;
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.list label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+select {
+  font: inherit;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  width: 100%;
+  min-height: 44px;
+}
+
+.list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.list button {
+  font: inherit;
+  font-size: 0.875rem;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.list button:hover,
+.list button[aria-current] {
+  background: var(--accent-soft);
+}
+
+.list button.failed {
+  color: var(--danger);
+}
+
+.detail {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.25rem;
+  min-width: 0;
+}
+
+.detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tag {
+  border-radius: 999px;
+  padding: 0.05rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tag.ok {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.tag.bad {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.5rem;
+}
+
+.bubble {
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 0.6rem;
+  max-width: 92%;
+}
+
+.bubble p {
+  margin: 0.15rem 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bubble.patient {
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.bubble.agent {
+  background: var(--accent-soft);
+  margin-left: auto;
+}
+
+.who {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.steps,
+.checks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.step {
+  display: grid;
+  padding: 0.3rem 0 0.3rem 0.75rem;
+  border-left: 2px solid var(--line);
+  font-size: 0.875rem;
+}
+
+.step.kind-model {
+  border-left-color: var(--accent);
+}
+
+.step.kind-handover,
+.step.kind-blocked,
+.step.kind-refused,
+.step.kind-rejected {
+  border-left-color: var(--danger);
+}
+
+.check {
+  display: grid;
+  font-size: 0.875rem;
+  padding: 0.15rem 0;
+}
+
+.check.bad {
+  color: var(--danger);
+}
+
+@media (max-width: 800px) {
+  .layout,
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .list ul {
+    max-height: 14rem;
+  }
+}
