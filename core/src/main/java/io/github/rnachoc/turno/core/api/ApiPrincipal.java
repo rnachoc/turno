@@ -9,7 +9,9 @@ public enum ApiPrincipal {
     /** The AI agents: they act on behalf of patients and read untrusted text. */
     AGENTS("agents"),
     /** The clinic's staff, through the console. */
-    STAFF("staff");
+    STAFF("staff"),
+    /** The workflow worker, which waits and asks the core what to do next. */
+    WORKFLOWS("workflows");
 
     /** Request attribute under which the authenticated principal is stored. */
     public static final String ATTRIBUTE = "turno.principal";

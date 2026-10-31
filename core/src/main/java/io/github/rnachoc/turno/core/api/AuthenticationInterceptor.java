@@ -27,10 +27,12 @@ class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final byte[] agentsDigest;
     private final byte[] staffDigest;
+    private final byte[] workflowsDigest;
 
     AuthenticationInterceptor(SecurityProperties properties) {
         this.agentsDigest = sha256(properties.agentsToken());
         this.staffDigest = sha256(properties.staffToken());
+        this.workflowsDigest = sha256(properties.workflowsToken());
     }
 
     @Override
@@ -43,7 +45,11 @@ class AuthenticationInterceptor implements HandlerInterceptor {
             throw new DomainException(ErrorCode.UNAUTHENTICATED);
         }
         request.setAttribute(ApiPrincipal.ATTRIBUTE, principal);
-        if (method.getBeanType().isAnnotationPresent(StaffOnly.class) && principal != ApiPrincipal.STAFF) {
+        boolean staffOnly = method.getBeanType().isAnnotationPresent(StaffOnly.class);
+        boolean workflowsOnly = method.getBeanType().isAnnotationPresent(WorkflowsOnly.class);
+        if ((staffOnly && principal != ApiPrincipal.STAFF)
+                || (workflowsOnly && principal != ApiPrincipal.WORKFLOWS)
+                || (!workflowsOnly && principal == ApiPrincipal.WORKFLOWS)) {
             throw new DomainException(ErrorCode.FORBIDDEN);
         }
         return true;
@@ -57,8 +63,12 @@ class AuthenticationInterceptor implements HandlerInterceptor {
         byte[] presented = sha256(header.substring(BEARER.length()));
         boolean isAgents = MessageDigest.isEqual(presented, agentsDigest);
         boolean isStaff = MessageDigest.isEqual(presented, staffDigest);
+        boolean isWorkflows = MessageDigest.isEqual(presented, workflowsDigest);
         if (isStaff) {
             return ApiPrincipal.STAFF;
+        }
+        if (isWorkflows) {
+            return ApiPrincipal.WORKFLOWS;
         }
         return isAgents ? ApiPrincipal.AGENTS : null;
     }

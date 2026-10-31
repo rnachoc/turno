@@ -79,6 +79,8 @@ class TenantLoaderTest {
                 "zero hold            | 'hold_ttl_minutes: 5'          | 'hold_ttl_minutes: 0'        | hold_ttl_minutes must be positive",
                 "hold beyond notice   | 'hold_ttl_minutes: 5'          | 'hold_ttl_minutes: 500'      | must not exceed min_notice",
                 "zero active holds    | 'max_active_holds_per_patient: 1' | 'max_active_holds_per_patient: 0' | max_active_holds",
+                "zero offer time      | 'offer_ttl_minutes: 30'        | 'offer_ttl_minutes: 0'       | offer_ttl_minutes must be positive",
+                "zero offers          | 'max_offers_per_slot: 3'       | 'max_offers_per_slot: 0'     | max_offers_per_slot must be positive",
                 "inverted outreach    | 'allowed_from: \"09:00\"'      | 'allowed_from: \"21:00\"'    | allowed_from must be before",
             })
     void rejectsInvalidFiles(String name, String from, String to, String expectedProblem)

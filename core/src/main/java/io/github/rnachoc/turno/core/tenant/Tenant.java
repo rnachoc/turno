@@ -28,6 +28,7 @@ import java.util.Set;
  * @param booking rules for making appointments
  * @param cancellation rules for cancelling appointments
  * @param outreach limits on contacting patients
+ * @param waitlist rules for offering freed slots
  * @author Ignacio Rodriguez Caro &lt;rnachoccontact@gmail.com&gt;
  */
 public record Tenant(
@@ -46,7 +47,8 @@ public record Tenant(
         List<Practitioner> practitioners,
         BookingPolicy booking,
         CancellationPolicy cancellation,
-        OutreachPolicy outreach) {
+        OutreachPolicy outreach,
+        WaitlistPolicy waitlist) {
 
     /**
      * Finds a treatment by its identifier.
@@ -140,4 +142,12 @@ public record Tenant(
      */
     public record OutreachPolicy(
             LocalTime allowedFrom, LocalTime allowedUntil, int maxAttemptsPerPatientPerDay) {}
+
+    /**
+     * Rules for offering freed slots.
+     *
+     * @param offerTtlMinutes how long a patient has to answer an offer
+     * @param maxOffersPerSlot how many patients are asked about one slot at most
+     */
+    public record WaitlistPolicy(int offerTtlMinutes, int maxOffersPerSlot) {}
 }

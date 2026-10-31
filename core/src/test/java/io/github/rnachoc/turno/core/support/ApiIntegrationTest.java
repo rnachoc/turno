@@ -35,6 +35,7 @@ public abstract class ApiIntegrationTest {
 
     protected static final String AGENTS = "test-agents-token-0123456789-abcdef";
     protected static final String STAFF = "test-staff-token-0123456789-abcdefg";
+    protected static final String WORKFLOWS = "test-workflows-token-0123456789-abc";
     protected static final JsonMapper JSON = JsonMapper.builder().build();
 
     private static final AtomicLong SEQUENCE = new AtomicLong(1_000_000);
@@ -76,7 +77,7 @@ public abstract class ApiIntegrationTest {
     void resetState() {
         clock.set(madrid(2027, 3, 1, 8, 0));
         owner.jdbc().sql("ALTER TABLE audit_event DISABLE TRIGGER USER").update();
-        owner.jdbc().sql("TRUNCATE audit_event, appointment, patient, idempotency_key").update();
+        owner.jdbc().sql("TRUNCATE audit_event, slot_offer, waitlist_entry, freed_slot, appointment, patient, idempotency_key").update();
         owner.jdbc().sql("ALTER TABLE audit_event ENABLE TRIGGER USER").update();
     }
 

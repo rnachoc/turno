@@ -53,7 +53,7 @@ public class AppointmentRepository {
      * @param appointment the appointment
      * @return whether it was inserted
      */
-    boolean insertIfFree(Appointment appointment) {
+    public boolean insertIfFree(Appointment appointment) {
         return jdbc.sql(
                                 """
                                 INSERT INTO appointment (id, patient_id, practitioner_id, treatment_id, starts_at, ends_at,
@@ -108,7 +108,7 @@ public class AppointmentRepository {
                 .list();
     }
 
-    int countActiveHolds(UUID patientId, Instant now) {
+    public int countActiveHolds(UUID patientId, Instant now) {
         return jdbc.sql(
                         """
                         SELECT count(*) FROM appointment

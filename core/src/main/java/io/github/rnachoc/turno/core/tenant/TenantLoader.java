@@ -187,5 +187,11 @@ public final class TenantLoader {
         if (!tenant.outreach().allowedFrom().isBefore(tenant.outreach().allowedUntil())) {
             problems.add("outreach allowed_from must be before allowed_until");
         }
+        if (tenant.waitlist().offerTtlMinutes() <= 0) {
+            problems.add("offer_ttl_minutes must be positive");
+        }
+        if (tenant.waitlist().maxOffersPerSlot() <= 0) {
+            problems.add("max_offers_per_slot must be positive");
+        }
     }
 }

@@ -10,6 +10,8 @@ import io.github.rnachoc.turno.core.patient.PatientRepository;
 import io.github.rnachoc.turno.core.tenant.Tenant;
 import io.github.rnachoc.turno.core.tenant.Tenant.Practitioner;
 import io.github.rnachoc.turno.core.tenant.Tenant.Treatment;
+import io.github.rnachoc.turno.core.waitlist.FreedSlot;
+import io.github.rnachoc.turno.core.waitlist.WaitlistRepository;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,6 +39,7 @@ public class BookingService {
     private final AppointmentRepository appointments;
     private final PatientRepository patients;
     private final AuditService audit;
+    private final WaitlistRepository waitlist;
     private final Tenant tenant;
     private final Clock clock;
 
@@ -44,11 +47,13 @@ public class BookingService {
             AppointmentRepository appointments,
             PatientRepository patients,
             AuditService audit,
+            WaitlistRepository waitlist,
             Tenant tenant,
             Clock clock) {
         this.appointments = appointments;
         this.patients = patients;
         this.audit = audit;
+        this.waitlist = waitlist;
         this.tenant = tenant;
         this.clock = clock;
     }
@@ -114,6 +119,8 @@ public class BookingService {
         Instant now = clock.instant();
         Appointment appointment = lockOnHold(patientId, appointmentId, now);
         appointments.updateStatus(appointment.id(), AppointmentStatus.CONFIRMED, false, now);
+        // If this hold came from an offer, the patient has got what they were waiting for.
+        waitlist.markBookedByAppointment(appointment.id());
         record(principal, "appointment.confirm", appointment);
         return reload(appointment);
     }
@@ -156,6 +163,7 @@ public class BookingService {
                         && tenant.cancellation().lateCancellationKeepsDeposit()
                         && appointment.depositCents() > 0;
         appointments.updateStatus(appointment.id(), AppointmentStatus.CANCELLED, forfeited, now);
+        recordFreed(appointment, now);
         audit.accepted(
                 principal.actor(),
                 "appointment.cancel",
@@ -194,6 +202,7 @@ public class BookingService {
             case PATIENT_BUSY -> throw new DomainException(ErrorCode.PATIENT_TIME_CONFLICT);
             case MOVED -> {}
         }
+        recordFreed(appointment, now);
         Appointment moved = reload(appointment);
         record(principal, "appointment.reschedule", moved);
         return moved;
@@ -281,6 +290,17 @@ public class BookingService {
         return expired.size();
     }
 
+    /** Written in this same transaction, so the workflow can neither miss it nor act on a rollback. */
+    private void recordFreed(Appointment appointment, Instant now) {
+        waitlist.recordFreedSlot(
+                new FreedSlot(
+                        UUID.randomUUID(),
+                        appointment.practitionerId(),
+                        appointment.startsAt(),
+                        appointment.endsAt()),
+                now);
+    }
+
     private void lockPatient(UUID patientId) {
         if (!patients.lock(patientId)) {
             throw new DomainException(ErrorCode.PATIENT_NOT_FOUND);
@@ -350,7 +370,16 @@ public class BookingService {
                 .orElseThrow(() -> new DomainException(ErrorCode.SLOT_NOT_BOOKABLE));
     }
 
-    private void expireHoldsInTheWay(Slot slot, UUID patientId, Instant now) {
+    /**
+     * Marks the holds that have run out and stand in the way of a slot, which the database's
+     * constraints would otherwise treat as occupying it.
+     *
+     * @param slot the slot
+     * @param patientId the patient who wants it
+     * @param now the current instant
+     */
+    @Transactional
+    public void expireHoldsInTheWay(Slot slot, UUID patientId, Instant now) {
         appointments
                 .expireHoldsInTheWay(slot.practitionerId(), patientId, slot.startsAt(), slot.endsAt(), now)
                 .forEach(this::recordExpiry);

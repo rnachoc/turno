@@ -227,6 +227,7 @@ class SlotCalculatorTest {
                         booking.holdTtlMinutes(),
                         booking.maxActiveHoldsPerPatient()),
                 TENANT.cancellation(),
-                TENANT.outreach());
+                TENANT.outreach(),
+                TENANT.waitlist());
     }
 }

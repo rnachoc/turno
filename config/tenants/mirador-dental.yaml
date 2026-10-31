@@ -80,3 +80,7 @@ outreach:
   allowed_from: "09:00"
   allowed_until: "20:00"
   max_attempts_per_patient_per_day: 2
+
+waitlist:
+  offer_ttl_minutes: 60
+  max_offers_per_slot: 5

@@ -9,6 +9,7 @@ turno:
   security:
     agents-token: test-agents-token-0123456789-abcdef
     staff-token: test-staff-token-0123456789-abcdefg
+    workflows-token: test-workflows-token-0123456789-abc
   jobs:
     # Tests run each job on demand, and a timer running in the background would make them flaky.
     enabled: false

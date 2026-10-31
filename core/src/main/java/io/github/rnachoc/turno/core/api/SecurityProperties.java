@@ -8,19 +8,24 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *
  * @param agentsToken token of the agents service
  * @param staffToken token of the staff console
+ * @param workflowsToken token of the workflow worker
  * @author Ignacio Rodriguez Caro &lt;rnachoccontact@gmail.com&gt;
  */
 @ConfigurationProperties("turno.security")
-public record SecurityProperties(String agentsToken, String staffToken) {
+public record SecurityProperties(String agentsToken, String staffToken, String workflowsToken) {
 
     private static final int MIN_LENGTH = 32;
 
-    /** Validates both tokens. */
+    /** Validates the tokens. */
     public SecurityProperties {
         requireUsable(agentsToken, "agents");
         requireUsable(staffToken, "staff");
-        if (agentsToken.equals(staffToken)) {
-            throw new IllegalArgumentException("The agents and staff tokens must be different");
+        requireUsable(workflowsToken, "workflows");
+        // Not Set.of, whose error for a duplicate would print the token.
+        if (agentsToken.equals(staffToken)
+                || agentsToken.equals(workflowsToken)
+                || staffToken.equals(workflowsToken)) {
+            throw new IllegalArgumentException("Each API token must be different");
         }
     }
 

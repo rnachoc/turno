@@ -1,0 +1,59 @@
+# Fictional clinic for the end-to-end test of the slot refill workflow. It differs from the demo clinic
+# in one thing: it may contact patients at any hour, so the test gives the same result at any time of
+# day. The rule itself is tested in the core, with a clock under control.
+id: e2e-clinic
+name: E2E Dental
+fictional: true
+locale: es-ES
+languages: [es, en]
+timezone: Europe/Madrid
+currency: EUR
+contact_email: hello@e2e-clinic.example
+emergency_number: "112"
+
+opening_hours:
+  monday: &full_day
+    - { open: "09:00", close: "14:00" }
+    - { open: "16:00", close: "20:00" }
+  tuesday: *full_day
+  wednesday: *full_day
+  thursday: *full_day
+  friday: *full_day
+  saturday: []
+  sunday: []
+
+closures: []
+
+treatments:
+  - id: check-up
+    name: { es: Revisión, en: Check-up }
+    duration_minutes: 30
+    price_cents: 3500
+    deposit_cents: 0
+
+practitioners:
+  - id: dr-vega
+    name: Dra. Lucía Vega
+    treatments: [check-up]
+    working_days: [monday, tuesday, wednesday, thursday, friday]
+
+booking:
+  slot_granularity_minutes: 15
+  min_notice_minutes: 120
+  max_advance_days: 60
+  hold_ttl_minutes: 5
+  max_active_holds_per_patient: 1
+
+cancellation:
+  free_until_hours_before: 24
+  late_cancellation_keeps_deposit: true
+  no_show_keeps_deposit: true
+
+outreach:
+  allowed_from: "00:00"
+  allowed_until: "23:59"
+  max_attempts_per_patient_per_day: 2
+
+waitlist:
+  offer_ttl_minutes: 60
+  max_offers_per_slot: 5

@@ -24,6 +24,7 @@ turno:
   security:
     agents-token: ${TURNO_API_TOKEN_AGENTS}
     staff-token: ${TURNO_API_TOKEN_STAFF}
+    workflows-token: ${TURNO_API_TOKEN_WORKFLOWS}
   jobs:
     enabled: true
 
