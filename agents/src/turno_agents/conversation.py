@@ -72,6 +72,7 @@ class Conversation:
         transcript: What the model gets to read.
         pending: A change waiting for the patient's yes.
         trace: What happened, for debugging and evaluation.
+        reported_steps: How many steps of the trace the core has heard about.
         lock: Serializes the turns of this conversation.
     """
 
@@ -83,6 +84,7 @@ class Conversation:
     transcript: list[str] = field(default_factory=list)
     pending: PendingConsent | None = None
     trace: list[TraceStep] = field(default_factory=list)
+    reported_steps: int = 0
     lock: threading.Lock = field(default_factory=threading.Lock)
 
 
@@ -127,6 +129,15 @@ class ConversationStore:
         """
         with self._lock:
             return self._conversations.get(conversation_id)
+
+    def all(self) -> list[Conversation]:
+        """List the conversations held.
+
+        Returns:
+            A copy of the list, which later changes to the store do not affect.
+        """
+        with self._lock:
+            return list(self._conversations.values())
 
 
 def trace_view(conversation: Conversation) -> list[dict[str, Any]]:

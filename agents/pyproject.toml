@@ -61,7 +61,8 @@ convention = "google"
 "src/turno_agents/prompts.py" = ["E501"]
 # Instructions and messages read better on one line.
 "evals/**" = ["E501"]
+"demo/**" = ["E501", "T201", "S603", "S607", "S608"]
 
 [tool.mypy]
 strict = true
-files = ["src", "tests", "evals"]
+files = ["src", "tests", "evals", "demo"]

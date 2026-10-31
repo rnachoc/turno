@@ -125,6 +125,19 @@ class AvailabilityIT extends ApiIntegrationTest {
     }
 
     @Test
+    void refusesDatesAtTheLimitsOfTheCalendar() {
+        for (String range :
+                new String[] {
+                    "from=%2B999999999-12-30&to=%2B999999999-12-31", "from=-999999999-01-01&to=-999999999-01-02"
+                }) {
+            Response response = get("/api/v1/availability?treatmentId=check-up&" + range);
+
+            assertThat(response.status()).as(range).isEqualTo(400);
+            assertThat(response.code()).as(range).isEqualTo("DATE_RANGE_INVALID");
+        }
+    }
+
+    @Test
     void refusesInvalidQueries() {
         assertThat(get("/api/v1/availability?treatmentId=check-up&from=2027-03-03&to=2027-03-02").code())
                 .as("inverted range")

@@ -3,7 +3,8 @@
 Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
-from collections.abc import Awaitable, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -13,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from turno_agents.activity import ActivityReporter
 from turno_agents.agent import AgentService
 from turno_agents.conversation import Conversation, ConversationStore, trace_view
 from turno_agents.core_client import (
@@ -98,7 +100,18 @@ def create_app(
     conversations = store or ConversationStore()
     agent = AgentService(llm, core) if llm is not None and core is not None else None
 
-    app = FastAPI(title="Turno Agents", docs_url=None, redoc_url=None, openapi_url=None)
+    @asynccontextmanager
+    async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+        reporter = ActivityReporter(conversations, core) if core is not None else None
+        if reporter is not None:
+            reporter.start()
+        yield
+        if reporter is not None:
+            reporter.stop()
+
+    app = FastAPI(
+        title="Turno Agents", docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan
+    )
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=config.allowed_hosts)
 
     @app.middleware("http")

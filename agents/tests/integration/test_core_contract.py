@@ -8,15 +8,18 @@ Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 
 import os
 import secrets
+import uuid
 from collections.abc import Iterator
 from datetime import date, timedelta
 from typing import Any
 
+import httpx2
 import pytest
 
 from tests.fakes import CLINIC, FakeCore
+from turno_agents.activity import ActivityReporter
 from turno_agents.agent import AgentService
-from turno_agents.conversation import Conversation, ConversationState
+from turno_agents.conversation import Conversation, ConversationState, ConversationStore, TraceStep
 from turno_agents.core_client import CoreRefusalError, CoreUnavailableError, HttpCoreClient
 from turno_agents.llm import ScriptedLlm
 
@@ -256,3 +259,43 @@ def test_a_conversation_books_for_real(core: HttpCoreClient) -> None:
     assert booked["status"] == "CONFIRMED"
     assert conversation.state is ConversationState.ACTIVE
     core.cancel(patient["id"], booked["id"], _key())
+
+
+def test_what_the_agents_did_reaches_the_staff(core: HttpCoreClient) -> None:
+    """A handover sent by the reporter shows up in the staff's queue, and can be resolved."""
+    token = os.environ.get("TURNO_API_TOKEN_STAFF")
+    url = os.environ["TURNO_CORE_URL"]
+    if not token:
+        pytest.fail("Set TURNO_API_TOKEN_STAFF: this test must not be skipped")
+    store = ConversationStore()
+    conversation = store.create(_new_patient(core)["id"], "es")
+    conversation.trace.extend(
+        [
+            TraceStep("model", "claude-opus-5-5[1m]", 1200, 150, 0.0123456, 2.5),
+            TraceStep("refused", "book:SLOT_UNAVAILABLE"),
+            TraceStep("handover", "triage_medical"),
+        ]
+    )
+
+    ActivityReporter(store, core).report_pending()
+
+    headers = {"Authorization": f"Bearer {token}"}
+    with httpx2.Client(base_url=f"{url}/api/v1/staff", headers=headers) as staff:
+        steps = staff.get(f"/conversations/{conversation.id}").json()["steps"]
+        assert [step["detail"] for step in steps] == [
+            "claude-opus-5-5[1m]",
+            "book:SLOT_UNAVAILABLE",
+            "triage_medical",
+        ]
+        assert steps[0]["estimatedCostUsd"] == pytest.approx(0.012346)
+        waiting = [
+            handover
+            for handover in staff.get("/handovers").json()
+            if handover["conversationId"] == conversation.id
+        ]
+        assert [handover["reason"] for handover in waiting] == ["triage_medical"]
+        resolved = staff.post(
+            f"/handovers/{waiting[0]['id']}/resolve",
+            headers={"Idempotency-Key": f"contract-{uuid.uuid4()}"},
+        )
+        assert resolved.status_code == 200

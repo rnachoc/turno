@@ -20,6 +20,8 @@ public enum ErrorCode {
     WAITLIST_ENTRY_NOT_FOUND(HttpStatus.NOT_FOUND, "The waitlist entry does not exist or is no longer active."),
     FREED_SLOT_NOT_FOUND(HttpStatus.NOT_FOUND, "The freed slot does not exist."),
     OFFER_NOT_FOUND(HttpStatus.NOT_FOUND, "The offer does not exist."),
+    CONVERSATION_NOT_FOUND(HttpStatus.NOT_FOUND, "The conversation does not exist."),
+    HANDOVER_NOT_FOUND(HttpStatus.NOT_FOUND, "The handover does not exist or has already been resolved."),
     ALREADY_ON_WAITLIST(HttpStatus.CONFLICT, "The patient is already waiting for this treatment."),
     PATIENT_ALREADY_EXISTS(HttpStatus.CONFLICT, "A patient with this phone number already exists."),
     SLOT_UNAVAILABLE(HttpStatus.CONFLICT, "The practitioner is no longer free at that time."),

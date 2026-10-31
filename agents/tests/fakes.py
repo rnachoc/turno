@@ -4,8 +4,10 @@ Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
 import uuid
+from collections.abc import Sequence
 from typing import Any
 
+from turno_agents.conversation import TraceStep
 from turno_agents.core_client import CoreRefusalError, CoreUnavailableError
 
 CLINIC: dict[str, Any] = {
@@ -44,6 +46,9 @@ class FakeCore:
         self.keys: list[str] = []
         self.down = False
         self.availability_fails = False
+        self.reported: list[tuple[str, str, int, list[str]]] = []
+        self.report_attempts = 0
+        self.refuse_reports_for: str | None = None
 
     def _check(self) -> None:
         if self.down:
@@ -54,6 +59,28 @@ class FakeCore:
         if appointment is None or appointment["patientId"] != patient_id:
             raise CoreRefusalError("APPOINTMENT_NOT_FOUND", 404)
         return appointment
+
+    def record_steps(
+        self, patient_id: str, conversation_id: str, first_position: int, steps: Sequence[TraceStep]
+    ) -> dict[str, Any]:
+        """Remember what was reported.
+
+        Args:
+            patient_id: The patient.
+            conversation_id: The conversation.
+            first_position: The place of the first step.
+            steps: The steps.
+
+        Returns:
+            How many there were.
+        """
+        self.report_attempts += 1
+        self._check()
+        if patient_id == self.refuse_reports_for:
+            raise CoreRefusalError("VALIDATION_FAILED", 400)
+        details = [step.detail for step in steps]
+        self.reported.append((patient_id, conversation_id, first_position, details))
+        return {"added": len(steps)}
 
     def add(self, patient_id: str, status: str = "CONFIRMED", starts_at: str = SLOT) -> str:
         """Create an appointment directly.

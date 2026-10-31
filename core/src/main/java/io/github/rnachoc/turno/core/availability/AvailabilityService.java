@@ -4,6 +4,7 @@ import io.github.rnachoc.turno.core.api.DomainException;
 import io.github.rnachoc.turno.core.api.ErrorCode;
 import io.github.rnachoc.turno.core.booking.AppointmentRepository;
 import io.github.rnachoc.turno.core.booking.AppointmentRepository.BusyPeriod;
+import io.github.rnachoc.turno.core.tenant.ClinicDay;
 import io.github.rnachoc.turno.core.tenant.Tenant;
 import io.github.rnachoc.turno.core.tenant.Tenant.Practitioner;
 import io.github.rnachoc.turno.core.tenant.Tenant.Treatment;
@@ -60,9 +61,7 @@ public class AvailabilityService {
         Instant now = clock.instant();
         List<BusyPeriod> busy =
                 appointments.findBusy(
-                        from.atStartOfDay(tenant.timezone()).toInstant(),
-                        to.plusDays(1).atStartOfDay(tenant.timezone()).toInstant(),
-                        now);
+                        ClinicDay.of(tenant, from, now).start(), ClinicDay.of(tenant, to, now).end(), now);
         return practitioners(treatment, practitionerId).stream()
                 .flatMap(p -> SlotCalculator.slots(tenant, p, treatment, from, to, now).stream())
                 .filter(slot -> busy.stream().noneMatch(period -> overlaps(period, slot)))

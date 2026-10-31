@@ -77,7 +77,7 @@ public abstract class ApiIntegrationTest {
     void resetState() {
         clock.set(madrid(2027, 3, 1, 8, 0));
         owner.jdbc().sql("ALTER TABLE audit_event DISABLE TRIGGER USER").update();
-        owner.jdbc().sql("TRUNCATE audit_event, slot_offer, waitlist_entry, freed_slot, appointment, patient, idempotency_key").update();
+        owner.jdbc().sql("TRUNCATE audit_event, agent_step, handover, conversation, slot_offer, waitlist_entry, freed_slot, appointment, patient, idempotency_key").update();
         owner.jdbc().sql("ALTER TABLE audit_event ENABLE TRIGGER USER").update();
     }
 

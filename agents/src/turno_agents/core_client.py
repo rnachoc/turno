@@ -4,9 +4,12 @@ Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 """
 
 import uuid
+from collections.abc import Sequence
 from typing import Any, Protocol
 
 import httpx2
+
+from turno_agents.conversation import TraceStep
 
 _TIMEOUT_SECONDS = 15.0
 
@@ -81,6 +84,12 @@ class CoreApi(Protocol):
         self, patient_id: str, appointment_id: str, practitioner_id: str, starts_at: str, key: str
     ) -> dict[str, Any]:
         """Move an appointment."""
+        ...
+
+    def record_steps(
+        self, patient_id: str, conversation_id: str, first_position: int, steps: Sequence[TraceStep]
+    ) -> dict[str, Any]:
+        """Report what happened in a conversation."""
         ...
 
 
@@ -289,4 +298,37 @@ class HttpCoreClient:
         body = {"practitionerId": practitioner_id, "startsAt": starts_at}
         return self._write(
             f"/patients/{patient_id}/appointments/{appointment_id}/reschedule", key, body
+        )
+
+    def record_steps(
+        self, patient_id: str, conversation_id: str, first_position: int, steps: Sequence[TraceStep]
+    ) -> dict[str, Any]:
+        """Report what happened in a conversation. The core ignores the steps it already has.
+
+        Args:
+            patient_id: The patient.
+            conversation_id: The conversation.
+            first_position: The place in the conversation of the first step.
+            steps: Consecutive steps.
+
+        Returns:
+            How many were new.
+        """
+        return self._write(
+            f"/patients/{patient_id}/conversations/{conversation_id}/steps",
+            f"steps-{conversation_id}-{first_position}-{len(steps)}",
+            {
+                "firstPosition": first_position,
+                "steps": [
+                    {
+                        "kind": step.kind,
+                        "detail": step.detail,
+                        "inputTokens": step.input_tokens,
+                        "outputTokens": step.output_tokens,
+                        "estimatedCostUsd": step.estimated_cost_usd,
+                        "seconds": step.seconds,
+                    }
+                    for step in steps
+                ],
+            },
         )
