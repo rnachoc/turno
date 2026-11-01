@@ -8,7 +8,7 @@ COPY public/ public/
 COPY src/ src/
 RUN npx ng build
 
-FROM nginxinc/nginx-unprivileged:1.29.8-alpine
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY nginx/security-headers.conf /etc/nginx/security-headers.conf
 COPY nginx/proxy.conf /etc/nginx/proxy.conf
