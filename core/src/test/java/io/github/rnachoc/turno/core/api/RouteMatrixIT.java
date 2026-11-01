@@ -53,6 +53,7 @@ class RouteMatrixIT extends ApiIntegrationTest {
                     Map.entry("POST /api/v1/notifications/{notificationId}/sent", FOR_PATIENTS),
                     Map.entry("GET /api/v1/staff/audit", STAFF_ONLY),
                     Map.entry("GET /api/v1/staff/agenda", STAFF_ONLY),
+                    Map.entry("GET /api/v1/staff/agenda/range", STAFF_ONLY),
                     Map.entry("GET /api/v1/staff/reports/attendance", STAFF_ONLY),
                     Map.entry("GET /api/v1/staff/reports/daily", STAFF_ONLY),
                     Map.entry("GET /api/v1/staff/appointments/awaiting-outcome", STAFF_ONLY),

@@ -20,6 +20,54 @@ export function addDays(date: string, days: number): string {
   return moved.toISOString().slice(0, 10);
 }
 
+/** The Monday of the week of a date, since a clinic's week starts then. */
+export function mondayOf(date: string): string {
+  const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+  return addDays(date, -((weekday + 6) % 7));
+}
+
+/** Moves a date by whole months. A day the new month lacks becomes that month's last day. */
+export function addMonths(date: string, months: number): string {
+  const [year, month, day] = date.split('-').map(Number);
+  const lastDay = new Date(Date.UTC(year, month - 1 + months + 1, 0));
+  lastDay.setUTCDate(Math.min(day, lastDay.getUTCDate()));
+  return lastDay.toISOString().slice(0, 10);
+}
+
+/** The days a month's calendar shows: from the Monday of its first week to the Sunday of its last. */
+export function monthGrid(date: string): { readonly from: string; readonly to: string } {
+  const first = `${date.slice(0, 7)}-01`;
+  const last = addDays(addMonths(first, 1), -1);
+  return { from: mondayOf(first), to: addDays(mondayOf(last), 6) };
+}
+
+function formatted(date: string, options: Intl.DateTimeFormatOptions): string {
+  return new Intl.DateTimeFormat(LOCALE, { timeZone: 'UTC', ...options }).format(new Date(`${date}T00:00:00Z`));
+}
+
+/** A month for reading, such as "March 2027". */
+export function monthTitle(date: string): string {
+  return formatted(date, { month: 'long', year: 'numeric' });
+}
+
+/** A week for reading, such as "1 – 7 March 2027", saying only what changes between its ends. */
+export function weekTitle(monday: string): string {
+  const sunday = addDays(monday, 6);
+  const end = formatted(sunday, { day: 'numeric', month: 'long', year: 'numeric' });
+  if (monday.slice(0, 4) !== sunday.slice(0, 4)) {
+    return `${formatted(monday, { day: 'numeric', month: 'long', year: 'numeric' })} – ${end}`;
+  }
+  if (monday.slice(0, 7) !== sunday.slice(0, 7)) {
+    return `${formatted(monday, { day: 'numeric', month: 'long' })} – ${end}`;
+  }
+  return `${Number(monday.slice(8))} – ${end}`;
+}
+
+/** A day in a week's heading, such as "Mon 1". */
+export function shortDay(date: string): string {
+  return `${formatted(date, { weekday: 'short' })} ${Number(date.slice(8))}`;
+}
+
 /** Tells whether a text is a real calendar date. */
 export function isDate(text: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) {

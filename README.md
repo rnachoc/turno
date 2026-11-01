@@ -20,7 +20,7 @@ A team of AI agents that runs the front desk of a small clinic over web chat, vo
 - **Talks through the browser's microphone**, on local engines, with barge-in and measured latency.
 - **Takes WhatsApp and email** through signed webhooks, up to a simulated gateway.
 - **Refills freed slots** from the waitlist with a durable Temporal workflow that decides nothing itself.
-- **Gives the clinic a console** with a daily report worked out from the records, an agenda, a queue of decisions and the trace of each conversation.
+- **Gives the clinic a console** with a daily report worked out from the records, an agenda by day, week or month, a queue of decisions and the trace of each conversation.
 - **Answers the owner's questions** from an assistant such as Claude Desktop, through a read-only MCP server that returns figures and never a name.
 
 | The agent, booking and then meeting an emergency | The queue of what waits for a person |

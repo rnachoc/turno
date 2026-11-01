@@ -376,6 +376,33 @@ button.quiet:hover:not(:disabled) {
   padding: 0.5rem 0.9rem;
 }
 
+.view-switch {
+  display: inline-flex;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 11%);
+}
+
+.view-switch a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+.view-switch a:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.view-switch a.active {
+  background: rgb(255 255 255 / 18%);
+  color: var(--ink);
+  font-weight: 500;
+}
+
 /* Report */
 
 .attention {
@@ -582,6 +609,135 @@ button.quiet:hover:not(:disabled) {
   background: var(--no-show);
 }
 
+/* The week, on the agenda's scale of hours */
+
+.week .agenda-head,
+.week .agenda-column {
+  flex: 1 0 8rem;
+  width: 8rem;
+}
+
+.week .agenda-gutter {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--surface);
+}
+
+a.agenda-head {
+  color: var(--ink);
+}
+
+a.agenda-head.today {
+  color: var(--accent);
+}
+
+a.agenda-head.closed {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.agenda-column.closed {
+  border-radius: 10px;
+  background: rgb(255 255 255 / 3%);
+}
+
+.week .agenda-block {
+  right: auto;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid var(--surface);
+  font-size: 0.74rem;
+}
+
+/* The month, as a calendar */
+
+.month {
+  margin-bottom: 0.75rem;
+}
+
+.month-heads,
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.month-heads span {
+  padding: 0 0.75rem 0.5rem;
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+.month-day {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 8.5rem;
+  padding: 0.6rem 0.65rem;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.month-day:hover {
+  background: var(--surface-raised);
+  text-decoration: none;
+}
+
+.month-day.closed {
+  background: rgb(255 255 255 / 4%);
+}
+
+.month-day.closed:hover {
+  background: var(--surface);
+}
+
+.month-day.outside {
+  opacity: 0.42;
+}
+
+.month-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  margin-bottom: 0.15rem;
+}
+
+.month-number {
+  min-width: 1.6rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+}
+
+.month-day.today .month-number {
+  border-radius: 999px;
+  background: var(--accent-solid);
+  color: var(--on-accent);
+  text-align: center;
+}
+
+.month-count {
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.month-entry {
+  overflow: hidden;
+  padding: 0.05rem 0.35rem;
+  border-radius: 6px;
+  font-size: 0.74rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.month-more {
+  padding-left: 0.35rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
 .plain {
   list-style: none;
   padding: 0;
@@ -755,6 +911,47 @@ tr:last-child td {
 
   .day-picker h1 {
     flex-basis: 100%;
+  }
+
+  .view-switch {
+    margin-left: auto;
+  }
+
+  .month-heads,
+  .month-grid {
+    gap: 0.25rem;
+  }
+
+  .month-heads span {
+    padding: 0 0.25rem 0.35rem;
+    font-size: 0.74rem;
+    text-align: center;
+  }
+
+  .month-day {
+    align-items: center;
+    min-height: 3.75rem;
+    padding: 0.35rem 0.1rem;
+    border-radius: 10px;
+  }
+
+  .month-top {
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .month-number {
+    text-align: center;
+  }
+
+  .month-count {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .month-entry,
+  .month-more {
+    display: none;
   }
 
   .panel,

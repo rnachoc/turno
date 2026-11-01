@@ -231,6 +231,123 @@ describe('Agenda', () => {
   });
 });
 
+describe('Agenda views', () => {
+  async function openAt(url: string): Promise<ComponentFixture<Agenda>> {
+    TestBed.inject(Session).signIn('token');
+    await TestBed.inject(Router).navigateByUrl(url);
+    return open(Agenda);
+  }
+
+  afterEach(() => {
+    for (const request of http.match((candidate) => candidate.url.startsWith('/api/v1/staff/agenda'))) {
+      if (!request.cancelled) {
+        request.flush([]);
+      }
+    }
+  });
+
+  function pending(): { url: string; from: string | null; to: string | null } {
+    const [request] = http.match((candidate) => candidate.url.startsWith('/api/v1/staff/agenda'));
+    return {
+      url: request.request.url,
+      from: request.request.params.get('from'),
+      to: request.request.params.get('to'),
+    };
+  }
+
+  it('asks for the whole week at once, from its Monday', async () => {
+    const fixture = await openAt('/agenda?view=week&date=2027-03-03');
+
+    expect(text(fixture)).toContain('1 – 7 March 2027');
+    expect(pending()).toEqual({ url: '/api/v1/staff/agenda/range', from: '2027-03-01', to: '2027-03-07' });
+  });
+
+  it('asks for every day its calendar shows in a month', async () => {
+    const fixture = await openAt('/agenda?view=month&date=2027-03-15');
+
+    expect(text(fixture)).toContain('March 2027');
+    expect(pending()).toEqual({ url: '/api/v1/staff/agenda/range', from: '2027-03-01', to: '2027-04-04' });
+  });
+
+  it('takes an unknown view as the day', async () => {
+    await openAt('/agenda?view=year&date=2027-03-02');
+
+    expect(http.expectOne((request) => request.url === '/api/v1/staff/agenda').request.params.get('date')).toBe(
+      '2027-03-02',
+    );
+  });
+
+  it('shows a hostile name as plain text in the week and in the month', async () => {
+    for (const view of ['week', 'month']) {
+      const fixture = await openAt(`/agenda?view=${view}&date=2027-03-02`);
+
+      http
+        .expectOne((request) => request.url === '/api/v1/staff/agenda/range')
+        .flush([appointment({ patientName: '<img src=x onerror=alert(1)>' })]);
+      await settle(fixture);
+
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.textContent).toContain('<img src=x onerror=alert(1)>');
+      expect(element.querySelector('img')).toBeNull();
+      fixture.destroy();
+    }
+  });
+
+  it('never draws the answer to one view as another', async () => {
+    const fixture = await openAt('/agenda?view=month&date=2027-03-02');
+    http.expectOne((request) => request.url === '/api/v1/staff/agenda/range').flush([appointment()]);
+    await settle(fixture);
+    expect((fixture.nativeElement as HTMLElement).querySelector('.month-day')).not.toBeNull();
+
+    await TestBed.inject(Router).navigateByUrl('/agenda?view=day&date=2027-03-02');
+    await settle(fixture);
+
+    expect((fixture.nativeElement as HTMLElement).querySelector('.month-day')).toBeNull();
+    expect((fixture.nativeElement as HTMLElement).querySelector('.agenda-block')).toBeNull();
+    expect(text(fixture)).toContain('Reading the agenda');
+    http.expectOne((request) => request.url === '/api/v1/staff/agenda').flush([appointment()]);
+    await settle(fixture);
+    expect((fixture.nativeElement as HTMLElement).querySelector('.agenda-block')).not.toBeNull();
+  });
+
+  it.each([
+    ['day', 'Next day', '2027-03-03'],
+    ['week', 'Next week', '2027-03-09'],
+    ['month', 'Next month', '2027-04-02'],
+  ])('moves a %s at a time, and stays in that view', async (view, label, expected) => {
+    const fixture = await openAt(`/agenda?view=${view}&date=2027-03-02`);
+    const router = TestBed.inject(Router);
+
+    (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(`[aria-label="${label}"]`)?.click();
+    await settle(fixture);
+
+    const params = router.parseUrl(router.url).queryParams;
+    expect(params['date']).toBe(expected);
+    expect(params['view']).toBe(view);
+  });
+
+  it('opens a day from the calendar of the month', async () => {
+    const fixture = await openAt('/agenda?view=month&date=2027-03-15');
+    http.expectOne((request) => request.url === '/api/v1/staff/agenda/range').flush([]);
+    await settle(fixture);
+
+    const days = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('.month-day');
+    expect(days[1].getAttribute('href')).toContain('view=day');
+    expect(days[1].getAttribute('href')).toContain('date=2027-03-02');
+  });
+
+  it('keeps the day when the view changes', async () => {
+    const fixture = await openAt('/agenda?view=day&date=2027-03-02');
+
+    const links = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('.view-switch a');
+    expect(Array.from(links).map((link) => link.textContent?.trim())).toEqual(['Day', 'Week', 'Month']);
+    expect(links[1].getAttribute('href')).toContain('view=week');
+    expect(links[1].getAttribute('href')).toContain('date=2027-03-02');
+    expect(links[0].getAttribute('aria-current')).toBe('true');
+    expect(links[1].getAttribute('aria-current')).toBeNull();
+  });
+});
+
 describe('Decisions', () => {
   async function openWith(handovers: unknown[], appointments: unknown[]): Promise<ComponentFixture<DecisionsPage>> {
     const fixture = await open(DecisionsPage);

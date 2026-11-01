@@ -63,6 +63,10 @@ export class ConsoleApi {
     return this.http.get<DailyReport>(`${STAFF}/reports/daily`, { params: { date } });
   }
 
+  agendaRange(from: string, to: string): Observable<AgendaEntry[]> {
+    return this.http.get<AgendaEntry[]>(`${STAFF}/agenda/range`, { params: { from, to } });
+  }
+
   agenda(date: string): Observable<AgendaEntry[]> {
     return this.http.get<AgendaEntry[]>(`${STAFF}/agenda`, { params: { date } });
   }

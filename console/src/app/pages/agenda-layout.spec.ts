@@ -1,10 +1,111 @@
 // Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
 import { describe, expect, it } from 'vitest';
 import { CLINIC, appointment } from '../testing';
-import { PIXELS_PER_MINUTE, layOutAgenda } from './agenda-layout';
+import { PIXELS_PER_MINUTE, layOutAgenda, layOutMonth, layOutWeek } from './agenda-layout';
 
 const TUESDAY = '2027-03-02';
 const MONDAY = '2027-03-01';
+
+describe('layOutWeek', () => {
+  const NOT_THIS_WEEK = '2020-01-01';
+
+  it('has seven days from the Monday, with the closed ones marked', () => {
+    const week = layOutWeek(CLINIC, MONDAY, [], TUESDAY);
+
+    expect(week.days.map((day) => day.title)).toEqual(['Mon 1', 'Tue 2', 'Wed 3', 'Thu 4', 'Fri 5', 'Sat 6', 'Sun 7']);
+    expect(week.days.map((day) => day.closed)).toEqual([false, false, true, true, true, true, true]);
+    expect(week.days.map((day) => day.isToday)).toEqual([false, true, false, false, false, false, false]);
+    expect(week.hours[0].label).toBe('09:00');
+  });
+
+  it('places an appointment on its day by the clock at the clinic', () => {
+    // Late on Monday in UTC is already Tuesday in Madrid.
+    const late = appointment({ startsAt: '2027-03-01T23:30:00Z', endsAt: '2027-03-02T00:00:00Z' });
+
+    const week = layOutWeek(CLINIC, MONDAY, [late], NOT_THIS_WEEK);
+
+    expect(week.days[0].blocks).toEqual([]);
+    expect(week.days[1].blocks.map((block) => block.entry.appointmentId)).toEqual(['a1']);
+    expect(week.hours[0].label).toBe('00:00');
+  });
+
+  it('leaves out what is cancelled, and what falls outside the week', () => {
+    const cancelled = appointment({ appointmentId: 'gone', status: 'CANCELLED' });
+    const nextWeek = appointment({
+      appointmentId: 'later',
+      startsAt: '2027-03-09T09:00:00Z',
+      endsAt: '2027-03-09T09:30:00Z',
+    });
+
+    const week = layOutWeek(CLINIC, MONDAY, [cancelled, nextWeek], NOT_THIS_WEEK);
+
+    expect(week.days.flatMap((day) => day.blocks)).toEqual([]);
+  });
+
+  it('puts appointments side by side only where they meet', () => {
+    const one = appointment({ appointmentId: 'one' });
+    const other = appointment({ appointmentId: 'other', practitionerId: 'ben' });
+    const later = appointment({
+      appointmentId: 'later',
+      startsAt: '2027-03-02T10:00:00Z',
+      endsAt: '2027-03-02T10:30:00Z',
+    });
+
+    const blocks = layOutWeek(CLINIC, MONDAY, [one, other, later], NOT_THIS_WEEK).days[1].blocks;
+
+    expect(blocks.map((block) => [block.entry.appointmentId, block.left, block.width])).toEqual([
+      ['one', 0, 50],
+      ['other', 50, 50],
+      ['later', 0, 100],
+    ]);
+  });
+
+  it('keeps one after another in one lane when they only touch', () => {
+    const first = appointment({ appointmentId: 'first' });
+    const next = appointment({
+      appointmentId: 'next',
+      startsAt: '2027-03-02T09:30:00Z',
+      endsAt: '2027-03-02T10:00:00Z',
+    });
+
+    const blocks = layOutWeek(CLINIC, MONDAY, [first, next], NOT_THIS_WEEK).days[1].blocks;
+
+    expect(blocks.map((block) => block.width)).toEqual([100, 100]);
+  });
+});
+
+describe('layOutMonth', () => {
+  it('covers whole weeks, and marks the days of other months', () => {
+    // March 2027 starts on a Monday and ends on a Wednesday.
+    const { days } = layOutMonth(CLINIC, TUESDAY, [], '2020-01-01');
+
+    expect(days).toHaveLength(35);
+    expect(days[0].date).toBe('2027-03-01');
+    expect(days.at(-1)?.date).toBe('2027-04-04');
+    expect(days.filter((day) => day.inMonth)).toHaveLength(31);
+    expect(days[30].inMonth).toBe(true);
+    expect(days[31].inMonth).toBe(false);
+  });
+
+  it('counts all of a day, names the first few and says how many more', () => {
+    const entries = ['a', 'b', 'c', 'd', 'e'].map((appointmentId) => appointment({ appointmentId }));
+
+    const tuesday = layOutMonth(CLINIC, TUESDAY, entries, TUESDAY).days[1];
+
+    expect(tuesday.total).toBe(5);
+    expect(tuesday.shown.map((entry) => entry.appointmentId)).toEqual(['a', 'b', 'c']);
+    expect(tuesday.more).toBe(2);
+    expect(tuesday.isToday).toBe(true);
+    expect(tuesday.label).toBe('Tuesday, 2 March 2027: 5 appointments');
+  });
+
+  it('does not count what is cancelled', () => {
+    const tuesday = layOutMonth(CLINIC, TUESDAY, [appointment({ status: 'CANCELLED' })], TUESDAY).days[1];
+
+    expect(tuesday.total).toBe(0);
+    expect(tuesday.label).toBe('Tuesday, 2 March 2027: 0 appointments');
+  });
+});
 
 describe('layOutAgenda', () => {
   it('has a column for each practitioner who works that day', () => {

@@ -29,6 +29,9 @@ public class ReportService {
     /** The longest period one question can cover. */
     private static final int MAX_ATTENDANCE_DAYS = 366;
 
+    /** The most days of agenda one question can cover: six whole weeks, as a month's calendar shows. */
+    private static final int MAX_AGENDA_DAYS = 42;
+
     private final ReportRepository reports;
     private final AuditService audit;
     private final Tenant tenant;
@@ -106,6 +109,26 @@ public class ReportService {
         ClinicDay day = ClinicDay.of(tenant, requested, now);
         audit.accepted(principal.actor(), "agenda.read", day.date().toString(), null, Map.of());
         return reports.agenda(day, now);
+    }
+
+    /**
+     * Lists the appointments of a period in one reading, and leaves one line in the audit trail for it.
+     *
+     * @param principal the caller
+     * @param from the first day, at the clinic
+     * @param to the last day, at the clinic, included
+     * @return the appointments, in order
+     */
+    @Transactional
+    public List<AgendaEntry> agendaRange(ApiPrincipal principal, LocalDate from, LocalDate to) {
+        Instant now = clock.instant();
+        ClinicDay first = ClinicDay.of(tenant, from, now);
+        ClinicDay last = ClinicDay.of(tenant, to, now);
+        if (from.isAfter(to) || ChronoUnit.DAYS.between(from, to) >= MAX_AGENDA_DAYS) {
+            throw new DomainException(ErrorCode.DATE_RANGE_INVALID);
+        }
+        audit.accepted(principal.actor(), "agenda.read-range", null, null, Map.of("from", from.toString(), "to", to.toString()));
+        return reports.agenda(first.start(), last.end(), now);
     }
 
     /**

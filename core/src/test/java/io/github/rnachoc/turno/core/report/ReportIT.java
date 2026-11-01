@@ -36,6 +36,12 @@ class ReportIT extends ApiIntegrationTest {
         return response.json();
     }
 
+    private JsonNode agendaRange(String from, String to) {
+        Response response = send("GET", "/api/v1/staff/agenda/range?from=" + from + "&to=" + to, STAFF, null, null);
+        assertThat(response.status()).as(response.body()).isEqualTo(200);
+        return response.json();
+    }
+
     private void reportSteps(UUID patient, UUID conversation, List<Map<String, Object>> steps) {
         Response response =
                 post(
@@ -175,6 +181,59 @@ class ReportIT extends ApiIntegrationTest {
         assertThat(report.path("agenda").path("held").asInt()).isZero();
         assertThat(report.path("occupancy").path("bookedMinutes").asInt()).isZero();
         assertThat(agenda(TUESDAY)).isEmpty();
+    }
+
+    @Test
+    void theAgendaOfAPeriodIncludesBothEnds() {
+        bookOk(newPatient(), "ana", "check-up", tuesday(10, 0));
+
+        assertThat(agendaRange(TUESDAY, TUESDAY)).as("a single day").hasSize(1);
+        assertThat(agendaRange("2027-03-01", TUESDAY)).as("as the last day").hasSize(1);
+        assertThat(agendaRange(TUESDAY, "2027-03-08")).as("as the first day").hasSize(1);
+        assertThat(agendaRange("2027-02-22", "2027-03-01")).as("the week before").isEmpty();
+        assertThat(agendaRange("2027-03-03", "2027-03-09")).as("the week after").isEmpty();
+    }
+
+    @Test
+    void theAgendaOfAPeriodIsInOrderAndHoldsOnlyWhatIsReal() {
+        String later = bookOk(newPatient(), "ana", "check-up", tuesday(12, 0));
+        String earlier = bookOk(newPatient(), "ana", "check-up", tuesday(9, 0));
+        holdOk(newPatient(), "ana", "check-up", tuesday(11, 0));
+        UUID leaving = newPatient();
+        String cancelled = bookOk(leaving, "ana", "check-up", tuesday(10, 0));
+        cancel(leaving, cancelled);
+
+        clock.advance(Duration.ofMinutes(6));
+
+        JsonNode agenda = agendaRange("2027-03-01", "2027-03-07");
+        assertThat(agenda).extracting(entry -> entry.path("appointmentId").asString())
+                .containsExactly(earlier, cancelled, later);
+    }
+
+    @Test
+    void theAgendaOfAPeriodCoversSixWeeksAtMost() {
+        assertThat(send("GET", "/api/v1/staff/agenda/range?from=2027-03-01&to=2027-04-11", STAFF, null, null).status())
+                .as("42 days")
+                .isEqualTo(200);
+        for (String range : List.of(
+                "from=2027-03-01&to=2027-04-12",
+                "from=2027-03-02&to=2027-03-01",
+                "from=1900-01-01&to=1900-01-02",
+                "from=2027-03-01&to=2999-01-01")) {
+            Response response = send("GET", "/api/v1/staff/agenda/range?" + range, STAFF, null, null);
+            assertThat(response.status()).as(range).isEqualTo(400);
+            assertThat(response.code()).as(range).isEqualTo("DATE_RANGE_INVALID");
+        }
+        assertThat(send("GET", "/api/v1/staff/agenda/range?from=2027-03-01", STAFF, null, null).status())
+                .isEqualTo(400);
+    }
+
+    @Test
+    void readingAPeriodLeavesOneLineInTheTrail() {
+        agendaRange("2027-03-01", "2027-03-31");
+
+        assertThat(count("SELECT count(*) FROM audit_event WHERE action = 'agenda.read-range' AND actor = 'staff'"))
+                .isEqualTo(1);
     }
 
     @Test

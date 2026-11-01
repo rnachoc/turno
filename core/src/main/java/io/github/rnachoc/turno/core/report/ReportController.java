@@ -49,6 +49,14 @@ class ReportController {
         return reports.agenda(principal, date);
     }
 
+    @GetMapping("/agenda/range")
+    List<AgendaEntry> agendaRange(
+            @RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal,
+            @RequestParam LocalDate from,
+            @RequestParam LocalDate to) {
+        return reports.agendaRange(principal, from, to);
+    }
+
     @GetMapping("/appointments/awaiting-outcome")
     List<AgendaEntry> awaitingOutcome(@RequestAttribute(ApiPrincipal.ATTRIBUTE) ApiPrincipal principal) {
         return reports.awaitingOutcome(principal);

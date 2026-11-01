@@ -27,6 +27,9 @@ class ReportRepository {
     /** Most appointments returned by one query. */
     private static final int MAX_ROWS = 500;
 
+    /** Far more than a small clinic can book in the longest period the agenda can be asked for. */
+    private static final int MAX_PERIOD_ROWS = 5000;
+
     private final JdbcClient jdbc;
 
     ReportRepository(JdbcClient jdbc) {
@@ -213,6 +216,15 @@ class ReportRepository {
 
     /** Lists the appointments of a day that are or were real: holds that ran out do not count. */
     List<AgendaEntry> agenda(ClinicDay day, Instant now) {
+        return agenda(day.start(), day.end(), now, MAX_ROWS);
+    }
+
+    /** Lists the same for a period, from one instant up to another. */
+    List<AgendaEntry> agenda(Instant from, Instant to, Instant now) {
+        return agenda(from, to, now, MAX_PERIOD_ROWS);
+    }
+
+    private List<AgendaEntry> agenda(Instant from, Instant to, Instant now, int limit) {
         return jdbc.sql(
                         """
                         SELECT a.*, p.full_name, p.phone
@@ -224,10 +236,10 @@ class ReportRepository {
                         ORDER BY a.starts_at, a.practitioner_id, a.id
                         LIMIT :limit
                         """)
-                .param("from", timestamp(day.start()))
-                .param("to", timestamp(day.end()))
+                .param("from", timestamp(from))
+                .param("to", timestamp(to))
                 .param("now", timestamp(now))
-                .param("limit", MAX_ROWS)
+                .param("limit", limit)
                 .query((rs, row) -> agendaEntry(rs))
                 .list();
     }
