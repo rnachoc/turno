@@ -31,6 +31,8 @@ A team of AI agents that runs the front desk of a small clinic over web chat, vo
 
 ## What was measured
 
+[![The published replay of recorded conversations](docs/media/replay.png)](https://rnachoc.github.io/turno/replay/)
+
 Measurements are published as they are made, good or bad, and CI fails if they stop being true.
 
 | What | Result | Report |
