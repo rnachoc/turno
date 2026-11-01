@@ -59,9 +59,12 @@ _MEDICAL_QUESTION = re.compile(
 _AFFIRMATIVE = re.compile(
     r"^(si|sip|vale|ok|okay|okey|de acuerdo|perfecto|adelante|confirmo|correcto|claro|"
     r"yes|yep|yeah|sure|confirm|confirmed|correct|go ahead|that'?s fine|fine|"
-    r"lo confirmo|si[, ]+(por favor|confirmo|adelante|vale|claro)|"
-    r"yes[, ]+(please|confirm|go ahead))[.!\s]*$"
+    r"lo confirmo|si[, ]+(por favor|confirmo|adelante|vale|claro|gracias|hazlo|confirmala)|"
+    r"(vale|ok|perfecto)[, ]+gracias|"
+    r"yes[, ]+(please|confirm|go ahead|thanks|thank you|do it))[.!\s]*$"
 )
+# Agrees to a booking, and to nothing else: said about a cancellation, it makes no sense.
+_AGREES_TO_BOOK = re.compile(r"^((si[, ]+)?(reservala|reservamela)|(yes[, ]+)?book it)[.!\s]*$")
 
 _EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
 _SYSTEM_PATH = re.compile(
@@ -138,18 +141,22 @@ def triage(message: str) -> Triage:
     return Triage.ROUTINE
 
 
-def is_affirmative(message: str) -> bool:
+def is_affirmative(message: str, action: str | None = None) -> bool:
     """Tell whether a message is a clear yes, and nothing else.
 
     A longer sentence is deliberately not a yes: "yes, but not on Monday" must not confirm anything.
 
     Args:
         message: The patient's message.
+        action: The type of the action waiting for this answer, if it is known.
 
     Returns:
         Whether it is an unambiguous yes.
     """
-    return _AFFIRMATIVE.match(normalize(message)) is not None
+    text = normalize(message)
+    if _AFFIRMATIVE.match(text):
+        return True
+    return action == "confirm_appointment" and _AGREES_TO_BOOK.match(text) is not None
 
 
 def check_outbound(reply: str, state_backed: bool) -> OutboundViolation | None:

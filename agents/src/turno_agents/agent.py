@@ -139,7 +139,7 @@ class AgentService:
         pending = conversation.pending
         conversation.pending = None
         if pending is not None:
-            if is_affirmative(message):
+            if is_affirmative(message, pending.action.type):
                 # Runs exactly what the patient agreed to. The model has no part in this.
                 conversation.trace.append(TraceStep("consent", f"given:{pending.action.type}"))
                 state_backed = self._execute(conversation, pending.action, clinic)

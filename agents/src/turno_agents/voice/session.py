@@ -227,7 +227,7 @@ class VoiceSession:
             LOG.warning("A caller went over the limit of messages, and is not being answered")
             return
         pending = self._conversation.pending
-        if pending is not None and is_affirmative(text):
+        if pending is not None and is_affirmative(text, pending.action.type):
             with self._lock:
                 heard_to_the_end = self._question_heard and self._now() >= self._playing_until
             if confidence < MIN_CONFIDENCE_TO_AGREE or not heard_to_the_end:

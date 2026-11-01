@@ -130,6 +130,11 @@ def test_an_emergency_outranks_a_medical_question() -> None:
         "de acuerdo",
         "Confirmo",
         "sí, por favor",
+        "Sí, gracias",
+        "sí, hazlo",
+        "sí, confírmala",
+        "vale, gracias",
+        "yes, thanks",
         "yes",
         "Yes!",
         "ok ",
@@ -158,6 +163,22 @@ def test_clear_yes_answers_are_accepted(message: str) -> None:
 def test_anything_else_is_not_a_yes(message: str) -> None:
     """Consent must be unambiguous, because it triggers a change without the model."""
     assert not is_affirmative(message)
+
+
+@pytest.mark.parametrize("message", ["Sí, resérvala", "resérvamela", "yes, book it", "Book it."])
+def test_asking_to_book_is_a_yes_only_to_a_booking(message: str) -> None:
+    """Said while a cancellation waits, it makes no sense, so that cancellation must not run."""
+    assert is_affirmative(message, "confirm_appointment")
+    assert not is_affirmative(message, "cancel_appointment")
+    assert not is_affirmative(message)
+
+
+@pytest.mark.parametrize(
+    "message", ["sí, resérvala pero el martes", "resérvala y cancela las demás", "reserva otra"]
+)
+def test_asking_to_book_and_something_else_is_not_a_yes(message: str) -> None:
+    """The whole message has to agree."""
+    assert not is_affirmative(message, "confirm_appointment")
 
 
 def test_a_normal_reply_passes() -> None:
