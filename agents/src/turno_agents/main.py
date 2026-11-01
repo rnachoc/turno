@@ -31,6 +31,8 @@ from turno_agents.guards import Triage, triage
 from turno_agents.limits import WindowLimiter
 from turno_agents.llm import ClaudeCliClient, DailyLimitedLlm, LlmClient
 from turno_agents.settings import Settings
+from turno_agents.voice.engines import VoiceEngines, load_engines
+from turno_agents.voice.routes import add_voice
 
 # Comfortably more than the longest valid message, once in JSON and with every character escaped.
 MAX_BODY_BYTES = 16 * 1024
@@ -82,6 +84,7 @@ def create_app(
     core: CoreApi | None = None,
     store: ConversationStore | None = None,
     gateway: Gateway | None = None,
+    voice_engines: VoiceEngines | None = None,
 ) -> FastAPI:
     """Build the FastAPI application.
 
@@ -94,6 +97,7 @@ def create_app(
         core: Access to the core, built from the settings if not given.
         store: Where conversations are kept, a new one if not given.
         gateway: How messages go out on the channels, a simulated one if not given.
+        voice_engines: What listens and speaks, loaded on the first call if not given.
 
     Returns:
         The configured application.
@@ -151,6 +155,18 @@ def create_app(
         response = refusal if refusal is not None else await call_next(request)
         response.headers.update(_SECURITY_HEADERS)
         return response
+
+    if config.voice_enabled and agent is not None and core is not None:
+        add_voice(
+            app,
+            agent,
+            core,
+            conversations,
+            _engines_once(voice_engines, config),
+            messages,
+            phones,
+            starts,
+        )
 
     if channels is not None and config.channel_webhook_secret is not None:
         add_webhooks(app, channels, config.channel_webhook_secret.get_secret_value())
@@ -249,6 +265,20 @@ def create_app(
 
     app.mount("/static", StaticFiles(directory=_STATIC), name="static")
     return app
+
+
+def _engines_once(given: VoiceEngines | None, config: Settings) -> Callable[[], VoiceEngines]:
+    """Load the engines on the first call, since they take seconds and most never need them."""
+    lock = threading.Lock()
+    loaded = [given] if given is not None else []
+
+    def engines() -> VoiceEngines:
+        with lock:
+            if not loaded:
+                loaded.append(load_engines(config.voice_models, config.voice_whisper_model))
+            return loaded[0]
+
+    return engines
 
 
 def _too_many(code: str, limiter: WindowLimiter) -> HTTPException:

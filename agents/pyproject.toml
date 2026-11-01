@@ -16,6 +16,13 @@ dependencies = [
     "uvicorn>=0.54,<1",
 ]
 
+[project.optional-dependencies]
+voice = [
+    "faster-whisper>=1.2,<2",
+    "piper-tts>=1.3,<2",
+    "websockets>=15,<17",
+]
+
 [dependency-groups]
 dev = [
     "mypy>=2.4,<3",
@@ -63,10 +70,16 @@ convention = "google"
 "src/turno_agents/channels/texts.py" = ["E501"]
 # Instructions and messages read better on one line.
 "evals/**" = ["E501"]
+"voice_eval/**" = ["E501", "T201", "S311", "D101", "D102", "D103", "D107", "ANN401"]
 "demo/**" = ["E501", "T201", "S603", "S607", "S608"]
 # Attacks read better on one line, and they are made of the things these rules forbid.
 "security/**" = ["E501", "T201", "RUF001", "S101", "S105", "S106", "D103", "D102", "D105", "D107"]
 
 [tool.mypy]
 strict = true
-files = ["src", "tests", "evals", "demo", "security"]
+files = ["src", "tests", "evals", "demo", "security", "voice_eval"]
+
+# An optional install, and neither of them ships types.
+[[tool.mypy.overrides]]
+module = ["faster_whisper.*", "piper.*", "numpy.*"]
+ignore_missing_imports = true

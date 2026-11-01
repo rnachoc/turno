@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     max_conversations_per_minute: PositiveInt = 30
     channel_webhook_secret: SecretStr | None = Field(default=None, min_length=32)
     channel_outbox: Path | None = None
+    voice_enabled: bool = False
+    voice_models: Path = Path(".voice-models")
+    voice_whisper_model: str = "small"
 
     # Rejecting other host names stops a malicious website from reaching this local service through
     # DNS rebinding, and from spending the plan.

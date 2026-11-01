@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com> -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turno voice</title>
+  <link rel="stylesheet" href="/static/chat.css">
+  <script src="/static/voice.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Talk to the agent</h1>
+    <p class="notice">Everything is synthetic: do not say real personal or health data. Audio is not kept, and stays on this machine. Use headphones if you can.</p>
+    <form id="call">
+      <label>Phone <input id="phone" type="tel" required pattern="\+[1-9][0-9]{6,14}" value="+34600111222"></label>
+      <label>Name, if it is a new number <input id="name" type="text" maxlength="200" value="Laura Test"></label>
+      <label>Language
+        <select id="language">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <button id="start" type="submit">Start the call</button>
+      <button id="hangup" type="button" hidden>Hang up</button>
+    </form>
+    <p id="status" role="status"></p>
+    <div id="log" aria-live="polite"></div>
+  </main>
+</body>
+</html>

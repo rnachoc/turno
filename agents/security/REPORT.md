@@ -5,22 +5,22 @@ what stops an attack fails the build until someone reviews it. Nothing here call
 Attacks on the model itself assume the worst, with a script that does what the attacker wants,
 so they measure the code around the model and not how well the model resists.
 
-**92 of 92 attacks stopped.**
+**97 of 97 attacks stopped.**
 
 ## What stopped them
 
 | Defence | Attacks |
 | --- | ---: |
-| Request validation | 22 |
+| Request validation | 24 |
 | Rule of the core | 8 |
 | Triage by fixed rules | 8 |
+| Patient's consent | 7 |
 | Permission by token | 7 |
 | Route through the patient | 7 |
+| Authentication | 6 |
 | No such capability | 6 |
-| Authentication | 5 |
 | Console proxy | 5 |
 | Guard on the reply | 5 |
-| Patient's consent | 5 |
 | Escaping of the transcript | 4 |
 | Database constraint | 2 |
 | Errors with fixed text | 2 |
@@ -172,6 +172,16 @@ so they measure the code around the model and not how well the model resists.
 | Read a patient's name through the owner's reports | No such capability |
 | Use the owner's client to write | No such capability |
 | Reach other routes by writing them in a date | Request validation |
+
+## Through a call
+
+| Attempt | Stopped by |
+| --- | --- |
+| Open a call from another web page, in a visitor's browser | Authentication |
+| Name the patient in the message that starts a call | Request validation |
+| Exhaust memory with one huge piece of audio | Request validation |
+| Say yes over a question that was not heard to the end | Patient's consent |
+| Have something misheard as a yes count as one | Patient's consent |
 
 ## Floods
 

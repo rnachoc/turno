@@ -1,5 +1,5 @@
 # Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com>
-.PHONY: up up-observability down agents demo-data test test-core test-agents test-console test-contract test-attacks test-e2e test-live eval eval-gate lint
+.PHONY: up up-observability down agents agents-voice voice-report demo-data test test-core test-agents test-console test-contract test-attacks test-e2e test-live eval eval-gate lint
 
 up: ## Build and start the whole stack, waiting until it is healthy.
 	docker compose up --build --detach --wait
@@ -12,6 +12,13 @@ down: ## Stop the stack and keep the data.
 
 agents: ## Run the agents service on this machine, with your own Claude login.
 	cd agents && TURNO_LLM_BACKEND=claude-cli TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env uvicorn turno_agents.main:app --host 127.0.0.1 --port 8001
+
+agents-voice: ## The same with voice at http://127.0.0.1:8001/voice. Downloads about 700 MB the first time.
+	cd agents && uv run --locked --extra voice python -m piper.download_voices es_ES-davefx-medium en_US-lessac-medium --download-dir .voice-models
+	cd agents && TURNO_VOICE_ENABLED=true TURNO_LLM_BACKEND=claude-cli TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --extra voice --env-file ../.env uvicorn turno_agents.main:app --host 127.0.0.1 --port 8001
+
+voice-report: ## Measure the voice channel with the real engines. Spends nothing.
+	cd agents && uv run --locked --extra voice python -m voice_eval
 
 demo-data: ## Fill the running stack with synthetic activity, for a look at the console.
 	cd agents && TURNO_CORE_URL=http://127.0.0.1:8080 uv run --locked --env-file ../.env python demo/seed.py

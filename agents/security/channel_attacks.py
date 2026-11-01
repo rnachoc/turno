@@ -10,19 +10,25 @@ from collections.abc import Callable
 from typing import Any
 
 from fastapi.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
 from security.bank import Attack, Breach, Stack, Stopper, must_be
+from turno_agents.agent import AgentService
 from turno_agents.channels.gateway import SimulatedGateway
 from turno_agents.channels.webhooks import sign
-from turno_agents.conversation import ConversationStore
+from turno_agents.conversation import Conversation, ConversationStore
 from turno_agents.core_client import HttpCoreClient
 from turno_agents.llm import ScriptedLlm
 from turno_agents.main import create_app
 from turno_agents.mcp_server import HttpOwnerApi, OwnerApiError
 from turno_agents.settings import Settings
+from turno_agents.voice.engines import FRAME_BYTES, Transcript, VoiceEngines
+from turno_agents.voice.routes import MAX_FRAME_BYTES
+from turno_agents.voice.session import MIN_CONFIDENCE_TO_AGREE, VoiceSession
 
 CHANNELS = "Through the channels"
 OWNER = "Through the owner's tools"
+VOICE = "Through a call"
 _SECRET = "attack-bank-channel-secret-0123456789"
 
 _ATTACKS: list[Attack] = []
@@ -267,3 +273,146 @@ def _owner_traversal(stack: Stack) -> Stopper:
             continue
         raise Breach(f"{value} passed for a date")
     return Stopper.VALIDATION
+
+
+class _Detector:
+    def probability(self, frame: bytes) -> float:
+        return 1.0 if frame[0] else 0.0
+
+
+class _Ears:
+    """Hears whatever the attack says it heard: these attacks are about what comes after."""
+
+    def __init__(self) -> None:
+        self.next = Transcript("", 0.0)
+
+    def transcribe(self, samples: bytes, language: str) -> Transcript:
+        return self.next
+
+
+class _Mouth:
+    sample_rate = 1000
+
+    def synthesize(self, text: str, language: str) -> bytes:
+        return b"\x01\x00" * 5000
+
+
+class _Sink:
+    def event(self, payload: dict[str, object]) -> None:
+        pass
+
+    def audio(self, samples: bytes) -> None:
+        pass
+
+
+_LOUD = b"\x7f" * FRAME_BYTES
+_QUIET = b"\x00" * FRAME_BYTES
+_ORIGIN = {"origin": "http://127.0.0.1:8001", "host": "127.0.0.1:8001"}
+
+
+def _voice_client(stack: Stack) -> TestClient:
+    settings = Settings(
+        _env_file=None,  # type: ignore[call-arg]
+        allowed_hosts=["127.0.0.1", "testserver"],
+        voice_enabled=True,
+    )
+    core = HttpCoreClient(stack.core_url, stack.tokens["agents"])
+    engines = VoiceEngines(_Ears(), _Mouth(), _Detector)
+    app = create_app(settings, ScriptedLlm([]), core, ConversationStore(), voice_engines=engines)
+    return TestClient(app, base_url="http://127.0.0.1:8001")
+
+
+def _close_code(client: TestClient, headers: dict[str, str], *messages: str | bytes) -> int:
+    try:
+        with client.websocket_connect("/ws/voice", headers=headers) as socket:
+            for message in messages:
+                if isinstance(message, bytes):
+                    socket.send_bytes(message)
+                else:
+                    socket.send_text(message)
+            while True:
+                socket.receive_json()
+    except WebSocketDisconnect as closed:
+        return closed.code
+
+
+@attack(VOICE, "Open a call from another web page, in a visitor's browser")
+def _cross_site_call(stack: Stack) -> Stopper:
+    code = _close_code(_voice_client(stack), {**_ORIGIN, "origin": "http://evil.example"})
+    if code != 4403:
+        raise Breach(f"it closed with {code}")
+    return Stopper.AUTHENTICATION
+
+
+@attack(VOICE, "Name the patient in the message that starts a call")
+def _call_names_patient(stack: Stack) -> Stopper:
+    start = json.dumps({"phone": "+34640000000", "patient_id": secrets.token_hex(8)})
+    code = _close_code(_voice_client(stack), _ORIGIN, start)
+    if code != 4400:
+        raise Breach(f"it closed with {code}")
+    return Stopper.VALIDATION
+
+
+@attack(VOICE, "Exhaust memory with one huge piece of audio")
+def _huge_audio(stack: Stack) -> Stopper:
+    start = json.dumps(
+        {"phone": f"+3464{secrets.randbelow(10**7):07d}", "full_name": "Attack Test"}
+    )
+    code = _close_code(_voice_client(stack), _ORIGIN, start, b"\x00" * (MAX_FRAME_BYTES + 1))
+    if code != 1009:
+        raise Breach(f"it closed with {code}")
+    return Stopper.VALIDATION
+
+
+def _call_with_a_question(stack: Stack) -> tuple[VoiceSession, _Ears, str, str]:
+    patient = stack.new_patient()
+    appointment = stack.hold(patient, stack.free_slot())
+    core = HttpCoreClient(stack.core_url, stack.tokens["agents"])
+    llm = ScriptedLlm(
+        [
+            {
+                "reply": "...",
+                "action": {"type": "confirm_appointment", "appointment_id": appointment},
+            },
+            {"reply": "Hecho", "action": {"type": "none"}},
+        ]
+    )
+    ears = _Ears()
+    conversation = Conversation(id=secrets.token_hex(8), patient_id=patient, language="es")
+    session = VoiceSession(
+        AgentService(llm, core), conversation, VoiceEngines(ears, _Mouth(), _Detector), _Sink()
+    )
+    ears.next = Transcript("confirma mi cita", 0.9)
+    session.feed(_LOUD * 10 + _QUIET * 25)
+    session.drain()
+    session.drain()
+    if conversation.pending is None:
+        raise Breach("the question was never asked, so this proves nothing")
+    return session, ears, patient, appointment
+
+
+@attack(VOICE, "Say yes over a question that was not heard to the end")
+def _yes_over_the_question(stack: Stack) -> Stopper:
+    session, ears, patient, appointment = _call_with_a_question(stack)
+    ears.next = Transcript("sí", 0.9)
+    session.feed(_LOUD * 10 + _QUIET * 25)
+    session.drain()
+    session.drain()
+    session.close()
+    if stack.status_of(patient, appointment) != "HOLD":
+        raise Breach("it was confirmed")
+    return Stopper.CONSENT
+
+
+@attack(VOICE, "Have something misheard as a yes count as one")
+def _unsure_yes(stack: Stack) -> Stopper:
+    session, ears, patient, appointment = _call_with_a_question(stack)
+    session._playing_until = 0.0
+    ears.next = Transcript("sí", MIN_CONFIDENCE_TO_AGREE - 0.01)
+    session.feed(_LOUD * 10 + _QUIET * 25)
+    session.drain()
+    session.drain()
+    session.close()
+    if stack.status_of(patient, appointment) != "HOLD":
+        raise Breach("it was confirmed")
+    return Stopper.CONSENT

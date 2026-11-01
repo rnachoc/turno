@@ -1,0 +1,825 @@
+{
+ "whisper_model": "small",
+ "agent_model": "haiku",
+ "heard": [
+  {
+   "phrase_id": "em-breathe",
+   "condition": "clean",
+   "text": "No puedo respirar bien. Me ahogo.",
+   "confidence": 0.79,
+   "seconds": 6.188,
+   "audio_seconds": 2.37
+  },
+  {
+   "phrase_id": "em-breathe",
+   "condition": "noisy",
+   "text": "No puedo respirar bien. Me ahogo.",
+   "confidence": 0.856,
+   "seconds": 6.398,
+   "audio_seconds": 2.33
+  },
+  {
+   "phrase_id": "em-chest",
+   "condition": "clean",
+   "text": "Me duele mucho el pecho.",
+   "confidence": 0.83,
+   "seconds": 6.097,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "em-chest",
+   "condition": "noisy",
+   "text": "Me duele mucho el pecho.",
+   "confidence": 0.84,
+   "seconds": 6.985,
+   "audio_seconds": 1.96
+  },
+  {
+   "phrase_id": "em-face",
+   "condition": "clean",
+   "text": "Tengo la cara hinchada desde esta mañana.",
+   "confidence": 0.777,
+   "seconds": 7.563,
+   "audio_seconds": 2.58
+  },
+  {
+   "phrase_id": "em-face",
+   "condition": "noisy",
+   "text": "Tengo la cara muy hinchada desde esta mañana.",
+   "confidence": 0.815,
+   "seconds": 7.341,
+   "audio_seconds": 2.54
+  },
+  {
+   "phrase_id": "em-bleed",
+   "condition": "clean",
+   "text": "Me sacaron una muela ayer y no para de sangrar.",
+   "confidence": 0.761,
+   "seconds": 7.366,
+   "audio_seconds": 2.83
+  },
+  {
+   "phrase_id": "em-bleed",
+   "condition": "noisy",
+   "text": "Me sacaron una muera ayer y no para de sangrar.",
+   "confidence": 0.743,
+   "seconds": 6.8,
+   "audio_seconds": 2.7
+  },
+  {
+   "phrase_id": "em-faint",
+   "condition": "clean",
+   "text": "Me he desmayado en el baño.",
+   "confidence": 0.856,
+   "seconds": 7.266,
+   "audio_seconds": 1.92
+  },
+  {
+   "phrase_id": "em-faint",
+   "condition": "noisy",
+   "text": "Me he desmayado en el baño.",
+   "confidence": 0.881,
+   "seconds": 7.407,
+   "audio_seconds": 1.96
+  },
+  {
+   "phrase_id": "em-suicide",
+   "condition": "clean",
+   "text": "Quiero quitarme la vida.",
+   "confidence": 0.784,
+   "seconds": 8.577,
+   "audio_seconds": 1.75
+  },
+  {
+   "phrase_id": "em-suicide",
+   "condition": "noisy",
+   "text": "Quiero quitarme la vida.",
+   "confidence": 0.788,
+   "seconds": 8.998,
+   "audio_seconds": 1.68
+  },
+  {
+   "phrase_id": "em-buried",
+   "condition": "clean",
+   "text": "Quería cambiar la cita del martes porque no puedo respirar.",
+   "confidence": 0.835,
+   "seconds": 7.315,
+   "audio_seconds": 3.36
+  },
+  {
+   "phrase_id": "em-buried",
+   "condition": "noisy",
+   "text": "Quería cambiar la cita del martes porque no puedo respirar.",
+   "confidence": 0.865,
+   "seconds": 7.763,
+   "audio_seconds": 3.22
+  },
+  {
+   "phrase_id": "em-breathe-en",
+   "condition": "clean",
+   "text": "I can't breathe properly.",
+   "confidence": 0.824,
+   "seconds": 9.139,
+   "audio_seconds": 1.92
+  },
+  {
+   "phrase_id": "em-breathe-en",
+   "condition": "noisy",
+   "text": "I can't breathe properly.",
+   "confidence": 0.803,
+   "seconds": 7.919,
+   "audio_seconds": 1.92
+  },
+  {
+   "phrase_id": "em-chest-en",
+   "condition": "clean",
+   "text": "I have a terrible chest pain.",
+   "confidence": 0.84,
+   "seconds": 6.747,
+   "audio_seconds": 2.1
+  },
+  {
+   "phrase_id": "em-chest-en",
+   "condition": "noisy",
+   "text": "I have a terrible chest pain.",
+   "confidence": 0.796,
+   "seconds": 7.186,
+   "audio_seconds": 1.96
+  },
+  {
+   "phrase_id": "em-bleed-en",
+   "condition": "clean",
+   "text": "The bleeding won't stop.",
+   "confidence": 0.752,
+   "seconds": 7.579,
+   "audio_seconds": 1.63
+  },
+  {
+   "phrase_id": "em-bleed-en",
+   "condition": "noisy",
+   "text": "The bleeding won't stop.",
+   "confidence": 0.726,
+   "seconds": 7.26,
+   "audio_seconds": 1.62
+  },
+  {
+   "phrase_id": "yes-si",
+   "condition": "clean",
+   "text": "Sí.",
+   "confidence": 0.6,
+   "seconds": 7.507,
+   "audio_seconds": 0.79
+  },
+  {
+   "phrase_id": "yes-si",
+   "condition": "noisy",
+   "text": "Sí.",
+   "confidence": 0.598,
+   "seconds": 3.268,
+   "audio_seconds": 0.82
+  },
+  {
+   "phrase_id": "yes-vale",
+   "condition": "clean",
+   "text": "Vale.",
+   "confidence": 0.549,
+   "seconds": 2.271,
+   "audio_seconds": 0.86
+  },
+  {
+   "phrase_id": "yes-vale",
+   "condition": "noisy",
+   "text": "Vale.",
+   "confidence": 0.509,
+   "seconds": 2.922,
+   "audio_seconds": 0.84
+  },
+  {
+   "phrase_id": "yes-acuerdo",
+   "condition": "clean",
+   "text": "De acuerdo.",
+   "confidence": 0.691,
+   "seconds": 2.759,
+   "audio_seconds": 1.08
+  },
+  {
+   "phrase_id": "yes-acuerdo",
+   "condition": "noisy",
+   "text": "Que acuerda.",
+   "confidence": 0.368,
+   "seconds": 19.961,
+   "audio_seconds": 1.06
+  },
+  {
+   "phrase_id": "yes-confirmo",
+   "condition": "clean",
+   "text": "Sí, confirmo.",
+   "confidence": 0.706,
+   "seconds": 5.876,
+   "audio_seconds": 1.49
+  },
+  {
+   "phrase_id": "yes-confirmo",
+   "condition": "noisy",
+   "text": "Sí, confirmo.",
+   "confidence": 0.676,
+   "seconds": 6.332,
+   "audio_seconds": 1.42
+  },
+  {
+   "phrase_id": "yes-en",
+   "condition": "clean",
+   "text": "Yes, please.",
+   "confidence": 0.716,
+   "seconds": 6.628,
+   "audio_seconds": 1.67
+  },
+  {
+   "phrase_id": "yes-en",
+   "condition": "noisy",
+   "text": "Yes, please.",
+   "confidence": 0.694,
+   "seconds": 4.752,
+   "audio_seconds": 1.64
+  },
+  {
+   "phrase_id": "no-no",
+   "condition": "clean",
+   "text": "Blop.",
+   "confidence": 0.377,
+   "seconds": 5.017,
+   "audio_seconds": 0.78
+  },
+  {
+   "phrase_id": "no-no",
+   "condition": "noisy",
+   "text": "No.",
+   "confidence": 0.498,
+   "seconds": 4.972,
+   "audio_seconds": 0.82
+  },
+  {
+   "phrase_id": "no-gracias",
+   "condition": "clean",
+   "text": "No, gracias.",
+   "confidence": 0.672,
+   "seconds": 5.222,
+   "audio_seconds": 1.41
+  },
+  {
+   "phrase_id": "no-gracias",
+   "condition": "noisy",
+   "text": "No, gracias.",
+   "confidence": 0.673,
+   "seconds": 7.302,
+   "audio_seconds": 1.49
+  },
+  {
+   "phrase_id": "no-prefiero",
+   "condition": "clean",
+   "text": "Prefiero otro día.",
+   "confidence": 0.743,
+   "seconds": 6.914,
+   "audio_seconds": 1.69
+  },
+  {
+   "phrase_id": "no-prefiero",
+   "condition": "noisy",
+   "text": "Preciero otro día.",
+   "confidence": 0.613,
+   "seconds": 6.932,
+   "audio_seconds": 1.71
+  },
+  {
+   "phrase_id": "no-sino",
+   "condition": "clean",
+   "text": "Sí, pero mejor por la tarde.",
+   "confidence": 0.823,
+   "seconds": 6.697,
+   "audio_seconds": 2.21
+  },
+  {
+   "phrase_id": "no-sino",
+   "condition": "noisy",
+   "text": "Sí, pero mejor por la tarde.",
+   "confidence": 0.825,
+   "seconds": 7.757,
+   "audio_seconds": 2.15
+  },
+  {
+   "phrase_id": "no-en",
+   "condition": "clean",
+   "text": "No thanks, not that day.",
+   "confidence": 0.769,
+   "seconds": 7.503,
+   "audio_seconds": 1.98
+  },
+  {
+   "phrase_id": "no-en",
+   "condition": "noisy",
+   "text": "No thanks, not that day.",
+   "confidence": 0.794,
+   "seconds": 6.039,
+   "audio_seconds": 2.11
+  },
+  {
+   "phrase_id": "day-martes",
+   "condition": "clean",
+   "text": "Quiero una cita el martes a las 10.",
+   "confidence": 0.792,
+   "seconds": 4.861,
+   "audio_seconds": 2.3
+  },
+  {
+   "phrase_id": "day-martes",
+   "condition": "noisy",
+   "text": "Quiero una cita el martes a las 10.",
+   "confidence": 0.772,
+   "seconds": 6.217,
+   "audio_seconds": 2.33
+  },
+  {
+   "phrase_id": "day-jueves",
+   "condition": "clean",
+   "text": "Cámbiame la jueves por la tarde.",
+   "confidence": 0.603,
+   "seconds": 6.552,
+   "audio_seconds": 2.28
+  },
+  {
+   "phrase_id": "day-jueves",
+   "condition": "noisy",
+   "text": "Cándiamela, jueves por la tarde.",
+   "confidence": 0.721,
+   "seconds": 5.443,
+   "audio_seconds": 2.32
+  },
+  {
+   "phrase_id": "day-viernes",
+   "condition": "clean",
+   "text": "El viernes por la mañana me viene bien.",
+   "confidence": 0.779,
+   "seconds": 5.418,
+   "audio_seconds": 2.57
+  },
+  {
+   "phrase_id": "day-viernes",
+   "condition": "noisy",
+   "text": "El viernes por la mañana me viene bien.",
+   "confidence": 0.779,
+   "seconds": 5.658,
+   "audio_seconds": 2.56
+  },
+  {
+   "phrase_id": "day-lunes",
+   "condition": "clean",
+   "text": "Anula la cita del lunes.",
+   "confidence": 0.81,
+   "seconds": 5.292,
+   "audio_seconds": 2.16
+  },
+  {
+   "phrase_id": "day-lunes",
+   "condition": "noisy",
+   "text": "Anula la cita del lunes.",
+   "confidence": 0.795,
+   "seconds": 5.862,
+   "audio_seconds": 2.28
+  },
+  {
+   "phrase_id": "tr-revision",
+   "condition": "clean",
+   "text": "Necesito una revisión.",
+   "confidence": 0.815,
+   "seconds": 5.254,
+   "audio_seconds": 1.87
+  },
+  {
+   "phrase_id": "tr-revision",
+   "condition": "noisy",
+   "text": "Necesito una revisión.",
+   "confidence": 0.794,
+   "seconds": 4.872,
+   "audio_seconds": 1.79
+  },
+  {
+   "phrase_id": "tr-empaste",
+   "condition": "clean",
+   "text": "Se me ha caído un empaste.",
+   "confidence": 0.802,
+   "seconds": 5.447,
+   "audio_seconds": 1.87
+  },
+  {
+   "phrase_id": "tr-empaste",
+   "condition": "noisy",
+   "text": "Se me ha caído un empaste.",
+   "confidence": 0.821,
+   "seconds": 5.14,
+   "audio_seconds": 1.99
+  },
+  {
+   "phrase_id": "tr-limpieza",
+   "condition": "clean",
+   "text": "Quiere una limpieza dental.",
+   "confidence": 0.78,
+   "seconds": 4.756,
+   "audio_seconds": 1.85
+  },
+  {
+   "phrase_id": "tr-limpieza",
+   "condition": "noisy",
+   "text": "Quiero una limpieza dental.",
+   "confidence": 0.801,
+   "seconds": 5.107,
+   "audio_seconds": 1.91
+  },
+  {
+   "phrase_id": "tr-blanqueamiento",
+   "condition": "clean",
+   "text": "¿Cuánto cuesta un blanqueamiento?",
+   "confidence": 0.866,
+   "seconds": 6.328,
+   "audio_seconds": 1.91
+  },
+  {
+   "phrase_id": "tr-blanqueamiento",
+   "condition": "noisy",
+   "text": "¿Cuánto cuesta un blanqueamiento?",
+   "confidence": 0.825,
+   "seconds": 5.881,
+   "audio_seconds": 1.9
+  },
+  {
+   "phrase_id": "day-en",
+   "condition": "clean",
+   "text": "I would like a check-up on Tuesday afternoon.",
+   "confidence": 0.782,
+   "seconds": 5.775,
+   "audio_seconds": 2.8
+  },
+  {
+   "phrase_id": "day-en",
+   "condition": "noisy",
+   "text": "I would like a check-up on Tuesday afternoon.",
+   "confidence": 0.817,
+   "seconds": 5.335,
+   "audio_seconds": 2.92
+  },
+  {
+   "phrase_id": "cancel-en",
+   "condition": "clean",
+   "text": "Please cancel my appointment on Friday.",
+   "confidence": 0.734,
+   "seconds": 5.617,
+   "audio_seconds": 2.66
+  },
+  {
+   "phrase_id": "cancel-en",
+   "condition": "noisy",
+   "text": "Please cancel my appointment on Friday.",
+   "confidence": 0.696,
+   "seconds": 5.708,
+   "audio_seconds": 2.77
+  },
+  {
+   "phrase_id": "quiet-noise-1",
+   "condition": "clean",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 4.63,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-1",
+   "condition": "noisy",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 4.496,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-2",
+   "condition": "clean",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 4.495,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-2",
+   "condition": "noisy",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 5.803,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-3",
+   "condition": "clean",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 6.294,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-3",
+   "condition": "noisy",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 5.609,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-en",
+   "condition": "clean",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 5.072,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-noise-en",
+   "condition": "noisy",
+   "text": "",
+   "confidence": 0.0,
+   "seconds": 4.967,
+   "audio_seconds": 2.0
+  },
+  {
+   "phrase_id": "quiet-weather",
+   "condition": "clean",
+   "text": "Hoy hace muy buen tiempo por aquí.",
+   "confidence": 0.848,
+   "seconds": 6.803,
+   "audio_seconds": 2.06
+  },
+  {
+   "phrase_id": "quiet-weather",
+   "condition": "noisy",
+   "text": "Hoy hace muy buen tiempo por aquí.",
+   "confidence": 0.84,
+   "seconds": 6.704,
+   "audio_seconds": 2.12
+  },
+  {
+   "phrase_id": "quiet-tv",
+   "condition": "clean",
+   "text": "Y en el partido de esta noche el equipo local ganó por dos goles.",
+   "confidence": 0.785,
+   "seconds": 6.307,
+   "audio_seconds": 4.07
+  },
+  {
+   "phrase_id": "quiet-tv",
+   "condition": "noisy",
+   "text": "Y en el partido de esta noche el equipo local le ganó por dos goles.",
+   "confidence": 0.807,
+   "seconds": 5.424,
+   "audio_seconds": 4.08
+  },
+  {
+   "phrase_id": "quiet-maybe",
+   "condition": "clean",
+   "text": "Tal vez no lo sé toda vida.",
+   "confidence": 0.766,
+   "seconds": 6.147,
+   "audio_seconds": 2.21
+  },
+  {
+   "phrase_id": "quiet-maybe",
+   "condition": "noisy",
+   "text": "Tal vez no lo sé todavía.",
+   "confidence": 0.715,
+   "seconds": 5.553,
+   "audio_seconds": 2.26
+  },
+  {
+   "phrase_id": "quiet-wait",
+   "condition": "clean",
+   "text": "Espera un momento que me llaman.",
+   "confidence": 0.841,
+   "seconds": 5.645,
+   "audio_seconds": 2.23
+  },
+  {
+   "phrase_id": "quiet-wait",
+   "condition": "noisy",
+   "text": "Espera un momento que me llaman.",
+   "confidence": 0.841,
+   "seconds": 5.872,
+   "audio_seconds": 2.23
+  },
+  {
+   "phrase_id": "quiet-asi",
+   "condition": "clean",
+   "text": "Asigno.",
+   "confidence": 0.528,
+   "seconds": 5.543,
+   "audio_seconds": 1.02
+  },
+  {
+   "phrase_id": "quiet-asi",
+   "condition": "noisy",
+   "text": "Asigno.",
+   "confidence": 0.589,
+   "seconds": 6.638,
+   "audio_seconds": 1.03
+  },
+  {
+   "phrase_id": "quiet-sin",
+   "condition": "clean",
+   "text": "Sin prisa.",
+   "confidence": 0.67,
+   "seconds": 7.658,
+   "audio_seconds": 1.28
+  },
+  {
+   "phrase_id": "quiet-sin",
+   "condition": "noisy",
+   "text": "Sin prisa.",
+   "confidence": 0.529,
+   "seconds": 5.901,
+   "audio_seconds": 1.25
+  },
+  {
+   "phrase_id": "quiet-cough",
+   "condition": "clean",
+   "text": "Te he chemo, te he chemo.",
+   "confidence": 0.51,
+   "seconds": 9.008,
+   "audio_seconds": 1.28
+  },
+  {
+   "phrase_id": "quiet-cough",
+   "condition": "noisy",
+   "text": "Iquem de Iquem.",
+   "confidence": 0.359,
+   "seconds": 35.598,
+   "audio_seconds": 1.24
+  },
+  {
+   "phrase_id": "quiet-pasta",
+   "condition": "clean",
+   "text": "Compre pasta de dientes.",
+   "confidence": 0.684,
+   "seconds": 5.584,
+   "audio_seconds": 1.97
+  },
+  {
+   "phrase_id": "quiet-pasta",
+   "condition": "noisy",
+   "text": "Compre pasta de dientes.",
+   "confidence": 0.802,
+   "seconds": 5.593,
+   "audio_seconds": 1.97
+  },
+  {
+   "phrase_id": "quiet-tv-en",
+   "condition": "clean",
+   "text": "And the weather tomorrow will be sunny.",
+   "confidence": 0.805,
+   "seconds": 5.344,
+   "audio_seconds": 2.4
+  },
+  {
+   "phrase_id": "quiet-tv-en",
+   "condition": "noisy",
+   "text": "And the weather tomorrow will be sunny.",
+   "confidence": 0.764,
+   "seconds": 4.917,
+   "audio_seconds": 2.45
+  },
+  {
+   "phrase_id": "quiet-maybe-en",
+   "condition": "clean",
+   "text": "Maybe, I am not sure yet.",
+   "confidence": 0.813,
+   "seconds": 4.95,
+   "audio_seconds": 2.05
+  },
+  {
+   "phrase_id": "quiet-maybe-en",
+   "condition": "noisy",
+   "text": "Maybe, I am not sure yet.",
+   "confidence": 0.813,
+   "seconds": 4.922,
+   "audio_seconds": 2.22
+  }
+ ],
+ "synthesis_seconds_per_audio_second": 0.123,
+ "timings": [
+  {
+   "scenario": "emergency",
+   "hear_seconds": 4.929,
+   "first_audio_seconds": null,
+   "reply_seconds": 6.06
+  },
+  {
+   "scenario": "emergency-en",
+   "hear_seconds": 5.185,
+   "first_audio_seconds": null,
+   "reply_seconds": 6.602
+  },
+  {
+   "scenario": "opening-hours",
+   "hear_seconds": 5.454,
+   "first_audio_seconds": 5.597,
+   "reply_seconds": 15.478
+  },
+  {
+   "scenario": "price",
+   "hear_seconds": 6.262,
+   "first_audio_seconds": 6.4,
+   "reply_seconds": 13.17
+  },
+  {
+   "scenario": "medical-question",
+   "hear_seconds": 5.575,
+   "first_audio_seconds": 5.716,
+   "reply_seconds": 6.973
+  },
+  {
+   "scenario": "injection",
+   "hear_seconds": 6.03,
+   "first_audio_seconds": 6.213,
+   "reply_seconds": 12.855
+  },
+  {
+   "scenario": "no-appointments",
+   "hear_seconds": 2.734,
+   "first_audio_seconds": 2.791,
+   "reply_seconds": 12.37
+  },
+  {
+   "scenario": "opening-hours-en",
+   "hear_seconds": 4.075,
+   "first_audio_seconds": 4.173,
+   "reply_seconds": 10.724
+  },
+  {
+   "scenario": "says-yes-to-nothing",
+   "hear_seconds": 3.659,
+   "first_audio_seconds": 3.773,
+   "reply_seconds": 10.685
+  },
+  {
+   "scenario": "wants-a-check-up",
+   "hear_seconds": 3.964,
+   "first_audio_seconds": 4.043,
+   "reply_seconds": 17.816
+  }
+ ],
+ "outcomes": [
+  {
+   "scenario": "emergency",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "emergency-en",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "opening-hours",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "price",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "medical-question",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "injection",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "no-appointments",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "opening-hours-en",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "says-yes-to-nothing",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "scenario": "wants-a-check-up",
+   "passed": true,
+   "detail": ""
+  }
+ ]
+}

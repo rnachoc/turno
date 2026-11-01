@@ -44,3 +44,6 @@ dist/
 
 # What the simulated gateway would have sent
 simulated-outbox.jsonl
+
+# Voice models, which are downloaded
+.voice-models/

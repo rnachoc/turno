@@ -41,7 +41,7 @@ The figures matter less than what producing them turned up. These all got past o
 - It says nothing about real patients, real clinics or real load.
 - Each scenario ran once per model, so small differences mean little.
 - The patient is simulated by a model, which is more articulate and more patient than people are.
-- WhatsApp and email stop at a simulated gateway, because there are no provider accounts. Voice does not exist yet.
+- WhatsApp and email stop at a simulated gateway, because there are no provider accounts. Voice runs through a browser, with no phone line, and its accuracy figures come from synthetic audio.
 - Costs are what the API would charge. This ran on a subscription.
 - Triage matches text, so an emergency written with look-alike letters from another alphabet would get past it.
 

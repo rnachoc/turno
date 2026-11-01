@@ -1,0 +1,51 @@
+# What matters most to hear right: emergencies, and the words that change an appointment.
+# `kind` says what must survive the transcription: triage, consent, or the words listed.
+- { id: em-breathe, language: es, kind: emergency, text: "No puedo respirar bien, me ahogo." }
+- { id: em-chest, language: es, kind: emergency, text: "Me duele mucho el pecho." }
+- { id: em-face, language: es, kind: emergency, text: "Tengo la cara muy hinchada desde esta mañana." }
+- { id: em-bleed, language: es, kind: emergency, text: "Me sacaron una muela ayer y no para de sangrar." }
+- { id: em-faint, language: es, kind: emergency, text: "Me he desmayado en el baño." }
+- { id: em-suicide, language: es, kind: emergency, text: "Quiero quitarme la vida." }
+- { id: em-buried, language: es, kind: emergency, text: "Quería cambiar la cita del martes porque no puedo respirar." }
+- { id: em-breathe-en, language: en, kind: emergency, text: "I can't breathe properly." }
+- { id: em-chest-en, language: en, kind: emergency, text: "I have a terrible chest pain." }
+- { id: em-bleed-en, language: en, kind: emergency, text: "The bleeding won't stop." }
+
+- { id: yes-si, language: es, kind: agree, text: "Sí." }
+- { id: yes-vale, language: es, kind: agree, text: "Vale." }
+- { id: yes-acuerdo, language: es, kind: agree, text: "De acuerdo." }
+- { id: yes-confirmo, language: es, kind: agree, text: "Sí, confirmo." }
+- { id: yes-en, language: en, kind: agree, text: "Yes, please." }
+- { id: no-no, language: es, kind: not_agree, text: "No." }
+- { id: no-gracias, language: es, kind: not_agree, text: "No, gracias." }
+- { id: no-prefiero, language: es, kind: not_agree, text: "Prefiero otro día." }
+- { id: no-sino, language: es, kind: not_agree, text: "Sí, pero mejor por la tarde." }
+- { id: no-en, language: en, kind: not_agree, text: "No thanks, not that day." }
+
+- { id: day-martes, language: es, kind: words, text: "Quiero una cita el martes a las diez.", words: [martes] }
+- { id: day-jueves, language: es, kind: words, text: "Cámbiamela al jueves por la tarde.", words: [jueves, tarde] }
+- { id: day-viernes, language: es, kind: words, text: "El viernes por la mañana me viene bien.", words: [viernes] }
+- { id: day-lunes, language: es, kind: words, text: "Anula la cita del lunes.", words: [anula, lunes] }
+- { id: tr-revision, language: es, kind: words, text: "Necesito una revisión.", words: [revision] }
+- { id: tr-empaste, language: es, kind: words, text: "Se me ha caído un empaste.", words: [empaste] }
+- { id: tr-limpieza, language: es, kind: words, text: "Quiero una limpieza dental.", words: [limpieza] }
+- { id: tr-blanqueamiento, language: es, kind: words, text: "¿Cuánto cuesta un blanqueamiento?", words: [blanqueamiento] }
+- { id: day-en, language: en, kind: words, text: "I would like a check-up on Tuesday afternoon.", words: [tuesday, afternoon] }
+- { id: cancel-en, language: en, kind: words, text: "Please cancel my appointment on Friday.", words: [cancel, friday] }
+
+# Nothing here may become a yes or an emergency, which the vocabulary given to Whisper could cause.
+# With no text, the audio is only noise.
+- { id: quiet-noise-1, language: es, kind: quiet, text: "" }
+- { id: quiet-noise-2, language: es, kind: quiet, text: "" }
+- { id: quiet-noise-3, language: es, kind: quiet, text: "" }
+- { id: quiet-noise-en, language: en, kind: quiet, text: "" }
+- { id: quiet-weather, language: es, kind: quiet, text: "Hoy hace muy buen tiempo por aquí." }
+- { id: quiet-tv, language: es, kind: quiet, text: "Y en el partido de esta noche el equipo local ganó por dos goles." }
+- { id: quiet-maybe, language: es, kind: quiet, text: "Tal vez, no lo sé todavía." }
+- { id: quiet-wait, language: es, kind: quiet, text: "Espera un momento, que me llaman." }
+- { id: quiet-asi, language: es, kind: quiet, text: "Así no." }
+- { id: quiet-sin, language: es, kind: quiet, text: "Sin prisa." }
+- { id: quiet-cough, language: es, kind: quiet, text: "Ejem, ejem." }
+- { id: quiet-pasta, language: es, kind: quiet, text: "Compra pasta de dientes." }
+- { id: quiet-tv-en, language: en, kind: quiet, text: "And the weather tomorrow will be sunny." }
+- { id: quiet-maybe-en, language: en, kind: quiet, text: "Maybe, I am not sure yet." }

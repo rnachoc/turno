@@ -7,7 +7,7 @@ A team of AI agents that answers the phone, WhatsApp and email of a small clinic
 
 **The model proposes, the code decides.** No agent can write to the database or move money. Agents propose actions to a transactional core, which enforces rules, permissions and consent. So a malicious email can ask for a refund, but it has no way of getting one.
 
-> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. When someone cancels, a durable workflow offers the slot to the waitlist, and the patient can answer by WhatsApp. The clinic has a console with an agenda, a daily report worked out from the records, a queue of decisions and the trace of each conversation. The evaluation harness exists and its [report](agents/evals/REPORT.md) says how much has been recorded so far. WhatsApp and email work up to a simulated gateway, because this project has no provider accounts, so **nothing leaves it yet. Voice, general consent tracking and payments do not exist**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Measurements are published as they are made, good or bad: the [evaluations](agents/evals/REPORT.md), the [comparison of models](agents/evals/MATRIX.md), the [judge](agents/evals/JUDGE.md) and the [attacks](agents/security/REPORT.md). To read what the agent really said, open the [replay](docs/replay/index.html) of the recorded conversations. The [case study](docs/case-study.md) puts it together, including what testing found and what none of this shows.
+> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. When someone cancels, a durable workflow offers the slot to the waitlist, and the patient can answer by WhatsApp. The clinic has a console with an agenda, a daily report worked out from the records, a queue of decisions and the trace of each conversation. The evaluation harness exists and its [report](agents/evals/REPORT.md) says how much has been recorded so far. WhatsApp and email work up to a simulated gateway, because this project has no provider accounts, so **nothing leaves it yet**. Voice works through the browser's microphone, with no phone line. **General consent tracking and payments do not exist**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Measurements are published as they are made, good or bad: the [evaluations](agents/evals/REPORT.md), the [comparison of models](agents/evals/MATRIX.md), the [judge](agents/evals/JUDGE.md) and the [attacks](agents/security/REPORT.md), the [voice channel](agents/voice_eval/REPORT.md). To read what the agent really said, open the [replay](docs/replay/index.html) of the recorded conversations. The [case study](docs/case-study.md) puts it together, including what testing found and what none of this shows.
 
 > **Synthetic data only.** The clinic in this repository is fictional. Never use Turno with real patient data.
 
@@ -49,6 +49,7 @@ This is the target design. Today, `core`, PostgreSQL, a text agent over web chat
 | Someone writes in a patient's name | Webhooks check the provider's signature, deliveries count once, and an email counts only if its sender was verified | [ADR 16](docs/adr/0016-channels-in-front-of-the-same-agent.md) |
 | An email hides instructions for the model | Only its plain text is read, and it is still just a patient's message | [ADR 16](docs/adr/0016-channels-in-front-of-the-same-agent.md) |
 | A patient's name steers the owner's assistant | The owner's tools return figures, never a name | [ADR 17](docs/adr/0017-the-owner-asks-through-mcp.md) |
+| A misheard or interrupted yes changes an appointment | A yes only counts if the engine is sure and the question was heard to the end | [ADR 18](docs/adr/0018-voice-as-one-more-channel.md) |
 | Someone describes an emergency | Fixed rules answer first with the emergency number, without the model | [ADR 9](docs/adr/0009-the-agent-loop.md) |
 
 Every attack in the [security report](agents/security/REPORT.md) runs against the real stack on each build, and the report says what stopped it. Known limits are listed in those records.
@@ -75,6 +76,14 @@ With `make agents` running, this delivers a signed message to the real webhook. 
 
 ```bash
 cd agents && uv run --locked --env-file ../.env python demo/whatsapp.py "Quiero una cita"
+```
+
+### Talk to it
+
+With the stack up and a Claude login, this runs the agent with voice, on local engines. Then open http://127.0.0.1:8001/voice. Expect some seconds before each real answer.
+
+```bash
+make agents-voice
 ```
 
 ### Ask from your assistant
@@ -148,6 +157,7 @@ post "/patients/$PATIENT/appointments/$HOLD/confirm" | jq '{status, startsAt, pr
 | `agents/`, against the real model | The stack running and a Claude login; spends your plan and never runs in CI | `make test-live` |
 | Slot refill, end to end | The stack running with `TURNO_TENANT=e2e-clinic`, whose contact hours never make it wait | `make test-e2e` |
 | `console/` | Node 24 | `npm test` |
+| Voice channel: measure | The `voice` extra and its models; spends nothing | `make voice-report` |
 | Attack bank and security report | The stack running; takes a couple of minutes and spends nothing | `make test-attacks` |
 | Evaluations: record | The stack running and a Claude login; spends your plan | `make eval ARGS="--limit 10"` |
 | Evaluations: gate | Nothing else: no model and no core | `make eval-gate` |
@@ -173,7 +183,7 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 - [x] **Phase 3: Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 8](docs/adr/0008-no-api-budget.md)).
 - [x] **Phase 4: Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)) the daily owner report, the console with its queue of decisions and the traces are done ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)). Metrics go to an optional Grafana ([ADR 14](docs/adr/0014-metrics-from-the-core.md)).
 - [ ] **Phase 5: Security.** Rate limits and an attack bank with a published report are done ([ADR 15](docs/adr/0015-limits-and-an-attack-bank.md)). The calibrated judge and the model matrix are built ([judge](agents/evals/JUDGE.md), [matrix](agents/evals/MATRIX.md)).
-- [ ] **Phase 6: Voice.** Streaming pipeline with barge-in and measured latency.
+- [ ] **Phase 6: Voice.** Local engines with barge-in and measured latency work through the browser ([ADR 18](docs/adr/0018-voice-as-one-more-channel.md)). Still to come: a real phone line, which needs a paid provider.
 - [ ] **Phase 7: Channels and MCP.** WhatsApp and email up to a simulated gateway ([ADR 16](docs/adr/0016-channels-in-front-of-the-same-agent.md)) and the owner's MCP server ([ADR 17](docs/adr/0017-the-owner-asks-through-mcp.md)) are done. Still to come: connecting a real provider, which needs accounts.
 - [ ] **Phase 8: Release.** The replay of recorded conversations is built, ready to publish with GitHub Pages. So is the [case study](docs/case-study.md). Still to come: video.
 
