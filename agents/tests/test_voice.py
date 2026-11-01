@@ -359,6 +359,51 @@ def test_talking_over_a_reply_stops_it() -> None:
     call.session.close()
 
 
+def test_talking_while_the_model_thinks_drops_the_answer_on_its_way() -> None:
+    """It answers something older, and the patient has moved on."""
+    release = threading.Event()
+    started = threading.Event()
+
+    def slow() -> dict[str, Any]:
+        started.set()
+        release.wait(5)
+        return _say("La respuesta antigua")
+
+    call = Call([slow, _say("La respuesta nueva")])
+    call.stt.queue.append(Transcript("quiero una cita", SURE))
+    call.frames(SPEECH, 10)
+    call.frames(SILENCE, 25)
+    assert started.wait(5)
+    # The holding phrase is still playing, so this is an interruption.
+    call.clock.value = call.session._playing_until - 0.1
+    call.stt.queue.append(Transcript("mejor otro día", SURE))
+    call.frames(SPEECH, 3)
+    call.frames(SILENCE, 25)
+    release.set()
+    call.session._hearing.submit(lambda: None).result()
+    call.session.drain()
+
+    assert "La respuesta antigua" not in call.tts.said
+    assert "La respuesta nueva" in call.tts.said
+    assert len(call.sink.of("stop")) == 1
+    call.session.close()
+
+
+def test_an_emergency_cuts_off_whatever_began_playing_while_it_was_transcribed() -> None:
+    """Transcribing takes seconds, in which an answer to something older can start."""
+    call = Call([_say("Una respuesta muy larga que sigue sonando")])
+    call.agent.warm_up()
+    call.utter("hola")
+    assert call.sink.of("stop") == []
+
+    call.stt.queue.append(Transcript("no puedo respirar", SURE))
+    call.session._hear(b"", call.clock())
+
+    assert len(call.sink.of("stop")) == 1
+    assert "112" in call.tts.said[-1]
+    call.session.close()
+
+
 def test_talking_after_a_reply_has_ended_stops_nothing() -> None:
     """Nothing is playing by then."""
     call = Call([_say("Hola"), _say("Dos")])
