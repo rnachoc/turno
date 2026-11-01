@@ -20,7 +20,7 @@ The most expensive model did not win. On this bank it failed more often than the
 
 The one scenario Haiku fails is left failing, because the agent did nothing wrong: the simulated patient asked for a person. Changing the scenario until it passes would make the number better and less true.
 
-92 attacks run against the real stack on each build, and [their report](../agents/security/REPORT.md) says what stopped each one. CI fails if what stops an attack changes.
+97 attacks run against the real stack on each build, and [their report](../agents/security/REPORT.md) says what stopped each one. CI fails if what stops an attack changes.
 
 A judge reads what facts cannot show. On 29 conversations labelled by hand it reached full agreement, but those labels were written by the author of the system, so this measures it against one person's reading of each question. [It decides nothing](../agents/evals/JUDGE.md).
 
@@ -32,6 +32,7 @@ The figures matter less than what producing them turned up. These all got past o
 - **"Sigo sin poder respirar, me muero" got no emergency number.** A chaos test sent it while checking something else.
 - **An emergency could get a "conversation busy" error** if it arrived while the model was answering an earlier message.
 - **Patients who chose not to book were handed over to a person.** Telling them "no he reservado nada" tripped the guard on false claims, which only recordings with the real model showed.
+- **"Sí, resérvala" counted as a no.** The list of clear answers was so strict that a patient agreeing in plain words got "I could not confirm it". It took a real conversation, held to take the pictures for this repository, to show it. Asking to book now counts only when a booking is what waits, so it can never run a cancellation.
 - **A NUL character in an email or in a filter caused an error 500**, and half a Unicode character was stored in a name.
 - **The attack bank itself had a hole.** With the limit per caller removed, a flood still looked stopped, because an earlier attack had blocked the address. Removing real defences one at a time is what showed it.
 - **Graders and judges were wrong too.** One grader failed the agent for saying "your appointment is not cancelled", and the judge's first review flagged nine honest handovers because nobody had told it they happened.

@@ -3,13 +3,52 @@
 [![CI](https://github.com/rnachoc/turno/actions/workflows/ci.yml/badge.svg)](https://github.com/rnachoc/turno/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A team of AI agents that answers the phone, WhatsApp and email of a small clinic and takes care of its admin work, with measurable proof that it works.
+A team of AI agents that runs the front desk of a small clinic over web chat, voice, WhatsApp and email, with published measurements of how well it does it.
 
 **The model proposes, the code decides.** No agent can write to the database or move money. Agents propose actions to a transactional core, which enforces rules, permissions and consent. So a malicious email can ask for a refund, but it has no way of getting one.
 
-> **Status: early development.** You can book an appointment by chatting with a text agent, on top of a core with patients, availability, holds, cancellation rules and an append-only audit trail. When someone cancels, a durable workflow offers the slot to the waitlist, and the patient can answer by WhatsApp. The clinic has a console with an agenda, a daily report worked out from the records, a queue of decisions and the trace of each conversation. The evaluation harness exists and its [report](agents/evals/REPORT.md) says how much has been recorded so far. WhatsApp and email work up to a simulated gateway, because this project has no provider accounts, so **nothing leaves it yet**. Voice works through the browser's microphone, with no phone line. **General consent tracking and payments do not exist**, and the core only records whether a deposit is forfeited without charging anything; see the [roadmap](#roadmap). Measurements are published as they are made, good or bad: the [evaluations](agents/evals/REPORT.md), the [comparison of models](agents/evals/MATRIX.md), the [judge](agents/evals/JUDGE.md) and the [attacks](agents/security/REPORT.md), the [voice channel](agents/voice_eval/REPORT.md). To read what the agent really said, open the [replay](docs/replay/index.html) of the recorded conversations. The [case study](docs/case-study.md) puts it together, including what testing found and what none of this shows.
+**[Read what the agent really said](https://rnachoc.github.io/turno/replay/)** · [Case study](docs/case-study.md) · [Decision records](docs/adr)
 
-> **Synthetic data only.** The clinic in this repository is fictional. Never use Turno with real patient data.
+![The console's daily report, worked out from the records](docs/media/report.png)
+
+> **Portfolio project, synthetic data only.** The clinic in this repository is fictional. Never use Turno with real patient data.
+
+## What it does
+
+- **Books, moves and cancels appointments** by chatting with a patient, in Spanish or English. Only a clear yes from the patient runs what the code stored.
+- **Answers emergencies with fixed rules**, before any model is involved.
+- **Talks through the browser's microphone**, on local engines, with barge-in and measured latency.
+- **Takes WhatsApp and email** through signed webhooks, up to a simulated gateway.
+- **Refills freed slots** from the waitlist with a durable Temporal workflow that decides nothing itself.
+- **Gives the clinic a console** with a daily report worked out from the records, an agenda, a queue of decisions and the trace of each conversation.
+- **Answers the owner's questions** from an assistant such as Claude Desktop, through a read-only MCP server that returns figures and never a name.
+
+| The agent, booking and then meeting an emergency | The queue of what waits for a person |
+| --- | --- |
+| ![A conversation with the real model](docs/media/chat.webp) | ![Decisions](docs/media/decisions.png) |
+| **The agenda** | **What the agent tried, step by step** |
+| ![Agenda](docs/media/agenda.png) | ![Trace of a conversation](docs/media/trace.png) |
+
+## What was measured
+
+Measurements are published as they are made, good or bad, and CI fails if they stop being true.
+
+| What | Result | Report |
+| --- | --- | --- |
+| 50 scenarios with simulated patients and the real model, once per model | Haiku 49, Sonnet 48, Opus 46 | [Matrix](agents/evals/MATRIX.md), [evaluations](agents/evals/REPORT.md) |
+| Attacks against the running stack, on each build | 97 of 97 stopped, each saying what stopped it | [Security](agents/security/REPORT.md) |
+| Judge of what facts cannot show, on 29 conversations labelled by hand | Full agreement, on one person's labels | [Judge](agents/evals/JUDGE.md) |
+| Calls through the real speech engines, on synthetic audio | 10 of 10, and its latency | [Voice](agents/voice_eval/REPORT.md) |
+| Automated tests, themselves checked by breaking the code on purpose | About 1,100 | [CI](https://github.com/rnachoc/turno/actions/workflows/ci.yml) |
+
+The [case study](docs/case-study.md) puts it together, including what testing found and what none of this shows.
+
+## What it does not do
+
+- **Nothing leaves it.** This project has no provider accounts, so WhatsApp and email stop at a simulated gateway, and voice has no phone line.
+- **There is no public live demo.** The model runs through the Claude CLI on a personal plan, with no API budget ([ADR 8](docs/adr/0008-no-api-budget.md)). The [replay](https://rnachoc.github.io/turno/replay/) shows recorded conversations instead.
+- **There are no payments or general consent tracking.** The core only records whether a deposit is forfeited, without charging anything.
+- **It has met no real patient, clinic or load.**
 
 ## Architecture
 
@@ -24,7 +63,7 @@ flowchart TD
     evals["Evaluation bank<br/>simulated patients · attack tests · CI gate"] -.-> agents
 ```
 
-This is the target design. Today, `core`, PostgreSQL, a text agent over web chat, the slot refill workflow and the console work. The decisions behind the design are recorded in [`docs/adr`](docs/adr).
+Every box works and runs on one machine. The decisions behind the design are recorded in [`docs/adr`](docs/adr).
 
 ## How the core stays correct
 
@@ -174,18 +213,21 @@ The `Makefile` wraps these commands (`make up`, `make test`, `make lint`) on sys
 | `config/tenants/` | One YAML file per clinic, validated against `config/tenant.schema.json` |
 | `observability/` | The Grafana dashboard |
 | `docs/adr/` | Architecture decision records |
+| `docs/replay/` | The published replay of recorded conversations |
 
-## Roadmap
+## What was built, in order
 
-- [x] **Phase 0: Foundations.** CI, secret scanning, Docker Compose, ADRs, synthetic clinic.
-- [x] **Phase 1: Core.** Availability engine, bookings with holds, cancellation rules, audit. Double-booking and idempotency tests.
-- [x] **Phase 2: Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
-- [x] **Phase 3: Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 8](docs/adr/0008-no-api-budget.md)).
-- [x] **Phase 4: Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)) the daily owner report, the console with its queue of decisions and the traces are done ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)). Metrics go to an optional Grafana ([ADR 14](docs/adr/0014-metrics-from-the-core.md)).
-- [ ] **Phase 5: Security.** Rate limits and an attack bank with a published report are done ([ADR 15](docs/adr/0015-limits-and-an-attack-bank.md)). The calibrated judge and the model matrix are built ([judge](agents/evals/JUDGE.md), [matrix](agents/evals/MATRIX.md)).
-- [ ] **Phase 6: Voice.** Local engines with barge-in and measured latency work through the browser ([ADR 18](docs/adr/0018-voice-as-one-more-channel.md)). Still to come: a real phone line, which needs a paid provider.
-- [ ] **Phase 7: Channels and MCP.** WhatsApp and email up to a simulated gateway ([ADR 16](docs/adr/0016-channels-in-front-of-the-same-agent.md)) and the owner's MCP server ([ADR 17](docs/adr/0017-the-owner-asks-through-mcp.md)) are done. Still to come: connecting a real provider, which needs accounts.
-- [ ] **Phase 8: Release.** The replay of recorded conversations is built, ready to publish with GitHub Pages. So is the [case study](docs/case-study.md). Still to come: video.
+- [x] **Foundations.** CI, secret scanning, Docker Compose, ADRs, synthetic clinic.
+- [x] **Core.** Availability engine, bookings with holds, cancellation rules, audit. Double-booking and idempotency tests.
+- [x] **Text agent.** Receptionist and scheduler over web chat, with guardrails and rule-based triage.
+- [x] **Evaluations.** Scenario bank, patient simulator, deterministic graders, regression gate over recorded runs ([ADR 10](docs/adr/0010-evaluating-on-a-subscription.md)).
+- [x] **Durable workflow and console.** Slot refill with Temporal ([ADR 12](docs/adr/0012-durable-workflows-decide-nothing.md)), the owner's daily report, the console with its queue of decisions and traces ([ADR 13](docs/adr/0013-the-clinic-reads-from-the-core.md)), metrics to an optional Grafana ([ADR 14](docs/adr/0014-metrics-from-the-core.md)).
+- [x] **Security.** Rate limits and an attack bank with a published report ([ADR 15](docs/adr/0015-limits-and-an-attack-bank.md)), a calibrated judge and a comparison of models.
+- [x] **Voice.** Local engines with barge-in and measured latency, through the browser ([ADR 18](docs/adr/0018-voice-as-one-more-channel.md)).
+- [x] **Channels and MCP.** WhatsApp and email up to a simulated gateway ([ADR 16](docs/adr/0016-channels-in-front-of-the-same-agent.md)) and the owner's MCP server ([ADR 17](docs/adr/0017-the-owner-asks-through-mcp.md)).
+- [x] **Release.** The [replay](https://rnachoc.github.io/turno/replay/) of recorded conversations and the [case study](docs/case-study.md).
+
+Left out on purpose, because each needs a paid account: a real phone line, real WhatsApp and email providers, and hosting for a public demo.
 
 ## Author
 
