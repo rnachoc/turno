@@ -5,6 +5,14 @@
  * styles as inline style elements, which the Content-Security-Policy of the console forbids.
  */
 
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
   scrollbar-color: rgb(167 139 250 / 32%) transparent;
@@ -18,7 +26,6 @@
   --accent: #b794ff;
   --accent-soft: rgb(139 92 246 / 18%);
   --gradient: linear-gradient(135deg, #6d28d9 0%, #9333ea 55%, #c026d3 100%);
-  --gradient-text: linear-gradient(120deg, #e9d5ff 0%, #c4b5fd 45%, #f0abfc 100%);
   --on-gradient: #ffffff;
   --danger: #fb7185;
   --danger-strong: #be123c;
@@ -31,8 +38,8 @@
   --completed: rgb(94 234 212 / 13%);
   --no-show: rgb(251 113 133 / 16%);
   --glow: 0 0 0 1px var(--line), 0 18px 50px -24px rgb(124 58 237 / 55%);
-  --sans: "Inter", "Segoe UI Variable Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --display: "Inter", "Segoe UI Variable Display", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sans: "Geist", "Segoe UI Variable Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sign-in: "Inter", "Segoe UI Variable Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
 }
 
@@ -54,8 +61,9 @@ body {
   background-attachment: fixed;
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 14px;
+  letter-spacing: -0.006em;
+  line-height: 1.5;
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
 }
@@ -63,29 +71,29 @@ body {
 h1,
 h2,
 h3 {
-  font-family: var(--display);
-  font-weight: 650;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
   margin: 0;
 }
 
 h1 {
-  font-size: 1.85rem;
+  font-size: 1.75rem;
 }
 
 h2 {
-  font-size: 1.02rem;
+  font-size: 0.95rem;
+  font-weight: 550;
+  letter-spacing: -0.015em;
   margin-bottom: 0.85rem;
 }
 
 h3 {
   color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
   margin: 1.4rem 0 0.5rem;
-  text-transform: uppercase;
 }
 
 a {
@@ -111,7 +119,8 @@ code {
 
 button {
   font: inherit;
-  font-weight: 550;
+  font-weight: 500;
+  letter-spacing: inherit;
   border-radius: 10px;
   padding: 0.45rem 1rem;
   cursor: pointer;
@@ -180,15 +189,22 @@ button.quiet:hover:not(:disabled) {
 }
 
 .wordmark {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-family: var(--display);
-  font-size: 1.45rem;
-  font-weight: 750;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
   letter-spacing: -0.03em;
   margin: 0;
+}
+
+.wordmark::before {
+  content: "";
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 0.32rem;
+  background: var(--gradient);
 }
 
 /* Sign in */
@@ -208,18 +224,38 @@ button.quiet:hover:not(:disabled) {
   box-shadow: var(--glow);
   padding: 2.25rem;
   display: grid;
-  gap: 0.65rem;
+  gap: 0.5rem;
+}
+
+.login-card .wordmark {
+  margin-bottom: 1.6rem;
 }
 
 .login-card h1 {
-  font-size: 1.5rem;
-  margin-bottom: 0.9rem;
+  font-size: 2rem;
+  font-weight: 550;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.4rem;
 }
 
 .login-card label {
   color: var(--muted);
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 450;
+}
+
+.login-card button {
+  font-family: var(--sign-in);
+  font-size: 15px;
+  font-weight: 550;
+  letter-spacing: normal;
+  line-height: 1.55;
+  margin-top: 0.4rem;
+}
+
+.login-card .hint {
+  margin: 0.6rem 0 0;
+  text-wrap: pretty;
 }
 
 .login-card input {
@@ -299,7 +335,7 @@ button.quiet:hover:not(:disabled) {
   background: var(--accent-soft);
   border-color: var(--line-strong);
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .badge {
@@ -308,8 +344,8 @@ button.quiet:hover:not(:disabled) {
   border-radius: 999px;
   min-width: 1.5rem;
   text-align: center;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: 600;
   padding: 0.05rem 0.45rem;
 }
 
@@ -370,19 +406,15 @@ button.quiet:hover:not(:disabled) {
 }
 
 .figure .value {
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-family: var(--display);
-  font-size: 2.1rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-size: 1.9rem;
+  font-weight: 550;
+  letter-spacing: -0.045em;
   line-height: 1.15;
 }
 
 .figure .label {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.82rem;
   margin-top: 0.2rem;
 }
@@ -434,7 +466,7 @@ button.quiet:hover:not(:disabled) {
 }
 
 .rows dd {
-  font-weight: 550;
+  font-weight: 500;
   margin: 0;
   text-align: right;
   white-space: nowrap;
@@ -460,7 +492,7 @@ button.quiet:hover:not(:disabled) {
 
 .agenda-heads {
   margin-bottom: 0.6rem;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agenda-gutter {
@@ -508,6 +540,7 @@ button.quiet:hover:not(:disabled) {
 }
 
 .agenda-block strong {
+  font-weight: 550;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -549,8 +582,8 @@ button.quiet:hover:not(:disabled) {
 }
 
 .tag {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.74rem;
+  font-weight: 500;
   background: var(--warn-soft);
   color: var(--warn);
   border-radius: 999px;
@@ -612,11 +645,9 @@ table {
 
 th {
   text-align: left;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   color: var(--muted);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-weight: 450;
   white-space: nowrap;
 }
 
@@ -704,6 +735,10 @@ tr:last-child td {
 
   h1 {
     font-size: 1.45rem;
+  }
+
+  .login-card input {
+    font-size: 16px;
   }
 
   .decision .actions,
