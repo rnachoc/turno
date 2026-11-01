@@ -12,10 +12,20 @@ const STEP_LABELS = {
   handover: "Passed to a person",
 };
 
+const ROWS = [
+  ["booking", "Booking"],
+  ["cancellation", "Cancelling"],
+  ["reschedule", "Moving"],
+  ["urgency", "Emergencies and medical questions"],
+  ["manipulation", "Attempts to manipulate it"],
+  ["ambiguity", "Unclear requests"],
+  ["information", "Questions about the clinic"],
+  ["language", "Other languages"],
+];
+
 const data = window.TURNO_REPLAY;
-const list = document.getElementById("conversations");
+const rows = document.getElementById("rows");
 const detail = document.getElementById("detail");
-const filter = document.getElementById("filter");
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -28,15 +38,32 @@ function element(tag, className, text) {
   return node;
 }
 
+function title(conversation) {
+  const words = conversation.id.replaceAll("-", " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+function outcomeTag(conversation) {
+  return element("span", conversation.passed ? "tag ok" : "tag bad", conversation.passed ? "passed" : "failed");
+}
+
 function show(conversation) {
   detail.replaceChildren();
-  const head = element("div", "detail-head");
-  head.append(element("h2", "", conversation.id));
-  head.append(element("span", conversation.passed ? "tag ok" : "tag bad", conversation.passed ? "passed" : "failed"));
-  detail.append(head);
-  detail.append(
-    element("p", "note", `${conversation.category} · ${conversation.calls} calls to the model · ${conversation.seconds} s`),
-  );
+  const top = element("div", "detail-top");
+  const heading = element("div");
+  const name = element("h2", "", title(conversation));
+  name.id = "detail-title";
+  heading.append(name);
+  const about = element("p", "note", `${conversation.category} · ${conversation.calls} calls to the model · ${conversation.seconds} s · `);
+  about.append(outcomeTag(conversation));
+  heading.append(about);
+  top.append(heading);
+  const close = element("button", "close", "✕");
+  close.type = "button";
+  close.setAttribute("aria-label", "Close");
+  close.addEventListener("click", () => detail.close());
+  top.append(close);
+  detail.append(top);
 
   const columns = element("div", "columns");
   const talk = element("section", "talk");
@@ -65,7 +92,7 @@ function show(conversation) {
 
   side.append(element("h3", "", "How it ended"));
   const ended = conversation.appointments.map((a) => `${a.treatment}: ${a.status}`);
-  side.append(element("p", "", ended.length ? ended.join(", ") : "No appointments."));
+  side.append(element("p", "ended", ended.length ? ended.join(", ") : "No appointments."));
   if (conversation.handedOver) {
     side.append(element("p", "note", "Handed over to a person."));
   }
@@ -85,63 +112,102 @@ function show(conversation) {
   detail.append(columns);
 }
 
-function select(conversation, button) {
-  for (const other of list.querySelectorAll("button")) {
-    other.removeAttribute("aria-current");
-  }
-  button.setAttribute("aria-current", "true");
+function open(conversation) {
   show(conversation);
+  if (!detail.open) {
+    detail.showModal();
+  }
+  detail.scrollTop = 0;
   history.replaceState(null, "", `#${conversation.id}`);
 }
 
-function render() {
-  const chosen = filter.value;
-  list.replaceChildren();
-  const visible = data.conversations.filter((conversation) => {
-    if (chosen === "all") {
-      return true;
-    }
-    return chosen === "failed" ? !conversation.passed : conversation.category === chosen;
-  });
-  const wanted = decodeURIComponent(location.hash.slice(1));
-  let first = null;
-  let match = null;
-  for (const conversation of visible) {
-    const item = element("li");
-    const button = element("button", conversation.passed ? "" : "failed", conversation.id);
-    button.type = "button";
-    button.addEventListener("click", () => select(conversation, button));
-    item.append(button);
-    list.append(item);
-    first ??= [conversation, button];
-    if (conversation.id === wanted) {
-      match = [conversation, button];
-    }
+function card(conversation) {
+  const item = element("li");
+  const button = element("button", conversation.passed ? "card" : "card failed");
+  button.type = "button";
+  button.append(element("strong", "", title(conversation)));
+  const said = conversation.turns.find((turn) => turn.role === "patient");
+  button.append(element("span", "quote", said ? said.text : ""));
+  const meta = element("span", "meta", `${conversation.calls} calls · ${conversation.seconds} s`);
+  meta.append(outcomeTag(conversation));
+  button.append(meta);
+  button.addEventListener("click", () => open(conversation));
+  item.append(button);
+  return item;
+}
+
+function row(name, conversations) {
+  const section = element("section", "row");
+  const head = element("div", "row-head");
+  const heading = element("h2", "", name);
+  heading.append(element("span", "", String(conversations.length)));
+  head.append(heading);
+  const cards = element("ul", "cards");
+  const controls = element("div", "row-controls");
+  for (const [label, symbol, direction] of [["Earlier", "←", -1], ["Later", "→", 1]]) {
+    const move = element("button", "", symbol);
+    move.type = "button";
+    move.setAttribute("aria-label", `${label} in ${name}`);
+    move.addEventListener("click", () => cards.scrollBy({ left: direction * cards.clientWidth * 0.8 }));
+    controls.append(move);
   }
-  const opening = match ?? first;
-  if (opening) {
-    select(...opening);
-  } else {
-    detail.replaceChildren(element("p", "note", "Nothing to show."));
+  // Fewer than this fit on a wide screen, with nothing to move to.
+  if (conversations.length > 3) {
+    head.append(controls);
   }
+  section.append(head);
+  for (const conversation of conversations) {
+    cards.append(card(conversation));
+  }
+  section.append(cards);
+  return section;
+}
+
+function stat(value, label) {
+  const entry = element("div");
+  entry.append(element("dt", "", label));
+  entry.append(element("dd", "", value));
+  return entry;
 }
 
 function start() {
-  const passed = data.conversations.filter((conversation) => conversation.passed).length;
+  const all = data.conversations;
+  const passed = all.filter((conversation) => conversation.passed).length;
+  const calls = all.reduce((sum, conversation) => sum + conversation.calls, 0);
+  const handedOver = all.filter((conversation) => conversation.handedOver).length;
+  document.getElementById("stats").append(
+    stat(`${passed} of ${all.length}`, "pass every check"),
+    stat(String(handedOver), "passed to a person"),
+    stat(String(calls), "calls to the model"),
+  );
   document.getElementById("summary").textContent =
-    `${passed} of ${data.conversations.length} recorded conversations pass every check, out of ${data.total} in the bank. Each ran once, so this does not separate real failures from chance.`;
-  const options = [
-    ["all", "All conversations"],
-    ["failed", "Failures"],
-    ...[...new Set(data.conversations.map((conversation) => conversation.category))].sort().map((name) => [name, name]),
-  ];
-  for (const [value, label] of options) {
-    const option = element("option", "", label);
-    option.value = value;
-    filter.append(option);
+    `Out of ${data.total} in the bank. Each ran once, so this does not separate real failures from chance.`;
+
+  const failures = all.filter((conversation) => !conversation.passed);
+  if (failures.length) {
+    rows.append(row("Failures stay in", failures));
   }
-  filter.addEventListener("change", render);
-  render();
+  const named = new Map(ROWS);
+  const categories = [...named.keys(), ...new Set(all.map((conversation) => conversation.category))];
+  for (const category of new Set(categories)) {
+    const members = all.filter((conversation) => conversation.category === category);
+    if (members.length) {
+      rows.append(row(named.get(category) ?? category, members));
+    }
+  }
+
+  detail.addEventListener("close", () => history.replaceState(null, "", location.pathname));
+  // A click on the backdrop lands on the dialog itself, not on anything inside it.
+  detail.addEventListener("click", (event) => {
+    if (event.target === detail) {
+      detail.close();
+    }
+  });
+  const wanted = decodeURIComponent(location.hash.slice(1));
+  const linked = all.find((conversation) => conversation.id === wanted);
+  if (linked) {
+    open(linked);
+  }
 }
 
 start();

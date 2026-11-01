@@ -4,26 +4,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'">
   <title>Turno replay</title>
   <meta name="description" content="Recorded conversations between a clinic's AI agent and simulated patients, with what the code decided at each step.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="replay.css">
 </head>
 <body>
-  <header class="top">
-    <p class="wordmark"><a href="https://github.com/rnachoc/turno">Turno</a></p>
-    <h1>What the agent really said</h1>
-    <p class="lead">Recorded conversations between a fictional clinic's agent and simulated patients. <strong>The model proposes, the code decides:</strong> beside each conversation is what the code did about it. Failures stay in. All data is synthetic.</p>
-    <p id="summary" class="summary" role="status"></p>
-  </header>
-  <div class="layout">
-    <nav class="list" aria-label="Conversations">
-      <label for="filter">Show</label>
-      <select id="filter"></select>
-      <ul id="conversations"></ul>
+  <header class="bar">
+    <a class="wordmark" href="https://github.com/rnachoc/turno">Turno</a>
+    <nav aria-label="About the project">
+      <a href="https://github.com/rnachoc/turno/blob/main/docs/case-study.md">Case study</a>
+      <a href="https://github.com/rnachoc/turno">GitHub</a>
     </nav>
-    <main id="detail" class="detail" tabindex="-1"></main>
-  </div>
+  </header>
+  <section class="hero">
+    <h1>What the agent really said.</h1>
+    <p class="lead">Recorded conversations between a fictional clinic's agent and simulated patients. <strong>The model proposes, the code decides.</strong> Open one to see what the code did about it. Failures stay in, and all data is synthetic.</p>
+    <dl id="stats" class="stats"></dl>
+    <p id="summary" class="summary" role="status"></p>
+  </section>
+  <main id="rows" class="rows"></main>
+  <dialog id="detail" aria-labelledby="detail-title"></dialog>
   <noscript><p class="lead">This page needs JavaScript to show the recordings.</p></noscript>
   <script src="data.js"></script>
   <script src="replay.js"></script>

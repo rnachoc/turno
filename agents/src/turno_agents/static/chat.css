@@ -1,7 +1,7 @@
 /* Author: Ignacio Rodriguez Caro <rnachoccontact@gmail.com> */
 @font-face {
-  font-family: "Geist";
-  src: url("fonts/geist-latin-wght-normal.woff2") format("woff2");
+  font-family: "Inter";
+  src: url("fonts/inter-latin-opsz-normal.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -9,91 +9,107 @@
 
 :root {
   color-scheme: dark;
-  scrollbar-color: rgb(167 139 250 / 32%) transparent;
-  --void: #09070f;
-  --panel: rgb(19 16 30 / 82%);
-  --ink: #f1eefa;
-  --muted: #a39db8;
-  --line: rgb(167 139 250 / 16%);
-  --line-strong: rgb(167 139 250 / 32%);
-  --accent: #b794ff;
-  --accent-soft: rgb(139 92 246 / 18%);
-  --gradient: linear-gradient(135deg, #6d28d9 0%, #9333ea 55%, #c026d3 100%);
+  scrollbar-color: rgb(255 255 255 / 22%) transparent;
+  --void: #000000;
+  --surface: #161618;
+  --bubble: #262629;
+  --ink: #f5f5f7;
+  --muted: #a1a1a6;
+  --line: rgb(255 255 255 / 9%);
+  --accent: #bf9dff;
+  --accent-solid: #7c3aed;
+  --accent-soft: rgb(124 58 237 / 24%);
+  --danger-solid: #c81e45;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  background: var(--void);
+}
+
 body {
   margin: 0;
-  background:
-    radial-gradient(60rem 30rem at 85% -10%, rgb(147 51 234 / 24%), transparent 70%),
-    radial-gradient(40rem 26rem at -10% 10%, rgb(109 40 217 / 16%), transparent 70%),
-    var(--void);
-  background-attachment: fixed;
+  background: radial-gradient(56rem 26rem at 50% -12rem, rgb(124 58 237 / 38%), transparent 72%), var(--void);
+  background-repeat: no-repeat;
   color: var(--ink);
-  font: 14px/1.5 "Geist", "Segoe UI Variable Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  letter-spacing: -0.006em;
+  font: 16px/1.47 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.011em;
   -webkit-font-smoothing: antialiased;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 680px;
+  gap: 16px;
+  max-width: 720px;
   min-height: 100dvh;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 48px 16px 16px;
+}
+
+header {
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: clamp(2.75rem, 9vw, 4rem);
   font-weight: 600;
   letter-spacing: -0.04em;
-  margin: 0;
+  line-height: 1.05;
+  margin: 0 0 0.75rem;
+  text-align: center;
 }
 
 header p,
-#status,
 .notice {
+  margin: 0 auto;
+  max-width: 34rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+  text-align: center;
+  text-wrap: balance;
+}
+
+#status {
   margin: 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  text-align: center;
 }
 
 form {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 14px;
-  border-radius: 16px;
-  background: var(--panel);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 0 0 1px var(--line), 0 18px 50px -24px rgb(124 58 237 / 55%);
+  padding: 20px;
+  border-radius: 24px;
+  background: var(--surface);
 }
 
 label {
   display: flex;
   flex: 1 1 180px;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   color: var(--muted);
-  font-size: 0.8rem;
-  font-weight: 450;
+  font-size: 0.82rem;
 }
 
 input,
-select,
-button {
-  min-height: 44px;
-  padding: 8px 12px;
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  background: rgb(9 7 15 / 70%);
+select {
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 10%);
   color: var(--ink);
   font: inherit;
+  font-size: 0.94rem;
   letter-spacing: inherit;
 }
 
@@ -109,45 +125,86 @@ select:focus {
   outline-offset: 2px;
 }
 
+::selection {
+  background: rgb(124 58 237 / 60%);
+}
+
 button {
   align-self: flex-end;
-  border-color: transparent;
-  background: var(--gradient);
-  box-shadow: 0 8px 24px -10px rgb(147 51 234 / 80%);
+  min-height: 48px;
+  padding: 8px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent-solid);
   color: #ffffff;
-  font-weight: 500;
   cursor: pointer;
+  font: inherit;
+  font-size: 0.94rem;
+  font-weight: 500;
+  letter-spacing: inherit;
+}
+
+#start > button,
+#call > button {
+  flex: 1 1 100%;
+}
+
+#hangup {
+  background: var(--danger-solid);
 }
 
 button:hover:not(:disabled) {
-  filter: brightness(1.12);
+  filter: brightness(1.14);
 }
 
 button:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: progress;
+}
+
+#composer {
+  position: sticky;
+  bottom: 12px;
+  z-index: 1;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgb(38 38 41 / 78%);
+  backdrop-filter: saturate(180%) blur(20px);
 }
 
 #composer input {
   flex: 1 1 200px;
+  min-width: 0;
+  border-radius: 999px;
+  background: transparent;
+}
+
+#composer input:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#composer button {
+  align-self: center;
 }
 
 #log {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 10px;
-  overflow-y: auto;
+  gap: 8px;
 }
 
 .message,
 #log > p {
-  max-width: 85%;
+  align-self: flex-start;
+  max-width: 82%;
   margin: 0;
-  padding: 10px 14px;
-  border-radius: 16px 16px 16px 4px;
-  background: var(--panel);
-  box-shadow: 0 0 0 1px var(--line);
+  padding: 10px 16px;
+  border-radius: 22px 22px 22px 6px;
+  background: var(--bubble);
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
@@ -155,9 +212,8 @@ button:disabled {
 .message.patient,
 #log > p.patient {
   align-self: flex-end;
-  border-radius: 16px 16px 4px;
-  background: var(--gradient);
-  box-shadow: none;
+  border-radius: 22px 22px 6px;
+  background: var(--accent-solid);
   color: #ffffff;
 }
 
@@ -170,5 +226,29 @@ button:disabled {
   input,
   select {
     font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  button {
+    transition:
+      filter 160ms ease,
+      transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  button:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .message,
+  #log > p {
+    animation: arrive 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  @keyframes arrive {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
   }
 }
