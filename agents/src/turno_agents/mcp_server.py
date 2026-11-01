@@ -13,16 +13,17 @@ import sys
 from typing import Any, Protocol
 
 import httpx2
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
+from mcp.server.mcpserver.exceptions import ToolError
 from mcp.types import ToolAnnotations
 
 _TIMEOUT_SECONDS = 15.0
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-_READ_ONLY = ToolAnnotations(readOnlyHint=True, destructiveHint=False, openWorldHint=False)
+_READ_ONLY = ToolAnnotations(read_only_hint=True, destructive_hint=False, open_world_hint=False)
 
 
-class OwnerApiError(Exception):
-    """The core could not answer. The message says nothing of what it said."""
+class OwnerApiError(ToolError):
+    """The core could not answer. This message reaches the model, and hides what the core said."""
 
 
 class OwnerApi(Protocol):
@@ -98,7 +99,7 @@ def _valid_date(value: str) -> None:
         raise OwnerApiError("Dates are written as YYYY-MM-DD.")
 
 
-def build_server(api: OwnerApi) -> FastMCP:
+def build_server(api: OwnerApi) -> MCPServer:
     """Build the server.
 
     Args:
@@ -107,7 +108,7 @@ def build_server(api: OwnerApi) -> FastMCP:
     Returns:
         The server, with its tools.
     """
-    server = FastMCP(
+    server = MCPServer(
         "turno-owner",
         instructions=(
             "Figures of a small clinic, read from its records. Quote them as they are, and say "

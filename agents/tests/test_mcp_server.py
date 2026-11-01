@@ -8,7 +8,7 @@ from typing import Any
 
 import httpx2
 import pytest
-from mcp.shared.memory import create_connected_server_and_client_session
+from mcp import Client
 from mcp.types import CallToolResult, TextContent
 
 from turno_agents.mcp_server import HttpOwnerApi, OwnerApiError, build_server
@@ -64,9 +64,8 @@ class FakeApi:
 
 
 async def _call(api: FakeApi, tool: str, arguments: dict[str, Any]) -> CallToolResult:
-    server = build_server(api)
-    async with create_connected_server_and_client_session(server._mcp_server) as session:
-        return await session.call_tool(tool, arguments)
+    async with Client(build_server(api)) as client:
+        return await client.call_tool(tool, arguments)
 
 
 def _text(result: CallToolResult) -> str:
@@ -78,15 +77,14 @@ def _text(result: CallToolResult) -> str:
 @pytest.mark.asyncio
 async def test_every_tool_says_it_only_reads() -> None:
     """And there are only the tools that were decided, none of which can change anything."""
-    server = build_server(FakeApi())
-    async with create_connected_server_and_client_session(server._mcp_server) as session:
-        tools = (await session.list_tools()).tools
+    async with Client(build_server(FakeApi())) as client:
+        tools = (await client.list_tools()).tools
 
     assert sorted(tool.name for tool in tools) == ["attendance", "daily_report"]
     for tool in tools:
         assert tool.annotations is not None
-        assert tool.annotations.readOnlyHint is True
-        assert tool.annotations.destructiveHint is False
+        assert tool.annotations.read_only_hint is True
+        assert tool.annotations.destructive_hint is False
 
 
 @pytest.mark.asyncio
@@ -96,7 +94,7 @@ async def test_the_report_of_a_day_comes_from_the_core() -> None:
 
     result = await _call(api, "daily_report", {"date": "2027-03-02"})
 
-    assert not result.isError
+    assert not result.is_error
     assert json.loads(_text(result)) == REPORT
     assert api.asked == [("daily", "2027-03-02")]
 
@@ -140,7 +138,7 @@ async def test_a_value_that_is_not_a_date_never_reaches_the_core(
 
     result = await _call(api, tool, arguments)
 
-    assert result.isError
+    assert result.is_error
     assert api.asked == []
 
 
@@ -149,7 +147,7 @@ async def test_a_tool_that_does_not_exist_is_an_error() -> None:
     """There is no way of asking for more."""
     result = await _call(FakeApi(), "cancel_appointment", {"appointment_id": "x"})
 
-    assert result.isError
+    assert result.is_error
 
 
 @pytest.mark.asyncio
@@ -159,8 +157,25 @@ async def test_a_failure_says_nothing_of_what_went_wrong_inside() -> None:
 
     result = await _call(api, "daily_report", {})
 
-    assert result.isError
+    assert result.is_error
     assert "cannot be reached" in _text(result)
+
+
+@pytest.mark.asyncio
+async def test_a_crash_says_nothing_at_all() -> None:
+    """What was not foreseen could hold anything, so its text stays on the server."""
+    result = await _call(FakeApi(RuntimeError("secret-host:5432")), "daily_report", {})
+
+    assert result.is_error
+    assert "secret-host" not in _text(result)
+
+
+@pytest.mark.asyncio
+async def test_a_wrong_date_tells_the_model_how_to_write_it() -> None:
+    """So that it can correct itself instead of giving up."""
+    result = await _call(FakeApi(), "daily_report", {"date": "tomorrow"})
+
+    assert "YYYY-MM-DD" in _text(result)
 
 
 def _client(handler: Any) -> HttpOwnerApi:

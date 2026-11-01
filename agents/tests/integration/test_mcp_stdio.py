@@ -39,8 +39,8 @@ async def test_an_assistant_can_ask_the_real_core_through_the_real_server() -> N
         wrong = await session.call_tool("daily_report", {"date": "not a date"})
 
     assert sorted(tool.name for tool in tools.tools) == ["attendance", "daily_report"]
-    assert not report.isError
+    assert not report.is_error
     content = report.content[0]
     assert isinstance(content, TextContent)
     assert json.loads(content.text)["date"] == today
-    assert wrong.isError
+    assert wrong.is_error
