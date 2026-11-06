@@ -83,7 +83,7 @@ services:
 
   # The development server, with its state on a volume: enough for one machine. See docs/adr/0012.
   temporal:
-    image: temporalio/temporal:1.9.1
+    image: temporalio/temporal:1.10.0
     command: ["server", "start-dev", "--ip", "0.0.0.0", "--db-filename", "/home/temporal/temporal.db"]
     # On its home folder, because a new volume takes the owner of the folder it covers, and the image
     # rightly does not run as root.
