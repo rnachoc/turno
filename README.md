@@ -233,7 +233,7 @@ Left out on purpose, because each needs a paid account: a real phone line, real 
 
 ## Author
 
-Ignacio Rodriguez Caro · [rnachoccontact@gmail.com](mailto:rnachoccontact@gmail.com)
+Ignacio Rodriguez Caro · [rnachoccontact@gmail.com](mailto:rnachoccontact@gmail.com) · [LinkedIn](https://www.linkedin.com/in/ignaciorodriguezcaro/)
 
 ## License
 
