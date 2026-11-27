@@ -9,7 +9,7 @@ x-hardening: &hardening
 
 services:
   postgres:
-    image: postgres:18.6-alpine # Keep in sync with TestcontainersConfiguration.POSTGRES_IMAGE.
+    image: postgres:19.0-alpine # Keep in sync with TestcontainersConfiguration.POSTGRES_IMAGE.
     environment:
       POSTGRES_DB: turno
       POSTGRES_USER: turno
